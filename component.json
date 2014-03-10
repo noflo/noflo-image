@@ -1,0 +1,24 @@
+{
+  "name": "noflo-image",
+  "description": "Image processing utilities for NoFlo, browser and Node.js.",
+  "author": "Forrest Oliphant",
+  "repo": "noflo/noflo-image",
+  "version": "0.0.1",
+  "keywords": [
+  ],
+  "dependencies": {
+    "noflo/noflo": "*"
+  },
+  "scripts": [
+    "components/Measure.coffee",
+    "index.js"
+  ],
+  "json": [
+    "component.json"
+  ],
+  "noflo": {
+    "components": {
+      "Measure": "components/Measure.coffee"
+    }
+  }
+}
