@@ -1,5 +1,7 @@
 noflo = require 'noflo'
 sizeOf = require 'image-size'
+urlUtil = require 'url'
+needle = require 'needle'
 
 class Measure extends noflo.AsyncComponent
   description: 'Load image from URL or path and get dimensions'
@@ -27,6 +29,17 @@ class Measure extends noflo.AsyncComponent
       err.url = url
       return callback err
 
-    sizeOf url, onLoad
+    urlOptions = urlUtil.parse url
+    if urlOptions.protocol
+      # Remote image
+      needle.get url, (err, response) ->
+        if err
+          onError err
+          return
+        buffer = new Buffer response
+        sizeOf buffer, onLoad
+    else
+      # Local image
+      sizeOf url, onLoad
 
 exports.getComponent = -> new Measure
