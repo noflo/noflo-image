@@ -29,7 +29,7 @@ describe 'Measure component', ->
           chai.expect(data).to.be.an 'array'
           chai.expect(data[0]).to.equal 80
           chai.expect(data[1]).to.equal 80
-        ins.send 'spec/image-80x80.jpg'
+        ins.send 'spec/test-80x80.jpg'
 
   describe 'with remote test image', ->
     url = 'https://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
