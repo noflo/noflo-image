@@ -67,7 +67,7 @@ module.exports = ->
       server:
         options:
           port: 8000
-    
+
     # BDD tests on browser
     mocha_phantomjs:
       options:
@@ -91,7 +91,8 @@ module.exports = ->
   @loadNpmTasks 'grunt-cafe-mocha'
   @loadNpmTasks 'grunt-mocha-phantomjs'
   @loadNpmTasks 'grunt-coffeelint'
-
+  @loadNpmTasks 'grunt-contrib-connect'
+  
   # Our local tasks
   @registerTask 'build', 'Build NoFlo for the chosen target platform', (target = 'all') =>
     @task.run 'coffee'
@@ -107,6 +108,7 @@ module.exports = ->
     if target is 'all' or target is 'nodejs'
       @task.run 'cafemocha'
     if target is 'all' or target is 'browser'
+      @task.run 'connect'
       @task.run 'component'
       @task.run 'component_build'
       @task.run 'combine'
