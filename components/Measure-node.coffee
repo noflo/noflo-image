@@ -30,9 +30,9 @@ class Measure extends noflo.AsyncComponent
       return callback err
 
     urlOptions = urlUtil.parse url
-    console.log urlOptions
     if urlOptions.protocol
       # Remote image
+      # TODO replace this with custom http/s calls that only get first few k
       needle.get url, (err, response) ->
         if err
           onError err

@@ -62,12 +62,18 @@ module.exports = ->
         options:
           reporter: 'dot'
 
+    # Web server for the browser tests
+    connect:
+      server:
+        options:
+          port: 8000
+    
     # BDD tests on browser
     mocha_phantomjs:
       options:
         output: 'spec/result.xml'
         reporter: 'dot'
-      all: ['spec/runner.html']
+      all: ['http://localhost:8000/spec/runner.html']
 
     # Coding standards
     coffeelint:
