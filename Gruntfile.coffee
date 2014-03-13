@@ -70,10 +70,11 @@ module.exports = ->
 
     # BDD tests on browser
     mocha_phantomjs:
-      options:
-        output: 'spec/result.xml'
-        reporter: 'spec'
-      all: ['http://localhost:8000/spec/runner.html']
+      all:
+        options:
+          output: 'spec/result.xml'
+          reporter: 'spec'
+          urls: ['http://localhost:8000/spec/runner.html']
 
     # Coding standards
     coffeelint:
