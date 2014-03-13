@@ -24,11 +24,12 @@ describe 'Measure component', ->
 
   describe 'with file system image', ->
     unless noflo.isBrowser()
-      it 'should get dimensions of file system test image', ->
+      it 'should get dimensions of file system test image', (done) ->
         out.once 'data', (data) ->
           chai.expect(data).to.be.an 'array'
           chai.expect(data[0]).to.equal 80
           chai.expect(data[1]).to.equal 80
+          done()
         ins.send 'spec/test-80x80.jpg'
 
   describe 'with remote test image', ->
@@ -36,9 +37,10 @@ describe 'Measure component', ->
     it 'should have the correct group', ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
-    it 'should find correct dimensions', ->
+    it 'should find correct dimensions', (done) ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.an 'array'
         chai.expect(data[0]).to.equal 80
         chai.expect(data[1]).to.equal 81
+        done()
       ins.send url
