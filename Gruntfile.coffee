@@ -38,8 +38,8 @@ module.exports = ->
         input: 'browser/noflo-image.js'
         output: 'browser/noflo-image.js'
         tokens: [
-          token: '.coffee'
-          string: '.js'
+          token: '.coffee"'
+          string: '.js"'
         ]
 
     # JavaScript minification for the browser
