@@ -1,0 +1,5 @@
+/node_modules/
+/components/*/
+/spec/*.js
+/browser/
+/spec/*.xml
