@@ -60,7 +60,7 @@ module.exports = ->
       nodejs:
         src: ['spec/*.coffee']
         options:
-          reporter: 'dot'
+          reporter: 'spec'
 
     # Web server for the browser tests
     connect:
@@ -72,7 +72,7 @@ module.exports = ->
     mocha_phantomjs:
       options:
         output: 'spec/result.xml'
-        reporter: 'dot'
+        reporter: 'spec'
       all: ['http://localhost:8000/spec/runner.html']
 
     # Coding standards

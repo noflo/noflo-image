@@ -41,6 +41,6 @@ describe 'Measure component', ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.an 'array'
         chai.expect(data[0]).to.equal 80
-        chai.expect(data[1]).to.equal 81
+        chai.expect(data[1]).to.equal 80
         done()
       ins.send url
