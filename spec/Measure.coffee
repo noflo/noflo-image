@@ -29,9 +29,9 @@ describe 'Measure component', ->
     unless noflo.isBrowser()
       it 'should get dimensions of file system test image', (done) ->
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'array'
-          chai.expect(data[0]).to.equal 80
-          chai.expect(data[1]).to.equal 80
+          chai.expect(data).to.be.an 'object'
+          chai.expect(data.width).to.equal 80
+          chai.expect(data.width).to.equal 80
           done()
         ins.send 'spec/test-80x80.jpg'
 
@@ -47,8 +47,8 @@ describe 'Measure component', ->
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'array'
-        chai.expect(data[0]).to.equal 80
-        chai.expect(data[1]).to.equal 80
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.equal 80
+        chai.expect(data.height).to.equal 80
         done()
       ins.send url

@@ -7,7 +7,7 @@ class Measure extends noflo.AsyncComponent
     @inPorts =
       url: new noflo.Port 'string'
     @outPorts =
-      dimensions: new noflo.Port 'array'
+      dimensions: new noflo.Port 'object'
       error: new noflo.Port 'object'
     super 'url', 'dimensions'
 
@@ -17,7 +17,9 @@ class Measure extends noflo.AsyncComponent
       if (image.naturalWidth? and image.naturalWidth is 0) or image.width is 0
         image.onerror new Error "#{url} didn't come back as a valid image."
         return
-      dimensions = [image.width, image.height]
+      dimensions =
+        width: image.width
+        height: image.height
       @outPorts.dimensions.beginGroup url
       @outPorts.dimensions.send dimensions
       @outPorts.dimensions.endGroup()

@@ -11,7 +11,7 @@ class Measure extends noflo.AsyncComponent
     @inPorts =
       url: new noflo.Port 'string'
     @outPorts =
-      dimensions: new noflo.Port 'array'
+      dimensions: new noflo.Port 'object'
       error: new noflo.Port 'object'
     super 'url', 'dimensions'
 
@@ -21,7 +21,7 @@ class Measure extends noflo.AsyncComponent
         onError err
         return
       @outPorts.dimensions.beginGroup url
-      @outPorts.dimensions.send [dimensions.width, dimensions.height]
+      @outPorts.dimensions.send dimensions
       @outPorts.dimensions.endGroup()
       @outPorts.dimensions.disconnect()
       callback null
