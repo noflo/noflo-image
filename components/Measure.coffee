@@ -23,7 +23,6 @@ class Measure extends noflo.AsyncComponent
       @outPorts.dimensions.beginGroup url
       @outPorts.dimensions.send dimensions
       @outPorts.dimensions.endGroup()
-      @outPorts.dimensions.disconnect()
       callback null
     image.onerror = (err) ->
       err.url = url
