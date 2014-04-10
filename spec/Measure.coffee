@@ -9,12 +9,15 @@ describe 'Measure component', ->
   c = null
   ins = null
   out = null
+  error = null
   beforeEach ->
     c = Measure.getComponent()
     ins = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
+    error = noflo.internalSocket.createSocket()
     c.inPorts.url.attach ins
     c.outPorts.dimensions.attach out
+    c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -38,6 +41,11 @@ describe 'Measure component', ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
     it 'should find correct dimensions', (done) ->
+      @timeout 0
+      error.once 'data', (data) ->
+        console.log data
+        chai.expect(true).to.equal false
+        done()
       out.once 'data', (data) ->
         chai.expect(data).to.be.an 'array'
         chai.expect(data[0]).to.equal 80

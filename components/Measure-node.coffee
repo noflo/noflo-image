@@ -2,6 +2,7 @@ noflo = require 'noflo'
 sizeOf = require 'image-size'
 urlUtil = require 'url'
 needle = require 'needle'
+temporary = require 'temporary'
 
 class Measure extends noflo.AsyncComponent
   description: 'Load image from URL or path and get dimensions'
@@ -32,13 +33,23 @@ class Measure extends noflo.AsyncComponent
     urlOptions = urlUtil.parse url
     if urlOptions.protocol
       # Remote image
-      # TODO replace this with custom http/s calls that only get first few k
-      needle.get url, (err, response) ->
+      # TODO replace this with custom http/s calls that only get first few bytes
+      tmpFile = new temporary.File
+      resp = needle.get url,
+        output: tmpFile.path
+        follow: yes
+      , (err, response) ->
         if err
           onError err
+          tmpFile.unlink()
           return
-        buffer = new Buffer response
-        sizeOf buffer, onLoad
+        try
+          sizeOf tmpFile.path, (err, dimensions) ->
+            tmpFile.unlink()
+            onLoad err, dimensions
+        catch e
+          tmpFile.unlink()
+          onError e
     else
       # Local image
       sizeOf url, onLoad
