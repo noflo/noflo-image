@@ -3,7 +3,7 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repo": "noflo/noflo-image",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "keywords": [
   ],
   "dependencies": {
@@ -11,6 +11,7 @@
   },
   "scripts": [
     "components/CalculateAspectRatio.coffee",
+    "components/GetOrientation.coffee",
     "components/Measure.coffee",
     "index.js"
   ],
@@ -20,6 +21,7 @@
   "noflo": {
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
+      "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee"
     }
   }
