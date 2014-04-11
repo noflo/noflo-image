@@ -10,6 +10,7 @@
     "noflo/noflo": "*"
   },
   "scripts": [
+    "components/CalculateAspectRatio.coffee",
     "components/Measure.coffee",
     "index.js"
   ],
@@ -18,6 +19,7 @@
   ],
   "noflo": {
     "components": {
+      "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "Measure": "components/Measure.coffee"
     }
   }
