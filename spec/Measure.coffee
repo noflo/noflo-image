@@ -52,3 +52,21 @@ describe 'Measure component', ->
         chai.expect(data.height).to.equal 80
         done()
       ins.send url
+
+  describe 'with remote JPG image', ->
+    url = 'http://bergie.iki.fi/files/flowhub-promo.jpg'
+    it 'should have the correct group', ->
+      out.once 'begingroup', (group) ->
+        chai.expect(group).to.equal url
+    it 'should find correct dimensions', (done) ->
+      @timeout 0
+      error.once 'data', (data) ->
+        console.log data
+        chai.expect(true).to.equal false
+        done()
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.equal 770
+        chai.expect(data.height).to.equal 376
+        done()
+      ins.send url
