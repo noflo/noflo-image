@@ -4,6 +4,9 @@ urlUtil = require 'url'
 needle = require 'needle'
 temporary = require 'temporary'
 
+# @runtime noflo-nodejs
+# @name Measure
+
 class Measure extends noflo.AsyncComponent
   description: 'Load image from URL or path and get dimensions'
   icon: 'picture-o'

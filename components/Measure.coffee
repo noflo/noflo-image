@@ -1,5 +1,7 @@
 noflo = require 'noflo'
 
+# @runtime noflo-browser
+
 class Measure extends noflo.AsyncComponent
   description: 'Load image from URL and get dimensions'
   icon: 'picture-o'

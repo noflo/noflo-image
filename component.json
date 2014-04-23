@@ -4,8 +4,7 @@
   "author": "Forrest Oliphant",
   "repo": "noflo/noflo-image",
   "version": "0.0.3",
-  "keywords": [
-  ],
+  "keywords": [],
   "dependencies": {
     "noflo/noflo": "*"
   },
