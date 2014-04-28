@@ -12,6 +12,7 @@
     "components/CalculateAspectRatio.coffee",
     "components/GetOrientation.coffee",
     "components/Measure.coffee",
+    "components/ToFullscale.coffee",
     "index.js"
   ],
   "json": [
@@ -21,7 +22,8 @@
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
-      "Measure": "components/Measure.coffee"
+      "Measure": "components/Measure.coffee",
+      "ToFullscale": "components/ToFullscale.coffee"
     }
   }
 }

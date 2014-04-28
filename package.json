@@ -47,7 +47,8 @@
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
-      "Measure": "components/Measure-node.coffee"
+      "Measure": "components/Measure-node.coffee",
+      "ToFullscale": "components/ToFullscale.coffee"
     }
   }
 }
