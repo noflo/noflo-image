@@ -9,6 +9,9 @@
     "noflo/noflo": "*",
     "visionmedia/superagent": "*"
   },
+  "remotes": [
+    "https://raw.githubusercontent.com"
+  ],
   "scripts": [
     "components/CalculateAspectRatio.coffee",
     "components/GetOrientation.coffee",
