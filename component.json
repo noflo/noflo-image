@@ -6,7 +6,8 @@
   "version": "0.0.3",
   "keywords": [],
   "dependencies": {
-    "noflo/noflo": "*"
+    "noflo/noflo": "*",
+    "visionmedia/superagent": "*"
   },
   "scripts": [
     "components/CalculateAspectRatio.coffee",

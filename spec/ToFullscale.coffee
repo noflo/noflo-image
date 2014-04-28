@@ -25,6 +25,7 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'http://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/04/glowing_jewels_in_the_galactic_plane/14491843-1-eng-GB/Glowing_jewels_in_the_Galactic_Plane.jpg'
           done()
         url.send 'http://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/04/glowing_jewels_in_the_galactic_plane/14491843-1-eng-GB/Glowing_jewels_in_the_Galactic_Plane.jpg'
+
     describe 'with Flickr images', ->
       it 'should return correct URL for non-sized', (done) ->
         newUrl.on 'data', (image) ->
@@ -46,3 +47,19 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
           done()
         url.send 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
+
+    describe 'with a small variant', ->
+      it 'should return fullscale URL when one exists', (done) ->
+        newUrl.on 'data', (image) ->
+          if noflo.isBrowser()
+            # Can't verify due to CORS restrictions
+            chai.expect(image).to.equal 'http://bergie.iki.fi/files/ingress-table-test-small.jpg'
+          else
+            chai.expect(image).to.equal 'http://bergie.iki.fi/files/ingress-table-test.jpg'
+          done()
+        url.send 'http://bergie.iki.fi/files/ingress-table-test-small.jpg'
+      it 'should return thumbnail URL when one doesn\'t exist', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
+          done()
+        url.send 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'

@@ -1,4 +1,5 @@
 noflo = require 'noflo'
+superagent = require 'superagent'
 
 class ToFullscale extends noflo.AsyncComponent
   constructor: ->
@@ -19,6 +20,9 @@ class ToFullscale extends noflo.AsyncComponent
     if url.indexOf('staticflickr.com') isnt -1
       newUrl = @convertFlickr url, callback
 
+    if url.match /[-_](small|thumb)/
+      return @tryFindingFullscale url, callback
+
     @outPorts.url.beginGroup url
     @outPorts.url.send newUrl
     @outPorts.url.endGroup()
@@ -36,5 +40,18 @@ class ToFullscale extends noflo.AsyncComponent
 
     # Non-specified format, return large
     return url.replace(/\.(gif|png|jpg)/, '_b.$1')
+
+  tryFindingFullscale: (url, callback) ->
+    # Convert
+    newUrl = url
+    fullUrl = url.replace /[-_](small|thumbnail|thumb)/, ''
+    # Verify that it exists
+    superagent.head fullUrl
+    .end (err, res) =>
+      newUrl = fullUrl if res and res.statusCode is 200
+      @outPorts.url.beginGroup url
+      @outPorts.url.send newUrl
+      @outPorts.url.endGroup()
+      callback null
 
 exports.getComponent = -> new ToFullscale
