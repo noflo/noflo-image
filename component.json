@@ -7,7 +7,8 @@
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
-    "visionmedia/superagent": "*"
+    "visionmedia/superagent": "*",
+    "noflo/noflo-canvas": "*"
   },
   "remotes": [
     "https://raw.githubusercontent.com"
@@ -17,10 +18,12 @@
     "components/GetOrientation.coffee",
     "components/Measure.coffee",
     "components/ToFullscale.coffee",
-    "index.js"
+    "index.js",
+    "graphs/ExtractColors-browser.json"
   ],
   "json": [
-    "component.json"
+    "component.json",
+    "graphs/ExtractColors-browser.json"
   ],
   "noflo": {
     "components": {
@@ -28,6 +31,9 @@
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
+    },
+    "graphs": {
+      "ExtractColorsBr": "graphs/ExtractColors-browser.json"
     }
   }
 }

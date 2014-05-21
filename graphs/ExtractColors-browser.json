@@ -1,0 +1,175 @@
+{
+    "properties": {
+        "name": "ExtractColorsBr",
+        "id": "ExtractColorsBr",
+        "project": "br",
+        "environment": {
+            "type": "noflo-browser"
+        }
+    },
+    "inports": {
+        "url": {
+            "process": "ajax/CorsProxy_4jyw3",
+            "port": "in",
+            "metadata": {
+                "x": 180,
+                "y": 144
+            }
+        }
+    },
+    "outports": {
+        "colors": {
+            "process": "canvas/GetColors_qwsmx",
+            "port": "colors",
+            "metadata": {
+                "x": 972,
+                "y": 144
+            }
+        }
+    },
+    "groups": [],
+    "processes": {
+        "ajax/CorsProxy_4jyw3": {
+            "component": "ajax/CorsProxy",
+            "metadata": {
+                "label": "ajax/CorsProxy",
+                "x": 360,
+                "y": 144
+            }
+        },
+        "canvas/GetColors_qwsmx": {
+            "component": "canvas/GetColors",
+            "metadata": {
+                "label": "canvas/GetColors",
+                "x": 792,
+                "y": 144
+            }
+        },
+        "dom/CreateElement_p2rk4": {
+            "component": "dom/CreateElement",
+            "metadata": {
+                "label": "dom/CreateElement",
+                "x": 252,
+                "y": 0
+            }
+        },
+        "dom/SetAttribute_47kor": {
+            "component": "dom/SetAttribute",
+            "metadata": {
+                "label": "dom/SetAttribute",
+                "x": 396,
+                "y": 0
+            }
+        },
+        "dom/SetAttribute_cblnt": {
+            "component": "dom/SetAttribute",
+            "metadata": {
+                "label": "dom/SetAttribute",
+                "x": 540,
+                "y": 144
+            }
+        },
+        "dom/Listen_u9zdl": {
+            "component": "dom/Listen",
+            "metadata": {
+                "label": "dom/Listen",
+                "x": 540,
+                "y": 0
+            }
+        }
+    },
+    "connections": [
+        {
+            "src": {
+                "process": "dom/CreateElement_p2rk4",
+                "port": "element"
+            },
+            "tgt": {
+                "process": "dom/SetAttribute_47kor",
+                "port": "element"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "ajax/CorsProxy_4jyw3",
+                "port": "out"
+            },
+            "tgt": {
+                "process": "dom/SetAttribute_cblnt",
+                "port": "value"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "dom/SetAttribute_47kor",
+                "port": "element"
+            },
+            "tgt": {
+                "process": "dom/Listen_u9zdl",
+                "port": "element"
+            },
+            "metadata": {}
+        },
+        {
+            "src": {
+                "process": "dom/SetAttribute_47kor",
+                "port": "element"
+            },
+            "tgt": {
+                "process": "dom/SetAttribute_cblnt",
+                "port": "element"
+            },
+            "metadata": {
+                "route": 0
+            }
+        },
+        {
+            "src": {
+                "process": "dom/Listen_u9zdl",
+                "port": "element"
+            },
+            "tgt": {
+                "process": "canvas/GetColors_qwsmx",
+                "port": "image"
+            },
+            "metadata": {}
+        },
+        {
+            "data": "img",
+            "tgt": {
+                "process": "dom/CreateElement_p2rk4",
+                "port": "tagname"
+            }
+        },
+        {
+            "data": "src",
+            "tgt": {
+                "process": "dom/SetAttribute_cblnt",
+                "port": "attribute"
+            }
+        },
+        {
+            "data": "crossorigin",
+            "tgt": {
+                "process": "dom/SetAttribute_47kor",
+                "port": "attribute"
+            }
+        },
+        {
+            "data": "anonymous",
+            "tgt": {
+                "process": "dom/SetAttribute_47kor",
+                "port": "value"
+            }
+        },
+        {
+            "data": "load",
+            "tgt": {
+                "process": "dom/Listen_u9zdl",
+                "port": "type"
+            }
+        }
+    ]
+}
