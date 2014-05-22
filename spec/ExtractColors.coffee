@@ -25,9 +25,12 @@ describe 'ExtractColors graph', ->
   describe 'with remote JPG image', ->
     url = 'http://farm8.staticflickr.com/7395/12952090783_ce023450da_b.jpg'
     unless noflo.isBrowser()
-      it 'should have the correct group', ->
+      it 'should have the correct group', (done) ->
         out.once 'begingroup', (group) ->
           chai.expect(group).to.equal url
+          done()
+        ins.send url
+        ins.disconnect()
       it 'should find colors', (done) ->
         @timeout 10000
         out.once 'data', (data) ->
@@ -40,9 +43,12 @@ describe 'ExtractColors graph', ->
 
   describe 'with local JPG image', ->
     url = 'http://localhost:8000/spec/fixtures/extract.jpg'
-    it 'should have the correct group', ->
+    it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
+        done()
+      ins.send url
+      ins.disconnect()
     it 'should find colors', (done) ->
       @timeout 10000
       out.once 'data', (data) ->
