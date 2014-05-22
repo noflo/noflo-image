@@ -1,5 +1,8 @@
 language: node_js
 node_js:
-  - 0.10
+  - "0.10"
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq libcairo2-dev libgif-dev
 before_script:
   - npm install -g grunt-cli

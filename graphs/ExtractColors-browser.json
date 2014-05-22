@@ -1,7 +1,7 @@
 {
     "properties": {
-        "name": "ExtractColorsBr",
-        "id": "ExtractColorsBr",
+        "name": "ExtractColors",
+        "id": "ExtractColors",
         "project": "br",
         "environment": {
             "type": "noflo-browser"
