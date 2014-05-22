@@ -37,9 +37,11 @@ describe 'Measure component', ->
 
   describe 'with remote test image', ->
     url = 'https://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
-    it 'should have the correct group', ->
+    it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
+        done()
+      ins.send url
     it 'should find correct dimensions', (done) ->
       @timeout 0
       error.once 'data', (data) ->
@@ -55,9 +57,11 @@ describe 'Measure component', ->
 
   describe 'with remote JPG image', ->
     url = 'http://bergie.iki.fi/files/flowhub-promo.jpg'
-    it 'should have the correct group', ->
+    it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
+        done()
+      ins.send url
     it 'should find correct dimensions', (done) ->
       @timeout 0
       error.once 'data', (data) ->
