@@ -24,7 +24,8 @@
     "index.js",
     "graphs/ExtractColors-browser.json",
     "components/CreateImage-node.coffee",
-    "components/CreateImage.coffee"
+    "components/CreateImage.coffee",
+    "components/GetFeaturesYAPE.coffee"
   ],
   "json": [
     "component.json",
@@ -34,6 +35,7 @@
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
+      "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
