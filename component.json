@@ -22,7 +22,9 @@
     "components/Measure.coffee",
     "components/ToFullscale.coffee",
     "index.js",
-    "graphs/ExtractColors-browser.json"
+    "graphs/ExtractColors-browser.json",
+    "components/CreateImage-node.coffee",
+    "components/CreateImage.coffee"
   ],
   "json": [
     "component.json",
@@ -31,6 +33,8 @@
   "noflo": {
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
+      "CreateImage-node": "components/CreateImage-node.coffee",
+      "CreateImage": "components/CreateImage.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
