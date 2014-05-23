@@ -1,6 +1,6 @@
 {
   "name": "noflo-image",
-  "description": "Image processing utilities for browser and sNode.js NoFlo.",
+  "description": "Image processing utilities for browser and Node.js NoFlo.",
   "version": "0.0.7",
   "author": {
     "name": "Forrest Oliphant",
