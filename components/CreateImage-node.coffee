@@ -6,7 +6,10 @@ needle = require 'needle'
 temporary = require 'temporary'
 fs = require 'fs'
 
-class Measure extends noflo.AsyncComponent
+# @runtime noflo-nodejs
+# @name CreateImage
+
+class CreateImage extends noflo.AsyncComponent
   description: 'Load image from URL or path and send node-canvas compatible image'
   icon: 'picture-o'
   constructor: ->
@@ -65,4 +68,4 @@ class Measure extends noflo.AsyncComponent
       # Local image
       loadFile url
 
-exports.getComponent = -> new Measure
+exports.getComponent = -> new CreateImage

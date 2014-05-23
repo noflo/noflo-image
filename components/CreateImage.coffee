@@ -1,5 +1,8 @@
 noflo = require 'noflo'
 
+# @runtime noflo-browser
+# @name CreateImage
+
 class CreateImage extends noflo.AsyncComponent
   description: 'Loads an image from given url, sends the element'
   icon: 'picture-o'

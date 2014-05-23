@@ -33,7 +33,6 @@
   "noflo": {
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
-      "CreateImage-node": "components/CreateImage-node.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",
