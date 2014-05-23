@@ -23,7 +23,6 @@ class GetFeaturesYAPE extends noflo.Component
       @outPorts.canvas.disconnect()
     @inPorts.canvas.on 'data', (canvas) =>
       corners = @getCorners canvas
-      console.log corners.length # TEMP
       @outPorts.corners.send corners
       @outPorts.canvas.send canvas
 

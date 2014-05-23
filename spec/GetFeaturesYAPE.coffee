@@ -32,6 +32,8 @@ describe 'GetFeaturesYAPE component', ->
 
   testcases = [
     'textAnywhere/flickr-3178100324-original_small.jpg'
+    'noText/flickr-8132786781-small.jpg'
+    'textRegion/3010029968_02742a1aec_b.jpg'
   ]
   for testcase in testcases
 
@@ -39,14 +41,14 @@ describe 'GetFeaturesYAPE component', ->
           describe 'when passed a canvas', ->
             input = testcase
             ref = testcase+'.corners.json'
-            expected = (testutils.getData ref).corners
+            expected = (testutils.getData ref, {corners: []}).corners
             it 'should extract corners', (done) ->
               id = null
               groups = []
               corners.once "begingroup", (group) ->
                 groups.push group
               corners.once "data", (corners) ->
-                testutils.writeOut +ref+'.out', { corners: corners }
+                testutils.writeOut ref+'.out', { corners: corners }
                 chai.expect(corners).to.be.an 'array'
                 chai.expect(corners).to.have.length expected.length
                 chai.expect(corners[0]).to.be.an 'object'

@@ -35,11 +35,17 @@ getCanvasWithImage = (name, callback) ->
     callback canvas
   return id
 
-getData = (name) ->
-    p = './fixtures/' + name
-    require p
+getData = (name, def) ->
+  p = './fixtures/' + name
+  try  
+    return require p
+  catch err
+    console.log 'WARN: getData():', err.message
+    return def || {}
+  
 
 writeOut = (path, data) ->
+  path = 'spec/fixtures/'+path
   unless noflo.isBrowser()
       fs.writeFileSync path, JSON.stringify data
 
