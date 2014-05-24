@@ -10,6 +10,7 @@
     "visionmedia/superagent": "*",
     "noflo/noflo-canvas": "*",
     "noflo/noflo-core": "*",
+    "noflo/noflo-objects": "*",
     "noflo/noflo-dom": "*",
     "noflo/noflo-ajax": "*"
   },
