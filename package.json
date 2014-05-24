@@ -1,6 +1,6 @@
 {
   "name": "noflo-image",
-  "description": "Image processing utilities for browser and sNode.js NoFlo.",
+  "description": "Image processing utilities for browser and Node.js NoFlo.",
   "version": "0.0.7",
   "author": {
     "name": "Forrest Oliphant",
@@ -25,14 +25,17 @@
     "jsfeat": "0.0.4",
     "needle": "^0.6.6",
     "noflo": "~0.5.0",
+    "noflo-canvas": "^0.1.4",
+    "superagent": "^0.17.0",
+    "temporary": "0.0.8",
     "noflo-ajax": "^0.1.2",
-    "noflo-canvas": "^0.1.3",
     "noflo-core": "^0.1.9",
     "noflo-filesystem": "^1.0.6",
     "noflo-groups": "^0.1.6",
     "noflo-strings": "^0.1.9",
     "superagent": "^0.17.0",
-    "temporary": "0.0.8"
+    "temporary": "0.0.8",
+    "noflo-objects": "^0.1.10"
   },
   "devDependencies": {
     "chai": "~1.5.0",
@@ -59,7 +62,8 @@
       "ToFullscale": "components/ToFullscale.coffee"
     },
     "graphs": {
-      "ExtractColors": "graphs/ExtractColors-node.json"
+      "ExtractColors": "graphs/ExtractColors-node.json",
+      "UrlToCanvas": "graphs/UrlToCanvas.json"
     }
   }
 }

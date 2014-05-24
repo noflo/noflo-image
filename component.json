@@ -26,11 +26,13 @@
     "components/CreateImage-node.coffee",
     "components/CreateImage.coffee",
     "components/GetFeaturesYAPE.coffee",
-    "components/FindFeatureFreeAreas.coffee"
+    "components/FindFeatureFreeAreas.coffee",
+    "graphs/UrlToCanvas.json"
   ],
   "json": [
     "component.json",
-    "graphs/ExtractColors-browser.json"
+    "graphs/ExtractColors-browser.json",
+    "graphs/UrlToCanvas.json"
   ],
   "noflo": {
     "components": {
@@ -43,7 +45,8 @@
       "ToFullscale": "components/ToFullscale.coffee"
     },
     "graphs": {
-      "ExtractColors": "graphs/ExtractColors-browser.json"
+      "ExtractColors": "graphs/ExtractColors-browser.json",
+      "UrlToCanvas": "graphs/UrlToCanvas.json"
     }
   }
 }
