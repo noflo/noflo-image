@@ -24,11 +24,13 @@
     "index.js",
     "graphs/ExtractColors-browser.json",
     "components/CreateImage-node.coffee",
-    "components/CreateImage.coffee"
+    "components/CreateImage.coffee",
+    "graphs/UrlToCanvas.json"
   ],
   "json": [
     "component.json",
-    "graphs/ExtractColors-browser.json"
+    "graphs/ExtractColors-browser.json",
+    "graphs/UrlToCanvas.json"
   ],
   "noflo": {
     "components": {
@@ -39,7 +41,8 @@
       "ToFullscale": "components/ToFullscale.coffee"
     },
     "graphs": {
-      "ExtractColors": "graphs/ExtractColors-browser.json"
+      "ExtractColors": "graphs/ExtractColors-browser.json",
+      "UrlToCanvas": "graphs/UrlToCanvas.json"
     }
   }
 }
