@@ -96,15 +96,19 @@ class FindFeatureFreeAreas extends noflo.Component
   description: 'Extract feature corners of image (method: YAPE)'
   icon: 'file-image-o'
   constructor: ->
+    @width = 0
+    @height = 0
 
     @inPorts =
       corners: new noflo.Port 'array'
       width: new noflo.Port 'int'
       height: new noflo.Port 'int'
-      sections: new noflo.Port 'int'
     @outPorts =
       areas: new noflo.Port 'array'
       corners: new noflo.Port 'array'
+
+    @inPorts.width.on 'data', (@width) =>
+    @inPorts.height.on 'data', (@height) =>
 
     @inPorts.corners.on 'begingroup', (group) =>
       @outPorts.areas.beginGroup group
@@ -116,7 +120,7 @@ class FindFeatureFreeAreas extends noflo.Component
       @outPorts.areas.disconnect()
       @outPorts.corners.disconnect()
     @inPorts.corners.on 'data', (corners) =>
-      regions = findRegions corners, {w:100, h:150}
+      regions = findRegions corners, { w: @width, h: @height }
       @outPorts.areas.send regions
       @outPorts.corners.send corners
 

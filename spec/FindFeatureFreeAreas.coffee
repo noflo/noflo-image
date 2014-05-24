@@ -120,18 +120,26 @@ describe 'FindFeatureFreeAreas component', ->
   ins = null
   corners = null
   areas = null
+  inWidth = null
+  inHeight = null
   beforeEach ->
     c = FindFeatureFreeAreas.getComponent()
     ins = noflo.internalSocket.createSocket()
+    inWidth = noflo.internalSocket.createSocket()
+    inHeight = noflo.internalSocket.createSocket()
     corners = noflo.internalSocket.createSocket()
     areas = noflo.internalSocket.createSocket()
     c.inPorts.corners.attach ins
+    c.inPorts.width.attach inWidth
+    c.inPorts.height.attach inHeight
     c.outPorts.corners.attach corners
     c.outPorts.areas.attach areas
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
       chai.expect(c.inPorts.corners).to.be.an 'object'
+      chai.expect(c.inPorts.width).to.be.an 'object'
+      chai.expect(c.inPorts.height).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.corners).to.be.an 'object'
       chai.expect(c.outPorts.areas).to.be.an 'object'
@@ -178,6 +186,8 @@ describe 'FindFeatureFreeAreas component', ->
         chai.expect(groups).to.have.length 1
         chai.expect(groups[0]).to.equal id
         done()
+      inWidth.send 100
+      inHeight.send 150
       ins.beginGroup id
       ins.send input
       ins.endGroup()
