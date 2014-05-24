@@ -1,8 +1,6 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  fs = require 'fs'
-  Canvas = require 'canvas'
   GetFeaturesYAPE = require '../components/GetFeaturesYAPE.coffee'
 else
   GetFeaturesYAPE = require 'noflo-canvas/components/GetFeaturesYAPE.js'
