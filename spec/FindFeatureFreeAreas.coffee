@@ -5,9 +5,6 @@ unless noflo.isBrowser()
 else
   FindFeatureFreeAreas = require 'noflo-image/components/FindFeatureFreeAreas.js'
 
-testutils = require './testutils'
-
-
 describe 'FindFeatureFreeAreas', ->
 
   describe '.calculateStartingPoints()', ->

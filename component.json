@@ -12,7 +12,8 @@
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",
     "noflo/noflo-dom": "*",
-    "noflo/noflo-ajax": "*"
+    "noflo/noflo-ajax": "*",
+    "jonnor/jsfeat": "*"
   },
   "remotes": [
     "https://raw.githubusercontent.com"
