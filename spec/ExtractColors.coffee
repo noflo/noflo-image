@@ -22,7 +22,7 @@ describe 'ExtractColors graph', ->
         c.outPorts.colors.attach out
         done()
 
-  describe 'with remote JPG image', ->
+  describe.skip 'with remote JPG image', ->
     url = 'http://farm8.staticflickr.com/7395/12952090783_ce023450da_b.jpg'
     unless noflo.isBrowser()
       it 'should have the correct group', (done) ->
@@ -41,7 +41,7 @@ describe 'ExtractColors graph', ->
         ins.send url
         ins.disconnect()
 
-  describe 'with local JPG image', ->
+  describe.skip 'with local JPG image', ->
     url = 'http://localhost:8000/spec/fixtures/extract.jpg'
     it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->
