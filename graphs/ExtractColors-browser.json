@@ -126,17 +126,6 @@
             }
         },
         {
-            "src": {
-                "process": "dom/Listen_u9zdl",
-                "port": "element"
-            },
-            "tgt": {
-                "process": "canvas/GetColors_qwsmx",
-                "port": "image"
-            },
-            "metadata": {}
-        },
-        {
             "data": "img",
             "tgt": {
                 "process": "dom/CreateElement_p2rk4",

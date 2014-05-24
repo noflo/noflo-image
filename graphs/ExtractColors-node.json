@@ -148,17 +148,6 @@
                 "port": "in"
             },
             "metadata": {}
-        },
-        {
-            "src": {
-                "process": "filesystem/WriteFileRaw_tc5bd",
-                "port": "out"
-            },
-            "tgt": {
-                "process": "canvas/GetColors_hum2t",
-                "port": "image"
-            },
-            "metadata": {}
         }
     ]
 }
