@@ -77,12 +77,11 @@ findRegions = (corners, bounds) ->
   segments = { x: 3, y: 4 }
   threshold = 1
   indices = spatialSortedIndices corners
+
   regions = []
   for point in calculateStartingPoints bounds, segments
-    console.log point
-    region = growRectangle corners, point, threshold
+    region = growRectangle corners, indices, point, bounds, threshold
     regions.push region
-    console.log region
 
   sortByArea = (a,b) ->
     A = a.width*a.height
@@ -108,17 +107,17 @@ class FindFeatureFreeAreas extends noflo.Component
       corners: new noflo.Port 'array'
 
     @inPorts.corners.on 'begingroup', (group) =>
+      @outPorts.areas.beginGroup group
       @outPorts.corners.beginGroup group
-      @outPorts.canvas.beginGroup group
     @inPorts.corners.on 'endgroup', (group) =>
+      @outPorts.areas.endGroup group
       @outPorts.corners.endGroup group
-      @outPorts.canvas.endGroup group
     @inPorts.corners.on 'disconnect', () =>
+      @outPorts.areas.disconnect()
       @outPorts.corners.disconnect()
-      @outPorts.canvas.disconnect()
     @inPorts.corners.on 'data', (corners) =>
-      regions = @findRegions corners, {w:1000, h:1000}
-      @outPorts.canvas.send regions
+      regions = findRegions corners, {w:100, h:150}
+      @outPorts.areas.send regions
       @outPorts.corners.send corners
 
 exports.getComponent = -> new FindFeatureFreeAreas

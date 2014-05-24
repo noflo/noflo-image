@@ -138,3 +138,50 @@ describe 'FindFeatureFreeAreas component', ->
     it 'should have output ports', ->
       chai.expect(c.outPorts.corners).to.be.an 'object'
       chai.expect(c.outPorts.areas).to.be.an 'object'
+
+  describe 'when passed image features', ->
+    input = [
+      {x:10, y:10}
+      {x:70, y:70}
+      {x:30, y:33}
+      {x:31, y:37}
+      {x:54, y:159}
+      {x:100, y:50}
+      {x:56, y:140}
+      {x:22, y:22}
+    ]
+    expected = [
+      { x: 10, y: 10, width: 20, height: 23 }
+      { x: 30, y: 10, width: 24, height: 23 }
+      { x: 10, y: 37, width: 20, height: 33 }
+      { x: 30, y: 37, width: 24, height: 33 }
+      { x: 56, y: 10, width: 44, height: 23 }
+      { x: 56, y: 37, width: 44, height: 33 }
+      { x: 10, y: 50, width: 20, height: 90 }
+      { x: 10, y: 50, width: 20, height: 90 }
+      { x: 30, y: 50, width: 24, height: 90 }
+      { x: 30, y: 50, width: 24, height: 90 }
+      { x: 56, y: 50, width: 44, height: 90 }
+      { x: 56, y: 50, width: 44, height: 90 }
+    ]
+    it 'should return a set of regions with no features', (done) ->
+      id = null
+      groups = []
+      areas.once "begingroup", (group) ->
+        groups.push group
+      areas.once "data", (regions) ->
+        chai.expect(regions).to.be.an 'array'
+        chai.expect(regions).to.have.length expected.length
+        chai.expect(regions[0]).to.be.an 'object'
+        chai.expect(regions[0]).to.have.property 'x'
+        chai.expect(regions[0]).to.have.property 'y'
+        chai.expect(regions[0]).to.have.property 'width'
+        chai.expect(regions[0]).to.have.property 'height'
+        chai.expect(regions).to.deep.equal expected
+        chai.expect(groups).to.have.length 1
+        chai.expect(groups[0]).to.equal id
+        done()
+      ins.beginGroup id
+      ins.send input
+      ins.endGroup()
+
