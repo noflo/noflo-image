@@ -25,7 +25,8 @@
     "graphs/ExtractColors-browser.json",
     "components/CreateImage-node.coffee",
     "components/CreateImage.coffee",
-    "components/GetFeaturesYAPE.coffee"
+    "components/GetFeaturesYAPE.coffee",
+    "components/FindFeatureFreeAreas.coffee"
   ],
   "json": [
     "component.json",
@@ -35,6 +36,7 @@
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
+      "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",

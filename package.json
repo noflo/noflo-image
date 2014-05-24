@@ -52,6 +52,7 @@
     "components": {
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
+      "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure-node.coffee",
