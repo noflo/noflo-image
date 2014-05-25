@@ -17,6 +17,10 @@ class CreateImage extends noflo.AsyncComponent
       url:
         datatype: 'string'
         type: 'string/url'
+      crossorigin:
+        datatype: 'string'
+        description: 'not applicable to Node version'
+        required: false
     @outPorts = new noflo.OutPorts
       image:
         datatype: 'object'

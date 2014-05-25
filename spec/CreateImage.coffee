@@ -8,14 +8,17 @@ else
 describe 'CreateImage component', ->
   c = null
   ins = null
+  sock_cors = null
   out = null
   error = null
   beforeEach ->
     c = CreateImage.getComponent()
     ins = noflo.internalSocket.createSocket()
+    sock_cors = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
     c.inPorts.url.attach ins
+    c.inPorts.crossorigin.attach sock_cors
     c.outPorts.image.attach out
     c.outPorts.error.attach error
 
@@ -74,3 +77,21 @@ describe 'CreateImage component', ->
         chai.expect(data.height).to.equal 376
         done()
       ins.send url
+
+  if noflo.isBrowser()
+
+    describe 'with CORS-served image', ->
+      it 'should be cors-enabled', (done) ->
+        url = 'http://i.meemoo.me/v1/out/gf06kZyrQW6DWmwMf5zp_meemoo.png'
+        sock_cors.send 'Anonymous'
+        out.once 'data', (data) ->
+          chai.expect(data).to.be.an 'object'
+          done()
+        ins.send url
+      # it 'should error', (done) ->
+      #   url = 'http://meemoo.org/hack-our-apps/shots/monochrome.png'
+      #   sock_cors.send 'Anonymous'
+      #   error.once 'data', (data) ->
+      #     chai.expect(data).to.be.an 'object'
+      #     done()
+      #   ins.send url

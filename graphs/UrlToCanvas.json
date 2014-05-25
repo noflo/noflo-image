@@ -15,6 +15,14 @@
                 "x": 36,
                 "y": 360
             }
+        },
+        "crossorigin": {
+            "process": "img",
+            "port": "crossorigin",
+            "metadata": {
+                "x": 36,
+                "y": 400
+            }
         }
     },
     "outports": {
