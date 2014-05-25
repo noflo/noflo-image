@@ -12,7 +12,8 @@
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",
     "noflo/noflo-dom": "*",
-    "noflo/noflo-ajax": "*"
+    "noflo/noflo-ajax": "*",
+    "jonnor/jsfeat": "*"
   },
   "remotes": [
     "https://raw.githubusercontent.com"
@@ -22,6 +23,7 @@
     "components/GetOrientation.coffee",
     "components/Measure.coffee",
     "components/ToFullscale.coffee",
+    "spec/testutils.coffee",
     "index.js",
     "graphs/ExtractColors-browser.json",
     "components/CreateImage-node.coffee",
@@ -33,7 +35,10 @@
   "json": [
     "component.json",
     "graphs/ExtractColors-browser.json",
-    "graphs/UrlToCanvas.json"
+    "graphs/UrlToCanvas.json",
+    "spec/fixtures/textAnywhere/flickr-3178100324-original_small.jpg.corners.json",
+    "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
+    "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json"
   ],
   "noflo": {
     "components": {
