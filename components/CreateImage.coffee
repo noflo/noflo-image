@@ -25,7 +25,7 @@ class CreateImage extends noflo.AsyncComponent
         datatype: 'object'
     super 'url', 'image'
 
-    @inPorts.crossorigin.on 'data', (data) ->
+    @inPorts.crossorigin.on 'data', (data) =>
       @crossorigin = data
 
   doAsync: (url, callback) ->
