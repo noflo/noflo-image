@@ -55,26 +55,78 @@ growRectangle = (corners, indices, point, bounds, threshold) ->
 
   coordinateForIndex = (axis, index) ->
     if index < 0
-      return 0
+      return { x: 0, y: 0 }
     if index >= indices[axis].length
-      edge = if axis == 'x' then bounds.w else bounds.h
-      return edge
+      return { x: bounds.w, y: bounds.h }
     idx = indices[axis][index]
     p = corners[idx]
-    return p[axis]
+    return p
 
-  # Expand rectangle in all directions
-  x0 = coordinateForIndex 'x', pointIndex.x-threshold
-  x1 = coordinateForIndex 'x', pointIndex.x+threshold
-  y0 = coordinateForIndex 'y', pointIndex.y-threshold
-  y1 = coordinateForIndex 'y', pointIndex.y+threshold
-  r = { x: x0, y: y0, width: x1-x0, height: y1-y0 }
+  pointInRect = (p, rect) ->
+    in_x = p.x >= rect.x0 and p.x <= rect.x1
+    in_y = p.y >= rect.y0 and p.y <= rect.y1
+    #console.log in_x, in_y
+    return in_x and in_y
+
+  r = { x0: point.x, x1: point.x, y0: point.y, y1: point.y }
+  
+  # Expand
+  i = {x: pointIndex.x, y: pointIndex.y}
+  while true
+    i.x=i.x+1
+    i.y=i.y+1
+    x = coordinateForIndex 'x', i.x
+    y = coordinateForIndex 'y', i.y
+    expand = false
+    if not pointInRect x, r
+      #console.log 'expanding X', x, r
+      r.x1 = x.x
+      #if x.y > r.y1
+        #r.y1 = x.y # TEMP: needed?
+      expand = true
+    if not pointInRect y, r
+      #console.log 'expanding Y', y, r
+      r.y1 = y.y
+      #if y.x > r.x1
+#        r.x1 = y.x
+      expand = true
+    break if not expand
+    break if i.x > indices.x.length
+    break if i.y > indices.y.length
+
+#  console.log 'One phase done!'
+  ###
+  # Expand lower right
+  i = {x: pointIndex.x, y: pointIndex.y}
+  while true
+    i.x=i.x-1
+    x = coordinateForIndex 'x', i.x
+    expand = false
+    console.log i.x, 0, x
+    if not pointInRect x, r
+      r.x0 = x.x
+      expand = true
+    i.y=i.y-1
+    y = coordinateForIndex 'y', i.y
+    console.log i.y, 0, y
+    if not pointInRect y, r
+      r.y0 = y.y
+      expand = true
+    break if not expand
+    break if i.x < 0
+    break if i.y < 0
+  ###
+  r = { x: r.x0, y: r.y0, width: r.x1-r.x0, height: r.y1-r.y0 }
+#  console.log r
   return r
 
-findRegions = (corners, bounds) ->
-  # TODO: make number of segments configurable?
-  # TODO: automatically set Y segments based on image aspect?
-  segments = { x: 3, y: 4 }
+findRegions = (corners, bounds, seg) ->
+  if bounds.w > bounds.h
+    segments = { x: seg, y: Math.floor(seg*(bounds.w/bounds.h)) }
+  else
+    segments = { x: Math.floor(seg*(bounds.h/bounds.w)), y: seg }
+  
+  console.log segments
   threshold = 1
   indices = spatialSortedIndices corners
 
@@ -98,17 +150,26 @@ class FindFeatureFreeAreas extends noflo.Component
   constructor: ->
     @width = 0
     @height = 0
+    @segments = 4
 
     @inPorts =
       corners: new noflo.Port 'array'
       width: new noflo.Port 'int'
       height: new noflo.Port 'int'
+      segments: new noflo.Port 'int'
     @outPorts =
       areas: new noflo.Port 'array'
       corners: new noflo.Port 'array'
 
-    @inPorts.width.on 'data', (@width) =>
-    @inPorts.height.on 'data', (@height) =>
+    @inPorts.width.on 'data', (data) =>
+      console.log 'width', data
+      @width = data
+    @inPorts.height.on 'data', (data) =>
+      console.log 'height', data
+      @height = data
+    @inPorts.segments.on 'data', (data) =>
+      console.log 'segments', data
+      @segments = data
 
     @inPorts.corners.on 'begingroup', (group) =>
       @outPorts.areas.beginGroup group
@@ -120,7 +181,10 @@ class FindFeatureFreeAreas extends noflo.Component
       @outPorts.areas.disconnect()
       @outPorts.corners.disconnect()
     @inPorts.corners.on 'data', (corners) =>
-      regions = findRegions corners, { w: @width, h: @height }
+      b = { w: @width, h: @height }
+      s = @segments
+      console.log b, s
+      regions = findRegions corners, b, s
       @outPorts.areas.send regions
       @outPorts.corners.send corners
 

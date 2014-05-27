@@ -105,13 +105,13 @@ describe 'FindFeatureFreeAreas', ->
         chai.expect(region).to.have.property 'width'
         chai.expect(region).to.have.property 'height'
       it "x", ->
-        chai.expect(region.x).to.equal 56
+        chai.expect(region.x).to.equal 70
       it "y", ->
-        chai.expect(region.y).to.equal 50
+        chai.expect(region.y).to.equal 70
       it "width", ->
-        chai.expect(region.width).to.equal 44
+        chai.expect(region.width).to.equal 30
       it "height", ->
-        chai.expect(region.height).to.equal 90
+        chai.expect(region.height).to.equal 89
 
 
 
@@ -122,16 +122,19 @@ describe 'FindFeatureFreeAreas component', ->
   areas = null
   inWidth = null
   inHeight = null
+  inSegments = null
   beforeEach ->
     c = FindFeatureFreeAreas.getComponent()
     ins = noflo.internalSocket.createSocket()
     inWidth = noflo.internalSocket.createSocket()
     inHeight = noflo.internalSocket.createSocket()
+    inSegments = noflo.internalSocket.createSocket()
     corners = noflo.internalSocket.createSocket()
     areas = noflo.internalSocket.createSocket()
     c.inPorts.corners.attach ins
     c.inPorts.width.attach inWidth
     c.inPorts.height.attach inHeight
+    c.inPorts.segments.attach inSegments
     c.outPorts.corners.attach corners
     c.outPorts.areas.attach areas
 
@@ -156,18 +159,18 @@ describe 'FindFeatureFreeAreas component', ->
       {x:22, y:22}
     ]
     expected = [
-      { x: 10, y: 10, width: 20, height: 23 }
-      { x: 30, y: 10, width: 24, height: 23 }
-      { x: 10, y: 37, width: 20, height: 33 }
-      { x: 30, y: 37, width: 24, height: 33 }
-      { x: 56, y: 10, width: 44, height: 23 }
-      { x: 56, y: 37, width: 44, height: 33 }
-      { x: 10, y: 50, width: 20, height: 90 }
-      { x: 10, y: 50, width: 20, height: 90 }
-      { x: 30, y: 50, width: 24, height: 90 }
-      { x: 30, y: 50, width: 24, height: 90 }
-      { x: 56, y: 50, width: 44, height: 90 }
-      { x: 56, y: 50, width: 44, height: 90 }
+      { x: 80, y: 112.5, width: 20, height: 46.5 },
+      { x: 20, y: 112.5, width: 34, height: 37.5 },
+      { x: 80, y: 75, width: 20, height: 84 },
+      { x: 60, y: 112.5, width: 40, height: 46.5 },
+      { x: 80, y: 37.5, width: 20, height: 102.5 },
+      { x: 40, y: 112.5, width: 60, height: 37.5 },
+      { x: 20, y: 75, width: 34, height: 75 },
+      { x: 60, y: 75, width: 40, height: 84 },
+      { x: 40, y: 75, width: 60, height: 75 },
+      { x: 60, y: 37.5, width: 40, height: 121.5 },
+      { x: 20, y: 37.5, width: 50, height: 112.5 },
+      { x: 40, y: 37.5, width: 60, height: 121.5 }
     ]
     it 'should return a set of regions with no features', (done) ->
       id = null
@@ -176,6 +179,7 @@ describe 'FindFeatureFreeAreas component', ->
         groups.push group
       areas.once "data", (regions) ->
         chai.expect(regions).to.be.an 'array'
+        console.log(regions)
         chai.expect(regions).to.have.length expected.length
         chai.expect(regions[0]).to.be.an 'object'
         chai.expect(regions[0]).to.have.property 'x'
@@ -186,6 +190,7 @@ describe 'FindFeatureFreeAreas component', ->
         chai.expect(groups).to.have.length 1
         chai.expect(groups[0]).to.equal id
         done()
+      inSegments.send 3
       inWidth.send 100
       inHeight.send 150
       ins.beginGroup id
