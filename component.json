@@ -32,7 +32,8 @@
     "graphs/UrlToCanvas.json",
     "spec/fixtures/textAnywhere/flickr-3178100324-original_small.jpg.corners.json",
     "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
-    "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json"
+    "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
+    "components/GetHistogram.coffee"
   ],
   "json": [
     "component.json",
@@ -47,6 +48,7 @@
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
+      "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee"

@@ -55,6 +55,7 @@
       "CreateImage": "components/CreateImage-node.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
+      "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "Measure": "components/Measure-node.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
