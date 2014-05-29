@@ -1,8 +1,9 @@
 noflo = require 'noflo'
 sizeOf = require 'image-size'
 urlUtil = require 'url'
-needle = require 'needle'
+request = require 'request'
 temporary = require 'temporary'
+fs = require 'fs'
 
 # @runtime noflo-nodejs
 # @name Measure
@@ -37,13 +38,18 @@ class Measure extends noflo.AsyncComponent
       # Remote image
       # TODO replace this with custom http/s calls that only get first few bytes
       tmpFile = new temporary.File
-      resp = needle.get url,
-        output: tmpFile.path
-        follow: yes
-      , (err, response) ->
-        if err
-          onError err
+      stream = fs.createWriteStream tmpFile.path
+      req = request url
+      req.pipe stream
+      error = null
+      req.on 'response', (resp) ->
+        return if resp.statusCode is 200
+        error = new Error "#{url} responded with #{resp.statusCode}"
+        error.url = url
+      req.on 'end', ->
+        if error
           tmpFile.unlink()
+          onError error
           return
         try
           sizeOf tmpFile.path, (err, dimensions) ->

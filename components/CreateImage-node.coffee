@@ -2,7 +2,7 @@ noflo = require 'noflo'
 Canvas = require 'canvas'
 Image = Canvas.Image
 urlUtil = require 'url'
-needle = require 'needle'
+request = require 'request'
 temporary = require 'temporary'
 fs = require 'fs'
 
@@ -55,13 +55,18 @@ class CreateImage extends noflo.AsyncComponent
     if urlOptions.protocol
       # Remote image
       tmpFile = new temporary.File
-      resp = needle.get url,
-        output: tmpFile.path
-        follow: yes
-      , (err, response) ->
-        if err
-          onError err
+      stream = fs.createWriteStream tmpFile.path
+      req = request url
+      req.pipe stream
+      error = null
+      req.on 'response', (resp) ->
+        return if resp.statusCode is 200
+        error = new Error "#{url} responded with #{resp.statusCode}"
+        error.url = url
+      req.on 'end', ->
+        if error
           tmpFile.unlink()
+          onError error
           return
         try
           loadFile tmpFile.path

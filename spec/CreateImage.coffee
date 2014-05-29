@@ -78,6 +78,16 @@ describe 'CreateImage component', ->
         done()
       ins.send url
 
+  describe 'with missing remote image', ->
+    return if noflo.isBrowser()
+    url = 'http://bergie.iki.fi/files/this-file-doesnt-exist-promo.jpg'
+    it 'should do a correct error', (done) ->
+      @timeout 0
+      error.once 'data', (data) ->
+        chai.expect(data.url).to.equal url
+        done()
+      ins.send url
+
   if noflo.isBrowser()
 
     describe 'with CORS-served image', ->
