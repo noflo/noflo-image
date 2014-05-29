@@ -60,7 +60,6 @@
       "ToFullscale": "components/ToFullscale.coffee"
     },
     "graphs": {
-      "ExtractColors": "graphs/ExtractColors-node.json",
       "UrlToCanvas": "graphs/UrlToCanvas.json"
     }
   }

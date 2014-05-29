@@ -25,16 +25,17 @@
     "components/ToFullscale.coffee",
     "spec/testutils.coffee",
     "index.js",
-    "graphs/ExtractColors-browser.json",
     "components/CreateImage-node.coffee",
     "components/CreateImage.coffee",
     "components/GetFeaturesYAPE.coffee",
     "components/FindFeatureFreeAreas.coffee",
-    "graphs/UrlToCanvas.json"
+    "graphs/UrlToCanvas.json",
+    "spec/fixtures/textAnywhere/flickr-3178100324-original_small.jpg.corners.json",
+    "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
+    "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json"
   ],
   "json": [
     "component.json",
-    "graphs/ExtractColors-browser.json",
     "graphs/UrlToCanvas.json",
     "spec/fixtures/textAnywhere/flickr-3178100324-original_small.jpg.corners.json",
     "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
@@ -51,7 +52,6 @@
       "ToFullscale": "components/ToFullscale.coffee"
     },
     "graphs": {
-      "ExtractColors": "graphs/ExtractColors-browser.json",
       "UrlToCanvas": "graphs/UrlToCanvas.json"
     }
   }
