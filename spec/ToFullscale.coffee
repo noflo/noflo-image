@@ -49,13 +49,10 @@ describe 'ToFullscale component', ->
         url.send 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
 
     describe 'with a small variant', ->
+      return if noflo.isBrowser()
       it 'should return fullscale URL when one exists', (done) ->
         newUrl.on 'data', (image) ->
-          if noflo.isBrowser()
-            # Can't verify due to CORS restrictions
-            chai.expect(image).to.equal 'http://bergie.iki.fi/files/ingress-table-test-small.jpg'
-          else
-            chai.expect(image).to.equal 'http://bergie.iki.fi/files/ingress-table-test.jpg'
+          chai.expect(image).to.equal 'http://bergie.iki.fi/files/ingress-table-test.jpg'
           done()
         url.send 'http://bergie.iki.fi/files/ingress-table-test-small.jpg'
       it 'should return thumbnail URL when one doesn\'t exist', (done) ->

@@ -48,6 +48,7 @@ class ToFullscale extends noflo.AsyncComponent
     # Verify that it exists
     superagent.head fullUrl
     .end (err, res) =>
+      return callback err if err
       newUrl = fullUrl if res and res.statusCode is 200
       @outPorts.url.beginGroup url
       @outPorts.url.send newUrl

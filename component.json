@@ -11,6 +11,8 @@
     "noflo/noflo-canvas": "*",
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",
+    "noflo/noflo-groups": "*",
+    "noflo/noflo-strings": "*",
     "noflo/noflo-dom": "*",
     "noflo/noflo-ajax": "*",
     "jonnor/jsfeat": "*"
