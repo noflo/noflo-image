@@ -48,8 +48,11 @@ class CreateImage extends noflo.AsyncComponent
         if err
           return onError err
         img = new Image
+        img.onload = () ->
+          onLoad null, img
+        img.onerror = (err) ->
+          onError err, null
         img.src = image
-        onLoad(null, img)
 
     urlOptions = urlUtil.parse url
     if urlOptions.protocol
