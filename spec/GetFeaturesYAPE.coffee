@@ -34,6 +34,9 @@ describe 'GetFeaturesYAPE component', ->
     'noText/flickr-8132786781-small.jpg'
     'textRegion/3010029968_02742a1aec_b.jpg'
   ]
+
+  testcases.pop() if noflo.isBrowser()
+
   for testcase in testcases
 
       describe testcase, ->
