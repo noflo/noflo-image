@@ -40,7 +40,7 @@
 
   // Beyond this value, index getters/setters (i.e. array[0], array[1]) are so slow to
   // create, and consume so much memory, that the browser appears frozen.
-  var MAX_ARRAY_LENGTH = Infinity;
+  var MAX_ARRAY_LENGTH = 1e10;
 
   // Approximations of internal ECMAScript conversion functions
   function Type(v) {
