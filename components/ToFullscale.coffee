@@ -20,6 +20,9 @@ class ToFullscale extends noflo.AsyncComponent
     if url.indexOf('staticflickr.com') isnt -1
       newUrl = @convertFlickr url, callback
 
+    if url.indexOf('wordpress.com') isnt -1
+      newUrl = @convertWordpress url, callback
+
     if url.match /[-_](small|thumb)/
       return @tryFindingFullscale url, callback
 
@@ -40,6 +43,9 @@ class ToFullscale extends noflo.AsyncComponent
 
     # Non-specified format, return large
     return url.replace(/\.(gif|png|jpg)/, '_b.$1')
+
+  convertWordpress: (url) ->
+    return url.replace(/\?w=[\d]+/, '')
 
   tryFindingFullscale: (url, callback) ->
     # Convert

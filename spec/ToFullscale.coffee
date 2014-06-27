@@ -48,6 +48,19 @@ describe 'ToFullscale component', ->
           done()
         url.send 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
 
+    describe 'with WordPress.com images', ->
+      it 'should return correct URL for non-sized', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
+          done()
+        url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
+      it 'should return correct URL for thumbnails', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
+          done()
+        url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg?w=400'
+
+
     describe 'with a small variant', ->
       return if noflo.isBrowser()
       it 'should return fullscale URL when one exists', (done) ->
