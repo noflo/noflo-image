@@ -66,6 +66,9 @@ class CreateImage extends noflo.AsyncComponent
         return if resp.statusCode is 200
         error = new Error "#{url} responded with #{resp.statusCode}"
         error.url = url
+      req.on 'error', (err) ->
+        err.url = url
+        error = err
       req.on 'end', ->
         if error
           tmpFile.unlink()
