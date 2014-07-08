@@ -44,15 +44,20 @@ class CreateImage extends noflo.AsyncComponent
       return callback err
 
     loadFile = (path) ->
-      fs.readFile path, (err, image) ->
-        if err
-          return onError err
-        img = new Image
-        img.onload = () ->
-          onLoad null, img
-        img.onerror = (err) ->
-          onError err, null
-        img.src = image
+      fs.stat path, (err, stats) ->
+        return onError err if err
+        if stats.size is 0
+          e = new Error 'Zero-sized image'
+          return onError e
+        fs.readFile path, (err, image) ->
+          if err
+            return onError err
+          img = new Image
+          img.onload = () ->
+            onLoad null, img
+          img.onerror = (err) ->
+            onError err, null
+          img.src = image
 
     urlOptions = urlUtil.parse url
     if urlOptions.protocol

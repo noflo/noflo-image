@@ -37,6 +37,12 @@ describe 'CreateImage component', ->
           chai.expect(data.height).to.equal 80
           done()
         ins.send 'spec/test-80x80.jpg'
+      it 'should send an error for zero-sized images', (done) ->
+        error.once 'data', (data) ->
+          chai.expect(data).to.be.an 'object'
+          chai.expect(data.url).to.equal 'spec/empty.jpg'
+          done()
+        ins.send 'spec/empty.jpg'
 
   describe 'with remote test image', ->
     url = 'https://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
