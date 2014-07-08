@@ -73,3 +73,20 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
           done()
         url.send 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
+
+    describe 'with Wikimedia Commons thumbnails', ->
+      it 'should return correct URL for non-sized', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
+          done()
+        url.send 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
+      it 'should return correct URL for thumbnails', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
+          done()
+        url.send 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/India_-_Varanasi_green_peas_-_2714.jpg/700px-India_-_Varanasi_green_peas_-_2714.jpg'
+      it 'should return correct URL for thumbnails with escaped characters', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
+          done()
+        url.send 'http://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG/1000px-Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'

@@ -23,6 +23,9 @@ class ToFullscale extends noflo.AsyncComponent
     if url.indexOf('wordpress.com') isnt -1
       newUrl = @convertWordpress url, callback
 
+    if url.indexOf('wikimedia.org') isnt -1
+      newUrl = @convertWikimedia url, callback
+
     if url.match /[-_](small|thumb)/
       return @tryFindingFullscale url, callback
 
@@ -46,6 +49,10 @@ class ToFullscale extends noflo.AsyncComponent
 
   convertWordpress: (url) ->
     return url.replace(/\?w=[\d]+/, '')
+
+  convertWikimedia: (url) ->
+    return url unless url.match /\/commons\/thumb\//
+    url.replace /\/commons\/(thumb)\/([0-9])\/([0-9][a-z])\/(.*)[\\\/][^\\\/]*/, '/commons/$2/$3/$4'
 
   tryFindingFullscale: (url, callback) ->
     # Convert
