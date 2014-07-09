@@ -64,7 +64,9 @@ class CreateImage extends noflo.AsyncComponent
       # Remote image
       tmpFile = new temporary.File
       stream = fs.createWriteStream tmpFile.path
-      req = request url
+      req = request
+        url: url
+        timeout: 10000
       req.pipe stream
       error = null
       req.on 'response', (resp) ->
