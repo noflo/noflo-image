@@ -13,6 +13,7 @@ class CreateImage extends noflo.AsyncComponent
   description: 'Load image from URL or path and send node-canvas compatible image'
   icon: 'picture-o'
   constructor: ->
+    @inFlight = {}
     @inPorts = new noflo.InPorts
       url:
         datatype: 'string'
@@ -76,7 +77,8 @@ class CreateImage extends noflo.AsyncComponent
       req.on 'error', (err) ->
         err.url = url
         error = err
-      req.on 'end', ->
+      req.on 'end', =>
+        delete @inFlight[url]
         if error
           tmpFile.unlink()
           onError error
@@ -86,8 +88,17 @@ class CreateImage extends noflo.AsyncComponent
         catch e
           tmpFile.unlink()
           onError e
+      @inFlight[url] = req
     else
       # Local image
       loadFile url
+
+  shutdown: ->
+    for url, req of @inFlight
+      req.abort()
+      delete @inFlight[url]
+    @q = []
+    @errorGroups = []
+    super()
 
 exports.getComponent = -> new CreateImage
