@@ -5,7 +5,7 @@ unless noflo.isBrowser()
   Canvas = require 'canvas'
   GetColors = require '../components/GetColors.coffee'
 else
-  GetColors = require 'noflo-canvas/components/GetColors.js'
+  GetColors = require 'noflo-image/components/GetColors.js'
 
 
 createCanvas = (width, height) ->
