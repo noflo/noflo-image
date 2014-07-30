@@ -107,3 +107,35 @@ describe 'GetColors component', ->
         ins.beginGroup id
         ins.send canvas
         ins.endGroup()
+
+  describe 'when css color option is true', ->
+    ins_css = null
+    beforeEach ->
+      ins_css = noflo.internalSocket.createSocket()
+      c.inPorts.css.attach ins_css
+      ins_css.send true
+
+    input = 'colorful-octagon.png'
+
+    expected = [
+      "rgb(4, 251, 251)"
+      "rgb(251, 4, 4)"
+      "rgb(251, 251, 4)"
+      "rgb(4, 4, 251)"
+      "rgb(251, 4, 251)"
+      "rgb(4, 251, 4)"
+      "rgb(4, 4, 4)"
+      "rgb(221, 221, 218)"
+      "rgb(52, 52, 4)"
+    ]
+    it 'should extract the colors and output css strings', (done) ->
+      colors.once "data", (colors) ->
+        chai.expect(colors).to.be.an 'array'
+        chai.expect(colors).to.have.length expected.length
+        chai.expect(colors[0]).to.be.a 'string'
+        chai.expect(colors).to.deep.equal expected
+        done()
+      id = getCanvasWithImage input, (canvas) ->
+        ins.beginGroup id
+        ins.send canvas
+        ins.endGroup()
