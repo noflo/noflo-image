@@ -48,7 +48,7 @@ exports.getComponent = ->
 
   noflo.helpers.WirePattern c,
     in: 'url'
-    out: 'out'
+    out: 'url'
     async: true
     forwardGroups: true
   , (url, groups, out, callback) ->
