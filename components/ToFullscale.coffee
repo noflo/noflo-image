@@ -27,7 +27,7 @@ tryFindingFullscale = (url, out, callback) ->
   fullUrl = url.replace /[-_](small|thumbnail|thumb)/, ''
   # Verify that it exists
   superagent.head fullUrl
-  .end (err, res) =>
+  .end (err, res) ->
     return callback err if err
     newUrl = fullUrl if res and res.statusCode is 200
     out.beginGroup url
@@ -55,6 +55,8 @@ exports.getComponent = ->
     newUrl = url
     unless url
       return callback new Error 'No image source provided'
+    unless typeof url is 'string'
+      return callback new Error 'URL is not a string'
 
     if url.indexOf('staticflickr.com') isnt -1
       newUrl = convertFlickr url, callback
