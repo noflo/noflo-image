@@ -52,6 +52,7 @@
   "keywords": [],
   "noflo": {
     "components": {
+      "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
@@ -59,6 +60,7 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "GetPresetCurve": "components/GetPresetCurve.coffee",
       "Measure": "components/Measure-node.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
     },

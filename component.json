@@ -3,7 +3,7 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repo": "noflo/noflo-image",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
@@ -37,7 +37,9 @@
     "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
     "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
     "components/GetHistogram.coffee",
-    "components/GetColors.coffee"
+    "components/GetColors.coffee",
+    "components/ApplyAdjustmentCurve.coffee",
+    "components/GetPresetCurve.coffee"
   ],
   "json": [
     "component.json",
@@ -48,6 +50,7 @@
   ],
   "noflo": {
     "components": {
+      "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
@@ -55,6 +58,7 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "GetPresetCurve": "components/GetPresetCurve.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee"
     },
