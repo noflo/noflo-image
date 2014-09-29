@@ -39,7 +39,11 @@
     "components/GetHistogram.coffee",
     "components/GetColors.coffee",
     "components/ApplyAdjustmentCurve.coffee",
-    "components/GetPresetCurve.coffee"
+    "components/GetPresetCurve.coffee",
+    "components/AdjustBrightness.coffee",
+    "components/AdjustSaturation.coffee",
+    "components/ApplyVignette.coffee",
+    "components/AdjustContrast.coffee"
   ],
   "json": [
     "component.json",
@@ -50,7 +54,11 @@
   ],
   "noflo": {
     "components": {
+      "AdjustBrightness": "components/AdjustBrightness.coffee",
+      "AdjustContrast": "components/AdjustContrast.coffee",
+      "AdjustSaturation": "components/AdjustSaturation.coffee",
       "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
+      "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",

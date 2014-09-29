@@ -52,7 +52,11 @@
   "keywords": [],
   "noflo": {
     "components": {
+      "AdjustBrightness": "components/AdjustBrightness.coffee",
+      "AdjustContrast": "components/AdjustContrast.coffee",
+      "AdjustSaturation": "components/AdjustSaturation.coffee",
       "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
+      "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
