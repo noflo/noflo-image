@@ -66,8 +66,10 @@
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "GetPresetCurve": "components/GetPresetCurve.coffee",
+      "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure-node.coffee",
-      "ToFullscale": "components/ToFullscale.coffee"
+      "ToFullscale": "components/ToFullscale.coffee",
+      "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
       "UrlToCanvas": "graphs/UrlToCanvas.json"

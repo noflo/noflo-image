@@ -38,16 +38,15 @@
     "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
     "components/GetHistogram.coffee",
     "components/GetColors.coffee",
-<<<<<<< HEAD
     "components/ApplyAdjustmentCurve.coffee",
     "components/GetPresetCurve.coffee",
     "components/AdjustBrightness.coffee",
     "components/AdjustSaturation.coffee",
     "components/ApplyVignette.coffee",
     "components/AdjustContrast.coffee"
-=======
-    "components/GetCannyEdges.coffee"
->>>>>>> 316b965... Add canny edges filter
+    "components/GetCannyEdges.coffee",
+    "components/ImageToCanvas.coffee",
+    "components/VideoToCanvas.coffee"
   ],
   "json": [
     "component.json",
@@ -72,8 +71,10 @@
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "GetPresetCurve": "components/GetPresetCurve.coffee",
+      "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure.coffee",
-      "ToFullscale": "components/ToFullscale.coffee"
+      "ToFullscale": "components/ToFullscale.coffee",
+      "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
       "UrlToCanvas": "graphs/UrlToCanvas.json"

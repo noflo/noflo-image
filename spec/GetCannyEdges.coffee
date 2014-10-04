@@ -11,29 +11,29 @@ else
 describe 'GetCannyEdges component', ->
 
   c = null
-  inImage = null
+  inCanvas = null
   low = null
   high = null
   kernel = null
-  outImage = null
+  outCanvas = null
   beforeEach ->
     c = GetCannyEdges.getComponent()
-    inImage = noflo.internalSocket.createSocket()
+    inCanvas = noflo.internalSocket.createSocket()
     low = noflo.internalSocket.createSocket()
     high = noflo.internalSocket.createSocket()
     kernel = noflo.internalSocket.createSocket()
-    outImage = noflo.internalSocket.createSocket()
-    c.inPorts.image.attach inImage
+    outCanvas = noflo.internalSocket.createSocket()
+    c.inPorts.canvas.attach inCanvas
     c.inPorts.low.attach low
     c.inPorts.high.attach high
     c.inPorts.kernel.attach kernel
-    c.outPorts.image.attach outImage
+    c.outPorts.canvas.attach outCanvas
 
   describe 'when instantiated', ->
     it 'should have four input ports', ->
-      chai.expect(c.inPorts.image).to.be.an 'object'
+      chai.expect(c.inPorts.canvas).to.be.an 'object'
       chai.expect(c.inPorts.low).to.be.an 'object'
       chai.expect(c.inPorts.high).to.be.an 'object'
       chai.expect(c.inPorts.kernel).to.be.an 'object'
     it 'should have one output port', ->
-      chai.expect(c.outPorts.image).to.be.an 'object'
+      chai.expect(c.outPorts.canvas).to.be.an 'object'
