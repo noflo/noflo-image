@@ -7,10 +7,20 @@ class GetColors extends noflo.Component
   constructor: ->
 
     @outputCssColors = false
+    @quality = 10
+    @colors = 10
 
-    @inPorts =
-      canvas: new noflo.Port 'object'
-      css: new noflo.Port 'boolean'
+    @inPorts = new noflo.InPorts
+      canvas:
+        datatype: 'object'
+      css:
+        datatype: 'boolean'
+      colors:
+        datatype: 'number'
+        default: 10
+      quality:
+        datatype: 'number'
+        default: 10
     @outPorts =
       colors: new noflo.Port 'array'
       canvas: new noflo.Port 'object'
@@ -31,7 +41,7 @@ class GetColors extends noflo.Component
       pixels = context.getImageData(0, 0, canvas.width, canvas.height).data
       pixelCount = canvas.width*canvas.height
       try
-        colors = thief.getPaletteFromPixels pixels, pixelCount, 10, 10
+        colors = thief.getPaletteFromPixels pixels, pixelCount, @colors, @quality
         if @outputCssColors
           colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
       catch e
@@ -45,5 +55,9 @@ class GetColors extends noflo.Component
 
     @inPorts.css.on 'data', (boo) =>
       @outputCssColors = boo
+    @inPorts.colors.on 'data', (data) =>
+      @colors = data
+    @inPorts.quality.on 'data', (data) =>
+      @quality = data
 
 exports.getComponent = -> new GetColors
