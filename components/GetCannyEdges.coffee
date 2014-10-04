@@ -1,18 +1,6 @@
 noflo = require 'noflo'
 jsfeat = require 'jsfeat'
 
-if noflo.isBrowser()
-  requestAnimationFrame =
-    window.requestAnimationFrame       ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    window.oRequestAnimationFrame      ||
-    window.msRequestAnimationFrame     ||
-    (callback, element) ->
-      window.setTimeout( ->
-        callback(+new Date())
-      , 1000 / 60)
-
 class GetCannyEdges extends noflo.Component
   description: 'Canny edge detector.'
   icon: 'file-image-o'
@@ -21,18 +9,18 @@ class GetCannyEdges extends noflo.Component
     @low = 20
     @high = 50
     @kernel = 6
-    @image = null
+    @canvas = null
 
     @inPorts =
-      image: new noflo.Port 'object'
+      canvas: new noflo.Port 'object'
       low: new noflo.Port 'number'
       high: new noflo.Port 'number'
       kernel: new noflo.Port 'number'
     @outPorts =
-      image: new noflo.Port 'object'
+      canvas: new noflo.Port 'object'
 
-    @inPorts.image.on 'data', (image) =>
-      @image = image
+    @inPorts.canvas.on 'data', (canvas) =>
+      @canvas = canvas
       @computeCanny()
 
     @inPorts.low.on 'data', (low) =>
@@ -48,25 +36,12 @@ class GetCannyEdges extends noflo.Component
       @computeCanny()
 
   computeCanny: ->
-    return unless @outPorts.image.isAttached()
-    return unless @image
+    return unless @outPorts.canvas.isAttached()
+    return unless @canvas?
 
-    if @image.tagName? and @image.tagName is 'VIDEO'
-      requestAnimationFrame @computeCanny.bind(@)
-
-    image = @image
+    canvas = @canvas
     
-    if noflo.isBrowser()
-      canvas = document.createElement 'canvas'
-      canvas.width = image.width
-      canvas.height = image.height
-    else
-      Canvas = require 'canvas'
-      canvas = new Canvas image.width, image.height
-
     context = canvas.getContext '2d'
-    context.drawImage image, 0, 0
-
     img = context.getImageData 0, 0, canvas.width, canvas.height
 
     img_u8 = new jsfeat.matrix_t canvas.width, canvas.height, jsfeat.U8_t|jsfeat.C1_t
@@ -85,7 +60,7 @@ class GetCannyEdges extends noflo.Component
 
     context.putImageData img, 0, 0
 
-    @outPorts.image.send canvas
+    @outPorts.canvas.send canvas
 
 exports.getComponent = -> new GetCannyEdges
 

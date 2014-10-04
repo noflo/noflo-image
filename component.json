@@ -38,7 +38,9 @@
     "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
     "components/GetHistogram.coffee",
     "components/GetColors.coffee",
-    "components/GetCannyEdges.coffee"
+    "components/GetCannyEdges.coffee",
+    "components/ImageToCanvas.coffee",
+    "components/VideoToCanvas.coffee"
   ],
   "json": [
     "component.json",
@@ -57,8 +59,10 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure.coffee",
-      "ToFullscale": "components/ToFullscale.coffee"
+      "ToFullscale": "components/ToFullscale.coffee",
+      "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
       "UrlToCanvas": "graphs/UrlToCanvas.json"
