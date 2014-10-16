@@ -25,6 +25,7 @@ describe 'UrlToCanvas graph', ->
   describe 'with remote JPG image', ->
     url = 'http://farm8.staticflickr.com/7395/12952090783_ce023450da_b.jpg'
     it 'should have the correct group', (done) ->
+      @timeout 10000
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
