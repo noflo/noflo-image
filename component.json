@@ -37,7 +37,10 @@
     "spec/fixtures/noText/flickr-8132786781-small.jpg.corners.json",
     "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
     "components/GetHistogram.coffee",
-    "components/GetColors.coffee"
+    "components/GetColors.coffee",
+    "components/GetCannyEdges.coffee",
+    "components/ImageToCanvas.coffee",
+    "components/VideoToCanvas.coffee"
   ],
   "json": [
     "component.json",
@@ -51,12 +54,15 @@
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
+      "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure.coffee",
-      "ToFullscale": "components/ToFullscale.coffee"
+      "ToFullscale": "components/ToFullscale.coffee",
+      "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
       "UrlToCanvas": "graphs/UrlToCanvas.json"

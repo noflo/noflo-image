@@ -4,3 +4,4 @@
 /spec/fixtures/*/*.out
 /browser/
 /spec/*.xml
+.DS_Store
