@@ -17,40 +17,70 @@ class VideoToCanvas extends noflo.Component
   icon: 'file-image-o'
 
   constructor: ->
-    @image = null
+    @video = null
+    @lastTime = -1
+    @canvas = null
+    @context = null
+    @shutdownNextFrame = false
+    @rafLooping = false
 
-    @inPorts =
-      image: new noflo.Port 'object'
-    @outPorts =
-      canvas: new noflo.Port 'object'
+    @inPorts = new noflo.InPorts
+      video:
+        description: 'video element to draw to canvas'
+        datatype: 'object'
+        required: true
+      canvas:
+        description: '(optional) if not hit, component will create canvas'
+        datatype: 'object'
+        required: false
 
-    @inPorts.image.on 'data', (image) =>
-      @image = image
-      @videoToCanvas()
+    @outPorts = new noflo.OutPorts
+      canvas:
+        description: 'will send canvas with each video frame drawn'
+        datatype: 'object'
 
-  videoToCanvas: ->
-    return unless @outPorts.canvas.isAttached()
-    return unless @image
+    @inPorts.video.on 'data', (video) =>
+      return unless video?.tagName is 'VIDEO'
+      @video = video
+      @lastTime = -1
+      unless @rafLooping
+        @rafLooping = true
+        @videoToCanvas()
 
-    if @image.tagName? and @image.tagName is 'VIDEO'
-      requestAnimationFrame @videoToCanvas.bind(@)
+    @inPorts.canvas.on 'data', (canvas) =>
+      @canvas = canvas
+      @context = @canvas.getContext '2d'
 
-    image = @image
-    
-    if noflo.isBrowser()
-      canvas = document.createElement 'canvas'
-      canvas.width = image.width
-      canvas.height = image.height
+  videoToCanvas: =>
+    return if @shutdownNextFrame
+
+    requestAnimationFrame @videoToCanvas
+
+    unless @canvas
+      unless @video.videoWidth
+        # Metadata not loaded yet
+        return
+      if noflo.isBrowser()
+        @canvas = document.createElement 'canvas'
+        @canvas.width = @video.videoWidth
+        @canvas.height = @video.videoHeight
+      else
+        Canvas = require 'canvas'
+        @canvas = new Canvas @video.videoWidth, @video.videoHeight
+      @context = @canvas.getContext '2d'
+
+    if @lastTime is @video.currentTime
+      # Frame hasn't advanced
+      return
     else
-      Canvas = require 'canvas'
-      canvas = new Canvas image.width, image.height
+      @lastTime = @video.currentTime
 
-    context = canvas.getContext '2d'
-    context.drawImage image, 0, 0
+    @context.drawImage @video, 0, 0
 
-    @outPorts.canvas.send canvas
+    if @outPorts.canvas.isAttached()
+      @outPorts.canvas.send @canvas
+
+  shutdown: =>
+    @shutdownNextFrame = true
 
 exports.getComponent = -> new VideoToCanvas
-
-
-
