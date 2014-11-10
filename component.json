@@ -70,11 +70,8 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
-<<<<<<< HEAD
       "GetPresetCurve": "components/GetPresetCurve.coffee",
-=======
       "ImageToCanvas": "components/ImageToCanvas.coffee",
->>>>>>> upstream/master
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee",
       "VideoToCanvas": "components/VideoToCanvas.coffee"
