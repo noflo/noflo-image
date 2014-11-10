@@ -55,8 +55,10 @@ describe 'GetColors component', ->
     c.outPorts.canvas.attach canvas
 
   describe 'when instantiated', ->
-    it 'should have an input port', ->
+    it 'should have a input ports', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
+      chai.expect(c.inPorts.quality).to.be.an 'object'
+      chai.expect(c.inPorts.colors).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.colors).to.be.an 'object'
       chai.expect(c.outPorts.canvas).to.be.an 'object'

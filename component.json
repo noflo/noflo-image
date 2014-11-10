@@ -44,6 +44,9 @@
     "components/AdjustSaturation.coffee",
     "components/ApplyVignette.coffee",
     "components/AdjustContrast.coffee"
+    "components/GetCannyEdges.coffee",
+    "components/ImageToCanvas.coffee",
+    "components/VideoToCanvas.coffee"
   ],
   "json": [
     "component.json",
@@ -62,13 +65,19 @@
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
+      "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+<<<<<<< HEAD
       "GetPresetCurve": "components/GetPresetCurve.coffee",
+=======
+      "ImageToCanvas": "components/ImageToCanvas.coffee",
+>>>>>>> upstream/master
       "Measure": "components/Measure.coffee",
-      "ToFullscale": "components/ToFullscale.coffee"
+      "ToFullscale": "components/ToFullscale.coffee",
+      "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
       "UrlToCanvas": "graphs/UrlToCanvas.json"
