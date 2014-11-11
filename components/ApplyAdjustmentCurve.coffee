@@ -24,13 +24,18 @@ exports.getComponent = ->
     return unless c.outPorts.canvas.isAttached()
     return unless c.curve? and c.image?
 
-    # From the original created by TechSlides at http://techslides.com
-    # Instagram filter from http://matthewruddy.github.io/jQuery-filter.me
-    canvas = document.createElement 'canvas'
-    width = canvas.width = c.image.width
-    height = canvas.height = c.image.height
     image = c.image
     curve = c.curve
+
+    # From the original created by TechSlides at http://techslides.com
+    # Instagram filter from http://matthewruddy.github.io/jQuery-filter.me
+    if noflo.isBrowser()
+      canvas = document.createElement 'canvas'
+      width = canvas.width = image.width
+      height = canvas.height = image.height
+    else
+      Canvas = require 'canvas'
+      canvas = new Canvas image.width, image.height
 
     ctx = canvas.getContext '2d'
     ctx.drawImage image, 0, 0
