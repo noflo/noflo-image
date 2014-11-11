@@ -40,7 +40,13 @@
     "components/GetColors.coffee",
     "components/GetCannyEdges.coffee",
     "components/ImageToCanvas.coffee",
-    "components/VideoToCanvas.coffee"
+    "components/VideoToCanvas.coffee",
+    "components/AdjustBrightness.coffee",
+    "components/AdjustContrast.coffee",
+    "components/AdjustSaturation.coffee",
+    "components/ApplyAdjustmentCurve.coffee",
+    "components/ApplyVignette.coffee",
+    "components/GetPresetCurve.coffee"
   ],
   "json": [
     "component.json",
@@ -51,6 +57,11 @@
   ],
   "noflo": {
     "components": {
+      "AdjustBrightness": "components/AdjustBrightness.coffee",
+      "AdjustContrast": "components/AdjustContrast.coffee",
+      "AdjustSaturation": "components/AdjustSaturation.coffee",
+      "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
+      "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
@@ -59,6 +70,7 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "GetPresetCurve": "components/GetPresetCurve.coffee",
       "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee",
