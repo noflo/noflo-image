@@ -3,7 +3,7 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repo": "noflo/noflo-image",
-  "version": "0.0.18",
+  "version": "0.0.17",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
@@ -38,6 +38,12 @@
     "spec/fixtures/textRegion/3010029968_02742a1aec_b.jpg.corners.json",
     "components/GetHistogram.coffee",
     "components/GetColors.coffee",
+    "components/ApplyAdjustmentCurve.coffee",
+    "components/GetPresetCurve.coffee",
+    "components/AdjustBrightness.coffee",
+    "components/AdjustSaturation.coffee",
+    "components/ApplyVignette.coffee",
+    "components/AdjustContrast.coffee"
     "components/GetCannyEdges.coffee",
     "components/ImageToCanvas.coffee",
     "components/VideoToCanvas.coffee"
@@ -51,6 +57,11 @@
   ],
   "noflo": {
     "components": {
+      "AdjustBrightness": "components/AdjustBrightness.coffee",
+      "AdjustContrast": "components/AdjustContrast.coffee",
+      "AdjustSaturation": "components/AdjustSaturation.coffee",
+      "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
+      "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
@@ -59,6 +70,7 @@
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
+      "GetPresetCurve": "components/GetPresetCurve.coffee",
       "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure.coffee",
       "ToFullscale": "components/ToFullscale.coffee",
