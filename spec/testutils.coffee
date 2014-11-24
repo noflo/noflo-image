@@ -47,8 +47,19 @@ getData = (name, def) ->
 writeOut = (path, data) ->
   path = 'spec/fixtures/'+path
   unless noflo.isBrowser()
-      fs.writeFileSync path, JSON.stringify data
+    fs.writeFileSync path, JSON.stringify data
+
+writePNG = (path, canvas) ->
+  path = 'spec/fixtures/'+path
+  out = fs.createWriteStream path
+  unless noflo.isBrowser()
+    stream = canvas.pngStream()
+    stream.on 'data', (chunk) ->
+      out.write(chunk);
+    stream.on 'end', () ->
+      console.log 'Saved PNG file'
 
 exports.getData = getData
 exports.writeOut = writeOut
+exports.writePNG = writePNG
 exports.getCanvasWithImage = getCanvasWithImage
