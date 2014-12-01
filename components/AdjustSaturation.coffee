@@ -5,12 +5,12 @@ exports.getComponent = ->
   c.description = 'Adjust saturation level of a given image.'
   c.icon = 'file-image-o'
 
-  c.image = null
-  c.level = 1.0
+  c.canvas = null
+  c.level = 100.0
 
-  c.inPorts.add 'image', (event, payload) ->
+  c.inPorts.add 'canvas', (event, payload) ->
     return unless event is 'data'
-    c.image = payload
+    c.canvas = payload
     c.computeFilter()
 
   c.inPorts.add 'level', (event, payload) ->
@@ -22,17 +22,17 @@ exports.getComponent = ->
 
   c.computeFilter = ->
     return unless c.outPorts.canvas.isAttached()
-    return unless c.level? and c.image?
+    return unless c.level? and c.canvas?
 
-    canvas = document.createElement 'canvas'
-    width = canvas.width = c.image.width
-    height = canvas.height = c.image.height
-    image = c.image
+    canvas = c.canvas
     level = c.level
 
     ctx = canvas.getContext '2d'
-    ctx.drawImage image, 0, 0
+    width = canvas.width
+    height = canvas.height
+
     imageData = ctx.getImageData 0, 0, width, height
+
     data = imageData.data
 
     level *= -0.01

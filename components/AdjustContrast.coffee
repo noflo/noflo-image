@@ -5,12 +5,18 @@ exports.getComponent = ->
   c.description = 'Adjust contrast level of a given image.'
   c.icon = 'file-image-o'
 
-  c.image = null
-  c.level = 1
+  c.canvas = null
+  c.level = 1.0
 
-  c.inPorts.add 'image', (event, payload) ->
+  c.inPorts.add 'canvas', (event, payload) ->
+    if event is 'begingroup'
+      c.outPorts.canvas.beginGroup payload
+    if event is 'endgroup'
+      c.outPorts.canvas.endGroup()
+    if event is 'disconnect'
+      c.outPorts.canvas.disconnect()
     return unless event is 'data'
-    c.image = payload
+    c.canvas = payload
     c.computeFilter()
 
   c.inPorts.add 'level', (event, payload) ->
@@ -22,20 +28,20 @@ exports.getComponent = ->
 
   c.computeFilter = ->
     return unless c.outPorts.canvas.isAttached()
-    return unless c.level? and c.image?
+    return unless c.level? and c.canvas?
 
-    canvas = document.createElement 'canvas'
-    width = canvas.width = c.image.width
-    height = canvas.height = c.image.height
-    image = c.image
+    canvas = c.canvas
     level = c.level
 
     ctx = canvas.getContext '2d'
-    ctx.drawImage image, 0, 0
+    width = canvas.width
+    height = canvas.height
+
     imageData = ctx.getImageData 0, 0, width, height
+
     data = imageData.data
 
-    level = (parseFloat(level) or 0) + 1
+    level = (parseFloat(level) or 0) + 1.0
  
     for i in [0...data.length] by 4
       data[i] = ((((data[i] / 255) - 0.5) * level) + 0.5) * 255

@@ -5,28 +5,27 @@ exports.getComponent = ->
   c.description = 'Apply a vignette effect to a given image.'
   c.icon = 'file-image-o'
 
-  c.image = null
+  c.canvas = null
 
-  c.inPorts.add 'image', (event, payload) ->
+  c.inPorts.add 'canvas', (event, payload) ->
     return unless event is 'data'
-    c.image = payload
+    c.canvas = payload
     c.computeEffect()
 
   c.outPorts.add 'canvas'
 
   c.computeEffect = ->
     return unless c.outPorts.canvas.isAttached()
-    return unless c.image?
+    return unless c.canvas?
 
-    canvas = document.createElement 'canvas'
-    width = canvas.width = c.image.width
-    height = canvas.height = c.image.height
-    image = c.image
-    level = c.level
+    canvas = c.canvas
 
     ctx = canvas.getContext '2d'
-    ctx.drawImage image, 0, 0
+    width = canvas.width
+    height = canvas.height
+
     imageData = ctx.getImageData 0, 0, width, height
+
     data = imageData.data
 
     outerRadius = Math.sqrt(Math.pow(width/2, 2) + Math.pow(height/2, 2))

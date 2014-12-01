@@ -6,11 +6,17 @@ exports.getComponent = ->
   c.icon = 'file-image-o'
 
   c.curve = null
-  c.image = null
+  c.canvas = null
 
-  c.inPorts.add 'image', (event, payload) ->
+  c.inPorts.add 'canvas', (event, payload) ->
+    if event is 'begingroup'
+      c.outPorts.canvas.beginGroup payload
+    if event is 'endgroup'
+      c.outPorts.canvas.endGroup()
+    if event is 'disconnect'
+      c.outPorts.canvas.disconnect()
     return unless event is 'data'
-    c.image = payload
+    c.canvas = payload
     c.computeFilter()
 
   c.inPorts.add 'curve', (event, payload) ->
@@ -22,26 +28,19 @@ exports.getComponent = ->
 
   c.computeFilter = ->
     return unless c.outPorts.canvas.isAttached()
-    return unless c.curve? and c.image?
+    return unless c.curve? and c.canvas?
 
-    image = c.image
+    canvas = c.canvas
     curve = c.curve
-
-    # From the original created by TechSlides at http://techslides.com
-    # Instagram filter from http://matthewruddy.github.io/jQuery-filter.me
-    if noflo.isBrowser()
-      canvas = document.createElement 'canvas'
-      width = canvas.width = image.width
-      height = canvas.height = image.height
-    else
-      Canvas = require 'canvas'
-      canvas = new Canvas image.width, image.height
+    width = canvas.width
+    height = canvas.height
 
     ctx = canvas.getContext '2d'
-    ctx.drawImage image, 0, 0
     imageData = ctx.getImageData 0, 0, width, height
     data = imageData.data
 
+    # From the original created by TechSlides at http://techslides.com
+    # Instagram filter from http://matthewruddy.github.io/jQuery-filter.me
     for i in [0...data.length] by 4
       # Apply the color R, G, B values to each individual pixel
       data[i] = curve.r[data[i]]
