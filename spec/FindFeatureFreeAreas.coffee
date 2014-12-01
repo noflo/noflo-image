@@ -179,7 +179,7 @@ describe 'FindFeatureFreeAreas component', ->
         groups.push group
       areas.once "data", (regions) ->
         chai.expect(regions).to.be.an 'array'
-        console.log(regions)
+        # console.log(regions)
         chai.expect(regions).to.have.length expected.length
         chai.expect(regions[0]).to.be.an 'object'
         chai.expect(regions[0]).to.have.property 'x'
