@@ -35,6 +35,13 @@ getCanvasWithImage = (name, callback) ->
     callback canvas
   return id
 
+getCanvasWithImageNoShift = (name, callback) ->
+  id = getImageData name, (img) ->
+    canvas = createCanvas img.width, img.height
+    canvas.getContext('2d').drawImage img, 0, 0
+    callback canvas
+  return id
+
 getData = (name, def) ->
   p = './fixtures/' + name
   try  
@@ -42,7 +49,6 @@ getData = (name, def) ->
   catch err
     console.log 'WARN: getData():', err.message
     return def || {}
-  
 
 writeOut = (path, data) ->
   path = 'spec/fixtures/'+path
@@ -55,11 +61,12 @@ writePNG = (path, canvas) ->
   unless noflo.isBrowser()
     stream = canvas.pngStream()
     stream.on 'data', (chunk) ->
-      out.write(chunk);
+      out.write(chunk)
     stream.on 'end', () ->
-      console.log 'Saved PNG file'
+      console.log 'Saved PNG file in', path
 
 exports.getData = getData
 exports.writeOut = writeOut
 exports.writePNG = writePNG
 exports.getCanvasWithImage = getCanvasWithImage
+exports.getCanvasWithImageNoShift = getCanvasWithImageNoShift
