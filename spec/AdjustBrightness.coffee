@@ -50,7 +50,9 @@ describe 'AdjustBrightness component', ->
           refData = refCtx.getImageData(0, 0, ref.width, ref.height).data
           
           for x in [0...resData.length] by 4
-            chai.expect(resData[x]).to.equal refData[x]
+            difference = Math.abs(refData[x]-resData[x])
+            threshold = 1.5
+            chai.expect(difference).to.be.at.most threshold
           done()
 
       inSrc = 'original.jpg'
