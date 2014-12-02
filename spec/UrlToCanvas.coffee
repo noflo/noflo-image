@@ -13,7 +13,7 @@ describe 'UrlToCanvas graph', ->
   beforeEach (done) ->
     @timeout 10000
     loader = new noflo.ComponentLoader baseDir
-    loader.load 'image/UrlToCanvas', (instance) ->
+    loader.load 'image/UrlToCanvas', (err, instance) ->
       c = instance
       c.once 'ready', ->
         ins = noflo.internalSocket.createSocket()

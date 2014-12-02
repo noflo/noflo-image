@@ -126,7 +126,7 @@ findRegions = (corners, bounds, seg) ->
   else
     segments = { x: Math.floor(seg*(bounds.h/bounds.w)), y: seg }
   
-  console.log segments
+  #console.log segments
   threshold = 1
   indices = spatialSortedIndices corners
 
@@ -162,13 +162,13 @@ class FindFeatureFreeAreas extends noflo.Component
       corners: new noflo.Port 'array'
 
     @inPorts.width.on 'data', (data) =>
-      console.log 'width', data
+      #console.log 'width', data
       @width = data
     @inPorts.height.on 'data', (data) =>
-      console.log 'height', data
+      #console.log 'height', data
       @height = data
     @inPorts.segments.on 'data', (data) =>
-      console.log 'segments', data
+      #console.log 'segments', data
       @segments = data
 
     @inPorts.corners.on 'begingroup', (group) =>
@@ -183,7 +183,7 @@ class FindFeatureFreeAreas extends noflo.Component
     @inPorts.corners.on 'data', (corners) =>
       b = { w: @width, h: @height }
       s = @segments
-      console.log b, s
+      #console.log b, s
       regions = findRegions corners, b, s
       @outPorts.areas.send regions
       @outPorts.corners.send corners
