@@ -1,7 +1,7 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   fs = require 'fs'
-  Canvas = require 'canvas'
+  Canvas = require('noflo-canvas').canvas
 
 createCanvas = (width, height) ->
   if noflo.isBrowser()
@@ -9,7 +9,7 @@ createCanvas = (width, height) ->
     canvas.width = width
     canvas.height = height
   else
-    Canvas = require 'canvas'
+    Canvas = require('noflo-canvas').canvas
     canvas = new Canvas width, height
   return canvas
 

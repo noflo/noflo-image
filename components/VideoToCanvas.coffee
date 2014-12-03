@@ -65,7 +65,7 @@ class VideoToCanvas extends noflo.Component
         @canvas.width = @video.videoWidth
         @canvas.height = @video.videoHeight
       else
-        Canvas = require 'canvas'
+        Canvas = require('noflo-canvas').canvas
         @canvas = new Canvas @video.videoWidth, @video.videoHeight
       @context = @canvas.getContext '2d'
 

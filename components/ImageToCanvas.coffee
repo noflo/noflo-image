@@ -27,7 +27,7 @@ class ImageToCanvas extends noflo.Component
       canvas.width = image.width
       canvas.height = image.height
     else
-      Canvas = require 'canvas'
+      Canvas = require('noflo-canvas').canvas
       canvas = new Canvas image.width, image.height
 
     context = canvas.getContext '2d'

@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-Canvas = require 'canvas'
+Canvas = require('noflo-canvas').canvas
 Image = Canvas.Image
 urlUtil = require 'url'
 request = require 'request'
