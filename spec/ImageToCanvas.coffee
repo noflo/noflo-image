@@ -27,16 +27,15 @@ describe 'ImageToCanvas component', ->
       chai.expect(c.outPorts.canvas).to.be.an 'object'
 
   describe 'with local JPG image', ->
-    unless noflo.isBrowser()
-      it 'should make a canvas with the correct size', (done) ->
-        @timeout 2000
-        outCanvas.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
-          chai.expect(data.width).to.equal 1024
-          chai.expect(data.height).to.equal 681
-          done()
+    it 'should make a canvas with the correct size', (done) ->
+      @timeout 2000
+      outCanvas.once 'data', (data) ->
+        chai.expect(data).to.be.an 'object'
+        chai.expect(data.width).to.equal 1024
+        chai.expect(data.height).to.equal 681
+        done()
 
-        url = 'textRegion/3010029968_02742a1aec_b.jpg'
-        id = testutils.getCanvasWithImage url, (image) ->
-          inImage.send image
+      url = 'textRegion/3010029968_02742a1aec_b.jpg'
+      id = testutils.getCanvasWithImage url, (image) ->
+        inImage.send image
   

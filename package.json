@@ -20,7 +20,6 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "canvas": "~1.1.1",
     "color-thief": "git://github.com/jonnor/color-thief.git#master",
     "image-size": "^0.2.1",
     "jsfeat": "0.0.4",
