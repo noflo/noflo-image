@@ -61,6 +61,14 @@ class CreateImage extends noflo.AsyncComponent
           img.src = image
 
     urlOptions = urlUtil.parse url
+    if urlOptions.protocol is 'data:'
+      img = new Image
+      img.onload = () ->
+        onLoad null, img
+      img.onerror = (err) ->
+        onError err, null
+      img.src = url
+      return
     if urlOptions.protocol
       # Remote image
       tmpFile = new temporary.File
@@ -89,9 +97,9 @@ class CreateImage extends noflo.AsyncComponent
           tmpFile.unlink()
           onError e
       @inFlight[url] = req
-    else
-      # Local image
-      loadFile url
+      return
+    # Local image
+    loadFile url
 
   shutdown: ->
     for url, req of @inFlight
