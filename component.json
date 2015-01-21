@@ -7,7 +7,7 @@
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
-    "visionmedia/superagent": "*",
+    "visionmedia/superagent": "0.21.0",
     "noflo/noflo-canvas": "*",
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",
