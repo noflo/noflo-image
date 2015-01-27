@@ -17,6 +17,8 @@ class GetColors extends noflo.Component
       colors:
         datatype: 'number'
         default: 10
+      quality:
+        description: 'deprecated'
     @outPorts =
       colors: new noflo.Port 'array'
       canvas: new noflo.Port 'object'
@@ -58,5 +60,7 @@ class GetColors extends noflo.Component
       @outputCssColors = boo
     @inPorts.colors.on 'data', (data) =>
       @colors = data
+    @inPorts.quality.on 'data', (data) =>
+      console.warn 'the quality inport is deprecated'
 
 exports.getComponent = -> new GetColors
