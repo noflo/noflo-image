@@ -20,7 +20,6 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "color-thief": "git://github.com/jonnor/color-thief.git#master",
     "rgbquant": "git://github.com/forresto/RgbQuant.js.git#master",
     "image-size": "^0.2.1",
     "jsfeat": "0.0.4",
