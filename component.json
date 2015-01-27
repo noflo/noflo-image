@@ -2,8 +2,8 @@
   "name": "noflo-image",
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
-  "repo": "noflo/noflo-image",
-  "version": "0.0.19",
+  "repository": "noflo/noflo-image",
+  "version": "0.0.21",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
