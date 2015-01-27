@@ -1,8 +1,6 @@
 {
     "properties": {
         "name": "UrlToCanvas",
-        "id": "UrlToCanvas",
-        "project": "url2can",
         "environment": {
             "type": "all"
         }
@@ -13,7 +11,9 @@
             "port": "url",
             "metadata": {
                 "x": 36,
-                "y": 360
+                "y": 144,
+                "width": 72,
+                "height": 72
             }
         },
         "crossorigin": {
@@ -21,7 +21,9 @@
             "port": "crossorigin",
             "metadata": {
                 "x": 36,
-                "y": 400
+                "y": 288,
+                "width": 72,
+                "height": 72
             }
         }
     },
@@ -31,7 +33,9 @@
             "port": "canvas",
             "metadata": {
                 "x": 828,
-                "y": 180
+                "y": 180,
+                "width": 72,
+                "height": 72
             }
         },
         "error": {
@@ -39,7 +43,9 @@
             "port": "error",
             "metadata": {
                 "x": 828,
-                "y": 504
+                "y": 360,
+                "width": 72,
+                "height": 72
             }
         }
     },
@@ -50,7 +56,9 @@
             "metadata": {
                 "label": "canvas/Draw",
                 "x": 684,
-                "y": 180
+                "y": 180,
+                "width": 72,
+                "height": 72
             }
         },
         "drawImage": {
@@ -58,7 +66,9 @@
             "metadata": {
                 "label": "drawImage",
                 "x": 504,
-                "y": 144
+                "y": 180,
+                "width": 72,
+                "height": 72
             }
         },
         "img": {
@@ -66,7 +76,9 @@
             "metadata": {
                 "label": "img",
                 "x": 180,
-                "y": 216
+                "y": 216,
+                "width": 72,
+                "height": 72
             }
         },
         "canvas": {
@@ -74,23 +86,29 @@
             "metadata": {
                 "label": "canvas",
                 "x": 504,
-                "y": 360
+                "y": 360,
+                "width": 72,
+                "height": 72
             }
         },
         "w": {
             "component": "objects/ExtractProperty",
             "metadata": {
                 "label": "w",
-                "x": 360,
-                "y": 360
+                "x": 324,
+                "y": 288,
+                "width": 72,
+                "height": 72
             }
         },
         "h": {
             "component": "objects/ExtractProperty",
             "metadata": {
                 "label": "h",
-                "x": 360,
-                "y": 252
+                "x": 324,
+                "y": 396,
+                "width": 72,
+                "height": 72
             }
         },
         "core/RepeatAsync_u0yan": {
@@ -98,7 +116,9 @@
             "metadata": {
                 "label": "core/RepeatAsync",
                 "x": 504,
-                "y": 36
+                "y": 36,
+                "width": 72,
+                "height": 72
             }
         }
     },
@@ -111,8 +131,7 @@
             "tgt": {
                 "process": "drawImage",
                 "port": "image"
-            },
-            "metadata": {}
+            }
         },
         {
             "src": {
@@ -122,8 +141,7 @@
             "tgt": {
                 "process": "canvas",
                 "port": "width"
-            },
-            "metadata": {}
+            }
         },
         {
             "src": {
@@ -133,8 +151,7 @@
             "tgt": {
                 "process": "canvas",
                 "port": "height"
-            },
-            "metadata": {}
+            }
         },
         {
             "src": {
@@ -170,8 +187,7 @@
             "tgt": {
                 "process": "canvas/Draw_n4cqh",
                 "port": "commands"
-            },
-            "metadata": {}
+            }
         },
         {
             "src": {
@@ -181,8 +197,7 @@
             "tgt": {
                 "process": "canvas/Draw_n4cqh",
                 "port": "canvas"
-            },
-            "metadata": {}
+            }
         },
         {
             "src": {
@@ -205,8 +220,7 @@
             "tgt": {
                 "process": "canvas/Draw_n4cqh",
                 "port": "tick"
-            },
-            "metadata": {}
+            }
         },
         {
             "data": "width",
