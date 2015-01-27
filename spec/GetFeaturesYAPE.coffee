@@ -41,6 +41,7 @@ describe 'GetFeaturesYAPE component', ->
 
       describe testcase, ->
           describe 'when passed a canvas', ->
+            @timeout 3000
             input = testcase
             ref = testcase+'.corners.json'
             expected = (testutils.getData ref, {corners: []}).corners

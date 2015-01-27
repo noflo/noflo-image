@@ -11,7 +11,7 @@ describe 'UrlToCanvas graph', ->
   ins = null
   out = null
   beforeEach (done) ->
-    @timeout 10000
+    @timeout 5000
     loader = new noflo.ComponentLoader baseDir
     loader.load 'image/UrlToCanvas', (err, instance) ->
       c = instance
