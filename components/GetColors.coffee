@@ -60,7 +60,7 @@ class GetColors extends noflo.Component
       @outputCssColors = boo
     @inPorts.colors.on 'data', (data) =>
       @colors = data
-    @inPorts.quality.on 'data', (data) =>
+    @inPorts.quality.on 'data', (data) ->
       console.warn 'the quality inport is deprecated'
 
 exports.getComponent = -> new GetColors
