@@ -19,7 +19,7 @@ createCanvas = (width, height) ->
 
 getImageData = (name, callback) ->
   if noflo.isBrowser()
-    id = 'http://localhost:9000/spec/fixtures/'+name
+    id = 'http://localhost:8000/spec/fixtures/'+name
     image = new Image()
     image.onload = ->
       callback image
@@ -56,7 +56,6 @@ describe 'GetColors component', ->
   describe 'when instantiated', ->
     it 'should have a input ports', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
-      chai.expect(c.inPorts.quality).to.be.an 'object'
       chai.expect(c.inPorts.colors).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.colors).to.be.an 'object'
@@ -65,15 +64,16 @@ describe 'GetColors component', ->
   describe 'when passed a canvas', ->
     input = 'colorful-octagon.png'
     expected = [
-      [ 4, 251, 251 ]
-      [ 251, 4,  4 ]
-      [ 251,  251, 4 ]
-      [  4, 4, 251 ]
-      [ 251, 4, 251 ]
-      [ 4, 251, 4 ]
-      [ 4, 4, 4 ]
-      [ 221, 221, 218 ]
-      [ 52, 52, 4 ]
+      [0, 0, 0]
+      [255, 0, 0]
+      [255, 255, 0]
+      [0, 0, 255]
+      [0, 255, 255]
+      [0, 255, 0]
+      [255, 0, 255]
+      [255, 255, 255]
+      [0, 95, 95]
+      [156, 156, 0]
     ]
     it 'should extract the prominent colors', (done) ->
       id = null
@@ -119,15 +119,16 @@ describe 'GetColors component', ->
     input = 'colorful-octagon.png'
 
     expected = [
-      "rgb(4, 251, 251)"
-      "rgb(251, 4, 4)"
-      "rgb(251, 251, 4)"
-      "rgb(4, 4, 251)"
-      "rgb(251, 4, 251)"
-      "rgb(4, 251, 4)"
-      "rgb(4, 4, 4)"
-      "rgb(221, 221, 218)"
-      "rgb(52, 52, 4)"
+      "rgb(0, 0, 0)"
+      "rgb(255, 0, 0)"
+      "rgb(255, 255, 0)"
+      "rgb(0, 0, 255)"
+      "rgb(0, 255, 255)"
+      "rgb(0, 255, 0)"
+      "rgb(255, 0, 255)"
+      "rgb(255, 255, 255)"
+      "rgb(0, 95, 95)"
+      "rgb(156, 156, 0)"
     ]
     it 'should extract the colors and output css strings', (done) ->
       colors.once "data", (colors) ->

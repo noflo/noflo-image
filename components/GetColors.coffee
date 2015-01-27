@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-ColorThief = require 'color-thief'
+RgbQuant = require 'rgbquant'
 
 class GetColors extends noflo.Component
   description: 'Extract the dominant colors of an image'
@@ -7,7 +7,6 @@ class GetColors extends noflo.Component
   constructor: ->
 
     @outputCssColors = false
-    @quality = 10
     @colors = 10
 
     @inPorts = new noflo.InPorts
@@ -16,9 +15,6 @@ class GetColors extends noflo.Component
       css:
         datatype: 'boolean'
       colors:
-        datatype: 'number'
-        default: 10
-      quality:
         datatype: 'number'
         default: 10
     @outPorts =
@@ -36,12 +32,17 @@ class GetColors extends noflo.Component
       @outPorts.colors.disconnect()
       @outPorts.canvas.disconnect()
     @inPorts.canvas.on 'data', (canvas) =>
-      thief = new ColorThief
-      context = canvas.getContext '2d'
-      pixels = context.getImageData(0, 0, canvas.width, canvas.height).data
-      pixelCount = canvas.width*canvas.height
       try
-        colors = thief.getPaletteFromPixels pixels, pixelCount, @colors, @quality
+        quant = new RgbQuant
+          colors: @colors
+          method: 1
+          initColors: 4096
+        # analyze histograms
+        quant.sample(canvas)
+        # build palette
+        outputTuples = true
+        noSort = true
+        colors = quant.palette outputTuples, noSort
         if @outputCssColors
           colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
       catch e
@@ -57,7 +58,5 @@ class GetColors extends noflo.Component
       @outputCssColors = boo
     @inPorts.colors.on 'data', (data) =>
       @colors = data
-    @inPorts.quality.on 'data', (data) =>
-      @quality = data
 
 exports.getComponent = -> new GetColors
