@@ -16,7 +16,7 @@
     "noflo/noflo-dom": "*",
     "noflo/noflo-ajax": "*",
     "jonnor/jsfeat": "*",
-    "forresto/RgbQuant.js": "*"
+    "leeoniya/RgbQuant.js": "*"
   },
   "remotes": [
     "https://raw.githubusercontent.com"
