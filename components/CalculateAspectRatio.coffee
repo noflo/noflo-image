@@ -17,13 +17,13 @@ exports.getComponent = ->
           return unless packet.width or packet.height
           divisor = gcd packet.width, packet.height
           c.outPorts.ratio.send
-            ratio: "#{packet.width/divisor}:#{packet.height/divisor}"
+            ratio: [packet.width/divisor, packet.height/divisor]
         when 'endgroup'
           c.outPorts.ratio.endGroup()
         when 'disconnect'
           c.outPorts.ratio.disconnect()
 
   c.outPorts.add 'ratio',
-    datatype: 'object'
+    datatype: 'array'
 
   c
