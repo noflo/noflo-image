@@ -1,7 +1,7 @@
 {
   "name": "noflo-image",
   "description": "Image processing utilities for browser and Node.js NoFlo.",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "author": {
     "name": "Forrest Oliphant",
     "email": "forrest@sembiki.com"
