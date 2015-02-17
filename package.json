@@ -61,6 +61,7 @@
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
+      "GetColorsFromRectangles": "components/GetColorsFromRectangles.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",

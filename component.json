@@ -46,7 +46,8 @@
     "components/AdjustSaturation.coffee",
     "components/ApplyAdjustmentCurve.coffee",
     "components/ApplyVignette.coffee",
-    "components/GetPresetCurve.coffee"
+    "components/GetPresetCurve.coffee",
+    "components/GetColorsFromRectangles.coffee"
   ],
   "json": [
     "component.json",
@@ -67,6 +68,7 @@
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
+      "GetColorsFromRectangles": "components/GetColorsFromRectangles.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
