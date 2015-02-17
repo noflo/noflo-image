@@ -1,6 +1,5 @@
 noflo = require 'noflo'
 RgbQuant = require 'rgbquant'
-Canvas = require('noflo-canvas').canvas
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -30,7 +29,13 @@ exports.getComponent = ->
 
     pieces = []
     for r in rect
-      piece = new Canvas r.width, r.height
+      if noflo.isBrowser()
+        piece = document.createElement 'canvas'
+        piece.width = r.width
+        piece.height = r.height
+      else
+        Canvas = require('noflo-canvas').canvas
+        piece = new Canvas r.width, r.height
       ctx = piece.getContext '2d'
       ctx.drawImage canvas, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height
       pieces.push piece
