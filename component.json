@@ -48,7 +48,8 @@
     "components/ApplyVignette.coffee",
     "components/GetPresetCurve.coffee",
     "components/GetColorsFromRectangles.coffee",
-    "components/FindFreeRectangles.coffee"
+    "components/FindFreeRectangles.coffee",
+    "components/GetColorsFromCentroids.coffee"
   ],
   "json": [
     "component.json",
@@ -70,6 +71,7 @@
       "FindFreeRectangles": "components/FindFreeRectangles.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
+      "GetColorsFromCentroids": "components/GetColorsFromCentroids.coffee",
       "GetColorsFromRectangles": "components/GetColorsFromRectangles.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
