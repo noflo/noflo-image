@@ -15,7 +15,6 @@ getColorFromPath = (imageData, width, path) ->
 
   # Get color from canvas data
   offset = (centroid.x + centroid.y * width) * 4
-  console.log path.items, n, centroid
   r = imageData.data[offset]
   g = imageData.data[offset+1]
   b = imageData.data[offset+2]
