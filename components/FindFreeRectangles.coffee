@@ -153,15 +153,19 @@ exports.getComponent = ->
     datatype: 'array'
   c.inPorts.add 'threshold',
     datatype: 'number'
+    required: yes
   c.inPorts.add 'max',
     datatype: 'number'
+    required: yes
 
   noflo.helpers.WirePattern c,
-    in: ['canvas', 'polygon', 'threshold', 'max']
+    in: ['canvas', 'polygon']
+    params: ['threshold', 'max']
     out: 'out'
     forwardGroups: true
   , (payload, groups, out, callback) ->
-    {canvas, polygon, threshold, max} = payload
+    {canvas, polygon} = payload
+    {threshold, max} = c.params
 
     validRects = compute canvas, polygon, threshold, max
 

@@ -17,15 +17,19 @@ exports.getComponent = ->
     datatype: 'array'
   c.inPorts.add 'css',
     datatype: 'boolean'
+    required: yes
   c.inPorts.add 'colors',
     datatype: 'number'
+    required: yes
 
   noflo.helpers.WirePattern c,
-    in: ['canvas', 'rect', 'css', 'colors']
+    in: ['canvas', 'rect']
+    params: ['css', 'colors']
     out: ['out', 'error']
     forwardGroups: true
   , (payload, groups, outs, callback) ->
-    {colors, css, canvas, rect} = payload
+    {canvas, rect} = payload
+    {css, colors} = c.params
 
     pieces = []
     for r in rect
@@ -56,7 +60,6 @@ exports.getComponent = ->
 
         piecesColors.push extractedColors
     catch e
-      console.log outs.error, e
       return unless outs.error.isAttached()
       outs.error.send e
       outs.error.disconnect()
