@@ -45,6 +45,7 @@ describe 'GetColorsFromRectangles component', ->
       { type: 'rectangle', x: 490, y: 172, width: 70, height: 230 },
       { type: 'rectangle', x: 0, y: 0, width: 160, height: 160 }
     ]
+
     it 'should extract colors from the rectangles', (done) ->
       @timeout 20000
       id = 1
@@ -63,7 +64,7 @@ describe 'GetColorsFromRectangles component', ->
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         ins.beginGroup id
         rect.send someRects
-        css.send true
-        colors.send 3
+        css.send false
+        colors.send 10
         ins.send c
         ins.endGroup()

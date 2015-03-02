@@ -31,17 +31,19 @@ exports.getComponent = ->
     {canvas, rect} = payload
     {css, colors} = c.params
 
+    # Stiching pieces to 200x200 for now
+    if noflo.isBrowser()
+      piece = document.createElement 'canvas'
+      piece.width = 200
+      piece.height = 200
+    else
+      Canvas = require('noflo-canvas').canvas
+      piece = new Canvas 200, 200
+    ctx = piece.getContext '2d'
+
     pieces = []
     for r in rect
-      if noflo.isBrowser()
-        piece = document.createElement 'canvas'
-        piece.width = r.width
-        piece.height = r.height
-      else
-        Canvas = require('noflo-canvas').canvas
-        piece = new Canvas r.width, r.height
-      ctx = piece.getContext '2d'
-      ctx.drawImage canvas, r.x, r.y, r.width, r.height, 0, 0, r.width, r.height
+      ctx.drawImage canvas, r.x, r.y, r.width, r.height, 0, 0, 200, 200
       pieces.push piece
 
     try
@@ -68,4 +70,3 @@ exports.getComponent = ->
     outs.out.send piecesColors
 
   c
-
