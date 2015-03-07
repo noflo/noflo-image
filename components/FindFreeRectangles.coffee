@@ -83,7 +83,6 @@ compute = (canvas, polygon, threshold, max) ->
     for j in [0...n]
       if polygonInPolygon([i*stepI, j*stepJ, stepI, stepJ], polygon) == false
         validGrid[i][j] = 1
-
   # Collect valid cells moving a pivot around the matrix. Select the
   # non-salient regions with areas smaller than some threshold.
   validRects = []
@@ -108,6 +107,9 @@ compute = (canvas, polygon, threshold, max) ->
         i += 1
       pj += 1
     pi += 1
+
+  if validRects.length is 0
+    return []
 
   # Sort by area
   validRects.sort (a, b) ->

@@ -73,3 +73,27 @@ describe 'FindFreeRectangles component', ->
         inThreshold.send 10000
         inMax.send 10
         inCanvas.endGroup()
+
+    it 'should not find any free rectangles', (done) ->
+      @timeout 10000
+      id = 1
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.eql [1]
+        chai.expect(res).to.be.an 'array'
+        chai.expect(res.length).to.be.equal 0
+        done()
+
+      inSrc = 'crash.png'
+      testutils.getCanvasWithImageNoShift inSrc, (canvas) ->
+        inCanvas.beginGroup id
+        inCanvas.send canvas
+        inPolygon.send [[79, 1], [79, 20], [49, 62], [21, 129], [1, 130], [1, 227], [20, 227], [42, 244], [42, 284], [27, 318], [21, 356], [1, 357], [1, 376], [21, 377], [31, 440], [43, 478], [43, 498], [698, 498], [698, 1], [343, 1], [343, 9], [350, 10], [350, 89], [343, 90], [343, 242], [350, 243], [349, 323], [296, 322], [296, 96], [260, 95], [247, 56], [225, 20], [225, 1]]
+        inThreshold.send 10000
+        inMax.send 10
+        inCanvas.endGroup()
+
