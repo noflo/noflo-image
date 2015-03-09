@@ -124,7 +124,7 @@ compute = (canvas, polygon, threshold, max) ->
   # We have the rectangles
   result = []
   i = 0
-  while i < max
+  while (i < max) and (i < validRects.length)
     validRect = validRects[i]
     validArea = validRect.area
     r =
