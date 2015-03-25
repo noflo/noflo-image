@@ -71,6 +71,7 @@
       "ImageToCanvas": "components/ImageToCanvas.coffee",
       "Measure": "components/Measure-node.coffee",
       "ToFullscale": "components/ToFullscale.coffee",
+      "UrlToTempFile": "components/UrlToTempFile-node.coffee",
       "VideoToCanvas": "components/VideoToCanvas.coffee"
     },
     "graphs": {
