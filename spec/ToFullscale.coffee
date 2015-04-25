@@ -90,3 +90,21 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
           done()
         url.send 'http://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG/1000px-Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
+
+    describe 'with imgflo urls', ->
+      it 'should return URL unchanged when not a processing request', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://imgflo.herokuapp.com/'
+          done()
+        url.send 'http://imgflo.herokuapp.com/'
+      it 'should return URL unchanged when no input param', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://imgflo.herokuapp.com/graph/vahj1ThiexotieMo/fe974927812464bdb942e2ce8d03c9fb/canvas?width=150'
+          done()
+        url.send 'https://imgflo.herokuapp.com/graph/vahj1ThiexotieMo/fe974927812464bdb942e2ce8d03c9fb/canvas?width=150'
+      it 'should return input URL for gradientmap', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://i.huffpost.com/gen/2211142/thumbs/o-ELON-MUSK-facebook.jpg'
+          done()
+        url.send 'https://imgflo.herokuapp.com/graph/vahj1ThiexotieMo/fb5e9435a73ca48b11618a773e40389e/gradientmap.jpg?input=http%3A%2F%2Fi.huffpost.com%2Fgen%2F2211142%2Fthumbs%2Fo-ELON-MUSK-facebook.jpg&width=2000&height=1000&stop1=0&stop2=1&color1=%235a858c&color2=%2370ccc7&opacity=1&srgb=True'
+

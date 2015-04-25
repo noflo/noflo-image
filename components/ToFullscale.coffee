@@ -1,5 +1,6 @@
 noflo = require 'noflo'
 superagent = require 'superagent'
+URI = require 'URIjs'
 
 convertFlickr = (url) ->
   # See docs in https://www.flickr.com/services/api/misc.urls.html
@@ -20,6 +21,14 @@ convertWordpress = (url) ->
 convertWikimedia = (url) ->
   return url unless url.match /\/commons\/thumb\//
   url.replace /\/commons\/(thumb)\/([0-9])\/([0-9][a-z])\/(.*)[\\\/][^\\\/]*/, '/commons/$2/$3/$4'
+
+# Returns original
+convertImgflo = (url) ->
+  return url unless url.match /\/graph\//
+  uri = URI url
+  params = uri.search true
+  return url if not params?.input
+  return params.input
 
 tryFindingFullscale = (url, out, callback) ->
   # Convert
@@ -66,6 +75,9 @@ exports.getComponent = ->
 
     if url.indexOf('wikimedia.org') isnt -1
       newUrl = convertWikimedia url, callback
+
+    if url.indexOf('imgflo') isnt -1
+      newUrl = convertImgflo url, callback
 
     if url.match /[-_](small|thumb)/
       return tryFindingFullscale url, out, callback
