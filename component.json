@@ -49,7 +49,9 @@
     "components/GetPresetCurve.coffee",
     "components/GetColorsFromRectangles.coffee",
     "components/FindFreeRectangles.coffee",
-    "components/GetColorsFromCentroids.coffee"
+    "components/GetColorsFromCentroids.coffee",
+    "components/ExtractLightness.coffee",
+    "components/ExtractSaturation.coffee"
   ],
   "json": [
     "component.json",
@@ -67,6 +69,8 @@
       "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
+      "ExtractLightness": "components/ExtractLightness.coffee",
+      "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "FindFreeRectangles": "components/FindFreeRectangles.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
