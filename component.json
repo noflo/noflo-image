@@ -3,11 +3,12 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repository": "noflo/noflo-image",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
     "visionmedia/superagent": "0.21.0",
+    "medialize/URI.js": "*",
     "noflo/noflo-canvas": "*",
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",

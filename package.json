@@ -1,7 +1,7 @@
 {
   "name": "noflo-image",
   "description": "Image processing utilities for browser and Node.js NoFlo.",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "author": {
     "name": "Forrest Oliphant",
     "email": "forrest@sembiki.com"
@@ -24,8 +24,8 @@
     "image-size": "^0.2.1",
     "jsfeat": "0.0.4",
     "noflo": "~0.5.11",
-    "noflo-ajax": "^0.1.2",
     "noflo-canvas": "^0.1.12",
+    "noflo-ajax": "^0.1.2",
     "noflo-core": "^0.1.9",
     "noflo-filesystem": "^1.0.6",
     "noflo-groups": "^0.1.6",
@@ -34,7 +34,8 @@
     "request": "^2.36.0",
     "rgbquant": "git://github.com/leeoniya/RgbQuant.js.git#master",
     "superagent": "^0.21.0",
-    "temporary": "0.0.8"
+    "temporary": "0.0.8",
+    "URIjs": "^1.15.0"
   },
   "devDependencies": {
     "chai": "~1.9.0",
