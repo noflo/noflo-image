@@ -27,7 +27,7 @@ describe 'GetHistogram component', ->
       chai.expect(c.outPorts.histogram).to.be.an 'object'
 
   describe 'when passed a canvas', ->
-    it 'should calculate histograms with the right ranges', ->
+    it 'should calculate histograms with the right ranges', (done) ->
       groupId = 'histogram-ranges'
       groups = []
       out.once 'begingroup', (group) ->
@@ -53,6 +53,7 @@ describe 'GetHistogram component', ->
         chai.expect(res.l.length).to.be.equal 101
         chai.expect(res.c).to.be.an 'array'
         chai.expect(res.c.length).to.be.equal 101
+        done()
 
       inSrc = 'original.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -60,7 +61,7 @@ describe 'GetHistogram component', ->
         canvas.send c
         canvas.endGroup()
 
-    it 'should calculate normalized histograms', ->
+    it 'should calculate normalized histograms', (done) ->
       groupId = 'histogram-normalized'
       groups = []
       out.once 'begingroup', (group) ->
@@ -76,6 +77,7 @@ describe 'GetHistogram component', ->
           chai.expect(histogram).to.be.an 'array'
           sum = histogram.reduce (a,b) -> return a + b
           chai.expect(sum).to.be.closeTo 1.0, 1.0
+        done()
 
       inSrc = 'original.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -84,7 +86,7 @@ describe 'GetHistogram component', ->
         canvas.endGroup()
 
   describe 'when passed a saturated canvas', ->
-    it 'should calculate S-histogram concentrated in high spectrum', ->
+    it 'should calculate S-histogram concentrated in high spectrum', (done) ->
       groupId = 'histogram-saturated'
       groups = []
       out.once 'begingroup', (group) ->
@@ -102,6 +104,7 @@ describe 'GetHistogram component', ->
         sumHigh = high.reduce (a,b) -> return a + b
         chai.expect(sumHigh).to.be.gte 0.5
         chai.expect(sumLow).to.be.lte 0.5
+        done()
 
       inSrc = 'saturation.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -110,7 +113,7 @@ describe 'GetHistogram component', ->
         canvas.endGroup()
 
   describe 'when passed a muted canvas', ->
-    it 'should calculate S-histogram concentrated in low spectrum', ->
+    it 'should calculate S-histogram concentrated in low spectrum', (done) ->
       groupId = 'histogram-muted'
       groups = []
       out.once 'begingroup', (group) ->
@@ -128,6 +131,7 @@ describe 'GetHistogram component', ->
         sumHigh = high.reduce (a,b) -> return a + b
         chai.expect(sumHigh).to.be.lte 0.5
         chai.expect(sumLow).to.be.gte 0.5
+        done()
 
       inSrc = 'muted.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -136,7 +140,7 @@ describe 'GetHistogram component', ->
         canvas.endGroup()
 
   describe 'when passed a light canvas', ->
-    it 'should calculate L-histogram concentrated in high spectrum', ->
+    it 'should calculate L-histogram concentrated in high spectrum', (done) ->
       groupId = 'histogram-light'
       groups = []
       out.once 'begingroup', (group) ->
@@ -154,6 +158,7 @@ describe 'GetHistogram component', ->
         sumHigh = high.reduce (a,b) -> return a + b
         chai.expect(sumHigh).to.be.gte 0.5
         chai.expect(sumLow).to.be.lte 0.5
+        done()
 
       inSrc = 'light.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -162,7 +167,7 @@ describe 'GetHistogram component', ->
         canvas.endGroup()
 
   describe 'when passed a dark canvas', ->
-    it 'should calculate L-histogram concentrated in low spectrum', ->
+    it 'should calculate L-histogram concentrated in low spectrum', (done) ->
       groupId = 'histogram-dark'
       groups = []
       out.once 'begingroup', (group) ->
@@ -180,6 +185,7 @@ describe 'GetHistogram component', ->
         sumHigh = high.reduce (a,b) -> return a + b
         chai.expect(sumHigh).to.be.lte 0.5
         chai.expect(sumLow).to.be.gte 0.5
+        done()
 
       inSrc = 'dark.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
