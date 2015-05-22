@@ -80,8 +80,10 @@ exports.getComponent = ->
     in: ['canvas']
     out: ['histogram']
     forwardGroups: true
-  , (payload, groups, out) ->
+    async: true
+  , (payload, groups, out, callback) ->
     canvas = payload
     out.send computeHistogram canvas
+    do callback
 
   c
