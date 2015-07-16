@@ -108,3 +108,24 @@ describe 'ToFullscale component', ->
           done()
         url.send 'https://imgflo.herokuapp.com/graph/vahj1ThiexotieMo/fb5e9435a73ca48b11618a773e40389e/gradientmap.jpg?input=http%3A%2F%2Fi.huffpost.com%2Fgen%2F2211142%2Fthumbs%2Fo-ELON-MUSK-facebook.jpg&width=2000&height=1000&stop1=0&stop2=1&color1=%235a858c&color2=%2370ccc7&opacity=1&srgb=True'
 
+    describe 'with gravatar.com urls', ->
+      it 'should return URL unchanged when not an avatar', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://en.gravatar.com/images/support-matts-profile.png'
+          done()
+        url.send 'https://en.gravatar.com/images/support-matts-profile.png'
+      it 'should modify s parameter for avatars', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=512&d=mm&r=g'
+          done()
+        url.send 'https://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=48&d=mm&r=g'
+      it 'should modify size parameter for avatars', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=512'
+          done()
+        url.send 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=200'
+      it 'should add size parameter for avatar if not existing', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=512'
+          done()
+        url.send 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'

@@ -30,6 +30,20 @@ convertImgflo = (url) ->
   return url if not params?.input
   return params.input
 
+# Change the size params
+# https://en.gravatar.com/site/implement/images/
+convertGravatar = (url) ->
+  return url unless url.match /\/avatar\//
+  newSize = '512'
+  parts = URI.parse url
+  q = URI.parseQuery parts.query
+  q.s = newSize if q.s?
+  q.size = newSize if q.size?
+  if not (q.s? or q.size)?
+    q.size = newSize
+  parts.query = URI.buildQuery q
+  return URI.build parts
+
 tryFindingFullscale = (url, out, callback) ->
   # Convert
   newUrl = url
@@ -78,6 +92,9 @@ exports.getComponent = ->
 
     if url.indexOf('imgflo') isnt -1
       newUrl = convertImgflo url, callback
+
+    if url.indexOf('gravatar.com') isnt -1
+      newUrl = convertGravatar url, callback
 
     if url.match /[-_](small|thumb)/
       return tryFindingFullscale url, out, callback
