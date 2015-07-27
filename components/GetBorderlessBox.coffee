@@ -30,12 +30,11 @@ exports.getComponent = ->
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     data = imageData.data
-    threshold = data.length*5
     bbox =
       x: 0
       y: 0
-      width: data.width
-      height: data.height
+      width: canvas.width
+      height: canvas.height
 
     # conversion to grayscale
     gray = []
@@ -44,39 +43,54 @@ exports.getComponent = ->
       conversion = 0.2126*r + 0.7152*g + 0.0722*b
       gray.push(conversion)
 
+    threshold = 0
+
     # iterates through the upper lines
-    for i in [0...gray.length] by gray.width
-      line = gray.slice(i, i+gray.width)
+    for i in [0...gray.length] by canvas.width
+      line = gray.slice(i, i+canvas.width)
       diff = difference(line)
-      if diff < threshold
+      if diff <= threshold
         bbox.y += 1
       else
         break
 
     # iterates through the bottom lines
-    for i in [gray.length...0] by gray.width
-      line = gray.slice(i-gray.width, i)
+    for i in [gray.length...0] by -canvas.width
+      line = gray.slice(i-canvas.width, i)
       diff = difference(line)
-      if diff < threshold
+      if diff <= threshold
         bbox.height -= 1
       else
         break
 
     # iterates through the left columns
-    for i in [0...gray.width] by gray.length
-      line = gray.slice(i, i+gray.length)
-      diff = difference(line)
-      if diff < threshold
+    for l in [0...canvas.width]
+      column = []
+      for c in [l...gray.length] by canvas.height
+        x = c % canvas.width
+        y = (c - x) / canvas.width
+        # console.log x, y, c
+        column.push(gray[c])
+
+      diff = difference(column)
+      # console.log column
+      # console.log diff
+      if diff <= threshold
         bbox.x += 1
       else
         break
 
     # iterates through the right columns
-    for i in [gray.width...0] by gray.length
-      line = gray.slice(i-gray.length, i)
-      diff = difference(line)
-      if diff < threshold
-        bbox.x += 1
+    for l in [canvas.width...0] by -1
+      column = []
+      for c in [gray.length...l] by -canvas.height
+        x = c % canvas.width
+        y = (c - x) / canvas.width
+        column.push(gray[c])
+
+      diff = difference(column)
+      if diff <= threshold
+        bbox.width -= 1
       else
         break
 

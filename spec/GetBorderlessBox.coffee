@@ -40,7 +40,7 @@ describe.only 'GetBorderlessBox component', ->
         console.log res
         done()
 
-      inSrc = 'henri.jpg'
+      inSrc = 'borderless2.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
         canvas.send c
