@@ -52,7 +52,8 @@
     "components/FindFreeRectangles.coffee",
     "components/GetColorsFromCentroids.coffee",
     "components/ExtractLightness.coffee",
-    "components/ExtractSaturation.coffee"
+    "components/ExtractSaturation.coffee",
+    "components/GetBorderlessBox.coffee"
   ],
   "json": [
     "component.json",
@@ -74,6 +75,7 @@
       "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "FindFreeRectangles": "components/FindFreeRectangles.coffee",
+      "GetBorderlessBox": "components/GetBorderlessBox.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
       "GetColorsFromCentroids": "components/GetColorsFromCentroids.coffee",
