@@ -7,7 +7,7 @@ else
   Crop = require 'noflo-image/components/Crop.js'
   testutils = require 'noflo-image/spec/testutils.js'
 
-describe.only 'Crop component', ->
+describe 'Crop component', ->
   c = null
   canvas = null
   rectangle = null

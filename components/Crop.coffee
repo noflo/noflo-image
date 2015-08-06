@@ -38,8 +38,6 @@ exports.getComponent = ->
       newCanvas = new Canvas width, height
 
     newCtx = newCanvas.getContext '2d'
-    #ctx = originalCanvas.getContext '2d'
-    console.log 'originalCanvas', originalCanvas
     newCtx.drawImage originalCanvas, x, y, width, height, 0, 0, width, height
 
     out.send newCanvas
