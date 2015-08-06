@@ -53,7 +53,8 @@
     "components/GetColorsFromCentroids.coffee",
     "components/ExtractLightness.coffee",
     "components/ExtractSaturation.coffee",
-    "components/GetBorderlessBox.coffee"
+    "components/GetBorderlessBox.coffee",
+    "components/Crop.coffee"
   ],
   "json": [
     "component.json",
@@ -71,6 +72,7 @@
       "ApplyVignette": "components/ApplyVignette.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
+      "Crop": "components/Crop.coffee",
       "ExtractLightness": "components/ExtractLightness.coffee",
       "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
