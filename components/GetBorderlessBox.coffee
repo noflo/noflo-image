@@ -65,7 +65,7 @@ exports.getComponent = ->
     c.params.max = 10 unless c.params.max
     c.params.avg = 10 unless c.params.avg
     threshold = c.params
-    
+
     # Convert to grayscale
     gray = []
     for i in [0...data.length] by 4

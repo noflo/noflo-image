@@ -21,6 +21,7 @@ exports.getComponent = ->
     out: 'canvas'
     forwardGroups: yes
     async: yes
+    group: true
   , (input, groups, out, callback) ->
     originalCanvas = input.canvas
     {x, y, width, height} = input.rectangle
@@ -39,6 +40,11 @@ exports.getComponent = ->
 
     newCtx = newCanvas.getContext '2d'
     newCtx.drawImage originalCanvas, x, y, width, height, 0, 0, width, height
+
+    if originalCanvas.originalWidth?
+      newCanvas.originalWidth = originalCanvas.originalWidth
+    if originalCanvas.originalHeight?
+      newCanvas.originalHeight = originalCanvas.originalHeight
 
     out.send newCanvas
     do callback
