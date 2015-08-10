@@ -1,6 +1,8 @@
 noflo = require 'noflo'
 chroma = require 'chroma-js'
 
+# @runtime noflo-nodejs
+
 exports.getComponent = ->
   c = new noflo.Component
   c.icon = 'file-image-o'

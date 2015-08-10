@@ -1,6 +1,8 @@
 noflo = require 'noflo'
 chroma = require 'chroma-js'
 
+# @runtime noflo-nodejs
+
 zero = (a) ->
   for i in [0...a.length]
     a[i] = 0
