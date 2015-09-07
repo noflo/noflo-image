@@ -74,6 +74,7 @@ exports.getComponent = ->
     out: 'url'
     async: true
     forwardGroups: true
+    group: true
   , (url, groups, out, callback) ->
     newUrl = url
     unless url
