@@ -66,6 +66,7 @@
       "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "FindFreeRectangles": "components/FindFreeRectangles.coffee",
+      "GetBorderlessBox": "components/GetBorderlessBox.coffee",
       "GetCannyEdges": "components/GetCannyEdges.coffee",
       "GetColors": "components/GetColors.coffee",
       "GetColorsFromCentroids": "components/GetColorsFromCentroids.coffee",
