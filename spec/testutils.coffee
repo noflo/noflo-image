@@ -65,7 +65,22 @@ writePNG = (path, canvas) ->
     stream.on 'end', () ->
       console.log 'Saved PNG file in', path
 
+cropAndSave = (path, canvas, rectangle) ->
+  originalCanvas = canvas
+  {x, y, width, height} = rectangle
+  width = Math.abs originalCanvas.width - x if width > originalCanvas.width
+  height = Math.abs originalCanvas.height - y if height > originalCanvas.height
+  x = 0 if x < 0
+  y = 0 if y < 0
+
+  newCanvas = createCanvas width, height
+  newCtx = newCanvas.getContext '2d'
+  newCtx.drawImage originalCanvas, x, y, width, height, 0, 0, width, height
+
+  writePNG path, newCanvas
+
 exports.getData = getData
+exports.cropAndSave = cropAndSave
 exports.writeOut = writeOut
 exports.writePNG = writePNG
 exports.getCanvasWithImage = getCanvasWithImage
