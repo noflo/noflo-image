@@ -20,13 +20,17 @@ average = (array) ->
   sum = array.reduce (s,i) -> s += i
   sum / array.length
 
-isBorder = (array, prev, threshold) ->
+isHomogeneous = (array, threshold) ->
   diff = diffBetweenNeighbourPixels array
-  avg = Math.abs average(array) - average(prev)
-
   if diff.mean <= threshold.mean and
-  diff.max <= threshold.max and
-  avg <= threshold.avg
+  diff.max <= threshold.max
+    true
+  else
+    false
+
+isBorder = (array, prev, threshold) ->
+  avg = Math.abs average(array) - average(prev)
+  if avg > threshold.avg
     true
   else
     false
@@ -61,11 +65,11 @@ exports.getComponent = ->
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     data = imageData.data
-    c.params.mean = 0.5 unless c.params.mean
+    c.params.mean = 2 unless c.params.mean
     c.params.max = 10 unless c.params.max
     c.params.avg = 10 unless c.params.avg
     threshold = c.params
-    
+
     # Convert to grayscale
     gray = []
     for i in [0...data.length] by 4
@@ -81,52 +85,69 @@ exports.getComponent = ->
 
     # Iterate through the upper lines
     prev = gray.slice 0, canvas.width
-    for i in [0...gray.length] by canvas.width
-      line = gray.slice i, i + canvas.width
-      if isBorder line, prev, threshold
+    for line in [canvas.width...gray.length] by canvas.width
+      next = gray.slice line, line + canvas.width
+      if isHomogeneous prev, threshold
         bbox.y += 1
-        prev = line
+        if isBorder prev, next, threshold
+          break
+        prev = next
       else
         break
 
     # Iterate through the bottom lines
     prev = gray.slice gray.length - canvas.width, gray.length
-    for i in [gray.length...0] by -canvas.width
-      line = gray.slice i - canvas.width, i
-      if isBorder line, prev, threshold
+    for line in [gray.length-canvas.width...0] by -canvas.width
+      next = gray.slice line - canvas.width, line
+      if isHomogeneous prev, threshold
         bbox.height -= 1
-        prev = line
+        if isBorder prev, next, threshold
+          break
+        prev = next
       else
         break
 
     # Iterate through the left columns
-    for line in [0...canvas.width]
-      column = []
-      for col in [line...gray.length] by canvas.width
-        column.push gray[col]
-      if line == 0
-        prev = column
-      if isBorder column, prev, threshold
+    prev = []
+    for col in [0...gray.length] by canvas.width
+      prev.push gray[col]
+    for column in [1...canvas.width]
+      next = []
+      for pos in [column...gray.length] by canvas.width
+        next.push gray[pos]
+      if isHomogeneous prev, threshold
         bbox.x += 1
-        prev = column
+        if isBorder prev, next, threshold
+          break
+        prev = next
       else
         break
 
     # Iterate through the right columns
-    for line in [0...canvas.width]
-      column = []
-      for col in [gray.length - 1 - line..0] by -canvas.width
-        column.push gray[col]
-      if line == canvas.width
-        prev = column
-      if isBorder column, prev, threshold
+    prev = []
+    for col in [gray.length - 1..0] by -canvas.width
+      prev.push gray[col]
+    for column in [1...canvas.width]
+      next = []
+      for pos in [gray.length - 1 - column..0] by -canvas.width
+        next.push gray[pos]
+      if isHomogeneous prev, threshold
         bbox.width -= 1
-        prev = column
+        if isBorder prev, next, threshold
+          break
+        prev = next
       else
         break
 
     bbox.height -= bbox.y
     bbox.width -= bbox.x
+    # Check if ...
+    if bbox.height * bbox.width < 0.1 * gray.length
+      bbox =
+        x: 0
+        y: 0
+        width: canvas.width
+        height: canvas.height
     out.send bbox
     do callback
   c
