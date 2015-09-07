@@ -36,7 +36,7 @@ describe 'Measure component', ->
         ins.send 'spec/test-80x80.jpg'
 
   describe 'with remote test image', ->
-    url = 'https://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
+    url = 'http://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
     it 'should have the correct group', (done) ->
       @timeout 0
       out.once 'begingroup', (group) ->

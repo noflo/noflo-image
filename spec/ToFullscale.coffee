@@ -11,6 +11,7 @@ describe 'ToFullscale component', ->
   newUrl = null
   error = null
   beforeEach ->
+    @timeout 50000
     c = ToFullscale.getComponent()
     url = noflo.internalSocket.createSocket()
     newUrl = noflo.internalSocket.createSocket()
@@ -116,9 +117,9 @@ describe 'ToFullscale component', ->
         url.send 'https://en.gravatar.com/images/support-matts-profile.png'
       it 'should modify s parameter for avatars', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'https://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=512&d=mm&r=g'
+          chai.expect(image).to.equal 'http://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=512&d=mm&r=g'
           done()
-        url.send 'https://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=48&d=mm&r=g'
+        url.send 'http://1.gravatar.com/avatar/ad3c9298254a01276827a5ad9485181b?s=48&d=mm&r=g'
       it 'should modify size parameter for avatars', (done) ->
         newUrl.on 'data', (image) ->
           chai.expect(image).to.equal 'http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?size=512'
