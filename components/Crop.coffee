@@ -21,7 +21,6 @@ exports.getComponent = ->
     out: 'canvas'
     forwardGroups: yes
     async: yes
-    group: true
   , (input, groups, out, callback) ->
     originalCanvas = input.canvas
     {x, y, width, height} = input.rectangle
