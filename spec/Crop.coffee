@@ -33,7 +33,7 @@ describe 'Crop component', ->
   describe 'when passed a canvas', ->
     describe 'with a valid rectangle', ->
       it 'should crop it', (done) ->
-        @timeout 10000
+        @timeout 20000
         rect =
           x: 40
           y: 40
@@ -59,7 +59,7 @@ describe 'Crop component', ->
 
     describe 'with a rectangle bigger than image', ->
       it 'should crop it respecting boundaries', (done) ->
-        @timeout 10000
+        @timeout 20000
         groupId = 'rectangle-ranges'
         groups = []
         out.once 'begingroup', (group) ->
@@ -88,7 +88,7 @@ describe 'Crop component', ->
 
     describe 'with a rectangle with negative coordinates', ->
       it 'should crop it respecting boundaries', (done) ->
-        @timeout 10000
+        @timeout 20000
         groupId = 'rectangle-ranges'
         groups = []
         out.once 'begingroup', (group) ->
