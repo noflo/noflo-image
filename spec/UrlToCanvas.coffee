@@ -11,7 +11,7 @@ describe 'UrlToCanvas graph', ->
   ins = null
   out = null
   beforeEach (done) ->
-    @timeout 50000
+    @timeout 10000
     loader = new noflo.ComponentLoader baseDir
     loader.load 'image/UrlToCanvas', (err, instance) ->
       c = instance
@@ -25,14 +25,14 @@ describe 'UrlToCanvas graph', ->
   describe 'with remote JPG image', ->
     url = 'http://farm8.staticflickr.com/7395/12952090783_ce023450da_b.jpg'
     it 'should have the correct group', (done) ->
-      @timeout 20000
+      @timeout 10000
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
       ins.send url
       ins.disconnect()
     it 'should make a canvas with the correct size', (done) ->
-      @timeout 20000
+      @timeout 10000
       out.once 'data', (data) ->
         chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.equal 1024

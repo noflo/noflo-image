@@ -65,7 +65,7 @@ describe 'CreateImage component', ->
       ins.send url
 
   describe 'with remote JPG image', ->
-    @timeout 4000
+    @timeout 10000
     url = 'http://bergie.iki.fi/files/flowhub-promo.jpg'
     it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->

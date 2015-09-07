@@ -38,13 +38,13 @@ describe 'Measure component', ->
   describe 'with remote test image', ->
     url = 'http://1.gravatar.com/avatar/40a5769da6d979c1ebc47cdec887f24a'
     it 'should have the correct group', (done) ->
-      @timeout 0
+      @timeout 10000
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
       ins.send url
     it 'should find correct dimensions', (done) ->
-      @timeout 0
+      @timeout 10000
       error.once 'data', (data) ->
         console.log data
         chai.expect(true).to.equal false
