@@ -1,7 +1,7 @@
 {
   "name": "noflo-image",
   "description": "Image processing utilities for browser and Node.js NoFlo.",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "author": {
     "name": "Forrest Oliphant",
     "email": "forrest@sembiki.com"
@@ -10,12 +10,7 @@
     "type": "git",
     "url": "git://github.com/noflo/noflo-image.git"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "undefined/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "scripts": {
     "test": "grunt test"
   },
