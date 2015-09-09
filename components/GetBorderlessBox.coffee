@@ -141,8 +141,10 @@ exports.getComponent = ->
 
     bbox.height -= bbox.y
     bbox.width -= bbox.x
-    # Check if ...
-    if bbox.height * bbox.width < 0.1 * gray.length
+    # Check for invalid bboxes (e.g. images with one color, small bboxes)
+    if bbox.height * bbox.width <= 0.1 * gray.length or
+    bbox.width < 0 or
+    bbox.height < 0
       bbox =
         x: 0
         y: 0
