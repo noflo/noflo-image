@@ -8,7 +8,7 @@
   "dependencies": {
     "noflo/noflo": "*",
     "visionmedia/superagent": "0.21.0",
-    "medialize/URI.js": "1.16.0",
+    "medialize/URI.js": "v1.16.0",
     "noflo/noflo-canvas": "*",
     "noflo/noflo-core": "*",
     "noflo/noflo-objects": "*",
