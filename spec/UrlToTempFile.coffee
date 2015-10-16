@@ -80,3 +80,14 @@ describe 'UrlToTempFile component', ->
         chai.expect(data).to.have.length.above 0
         done()
       ins.send url
+
+  describe 'with unsupported protocols', ->
+    return if noflo.isBrowser()
+    url = 'chrome-search://foo'
+    it 'should do a correct error', (done) ->
+      @timeout 0
+      error.once 'data', (data) ->
+        err = new Error "Images with chrome-search: protocol not allowed"
+        chai.expect(data).to.be.eql err
+        done()
+      ins.send url
