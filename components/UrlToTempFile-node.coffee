@@ -43,6 +43,10 @@ exports.getComponent = ->
       do callback
       return
     if urlOptions.protocol
+      unless urlOptions.protocol in ['http:', 'https:']
+        callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
+        return
+
       # Remote image
       tmpFile = new temporary.File
       stream = fs.createWriteStream tmpFile.path
