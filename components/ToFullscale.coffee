@@ -47,7 +47,7 @@ convertGravatar = (url) ->
 tryFindingFullscale = (url, out, callback) ->
   # Convert
   newUrl = url
-  fullUrl = url.replace /[-_](small|thumbnail|thumb)/, ''
+  fullUrl = url.replace /[-_](small|thumbnail|thumb|tm)/, ''
   # Verify that it exists
   superagent.head fullUrl
   .end (err, res) ->
