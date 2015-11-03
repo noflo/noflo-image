@@ -57,6 +57,7 @@
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
       "Crop": "components/Crop.coffee",
+      "CropPaths": "components/CropPaths.coffee",
       "ExtractLightness": "components/ExtractLightness.coffee",
       "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",

@@ -53,7 +53,8 @@
     "components/ExtractLightness.coffee",
     "components/ExtractSaturation.coffee",
     "components/GetBorderlessBox.coffee",
-    "components/Crop.coffee"
+    "components/Crop.coffee",
+    "components/CropPaths.coffee"
   ],
   "json": [
     "component.json",
@@ -72,6 +73,7 @@
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage.coffee",
       "Crop": "components/Crop.coffee",
+      "CropPaths": "components/CropPaths.coffee",
       "ExtractLightness": "components/ExtractLightness.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
       "FindFreeRectangles": "components/FindFreeRectangles.coffee",
