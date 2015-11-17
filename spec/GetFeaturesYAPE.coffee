@@ -30,11 +30,10 @@ describe 'GetFeaturesYAPE component', ->
       chai.expect(c.outPorts.canvas).to.be.an 'object'
 
   testcases = [
-    'textAnywhere/flickr-3178100324-original_small.jpg'
+    #'textAnywhere/flickr-3178100324-original_small.jpg'
     'noText/flickr-8132786781-small.jpg'
-    'textRegion/3010029968_02742a1aec_b.jpg'
+    #'textRegion/3010029968_02742a1aec_b.jpg'
   ]
-
   testcases.pop() if noflo.isBrowser()
 
   for testcase in testcases
