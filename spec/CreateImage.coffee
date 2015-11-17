@@ -66,7 +66,7 @@ describe 'CreateImage component', ->
 
   describe 'with remote JPG image', ->
     @timeout 10000
-    url = 'https://s3.eu-central-1.amazonaws.com/bergie-iki-fi/flowhub-promo.jpg'
+    url = 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/flowhub-promo.jpg'
     it 'should have the correct group', (done) ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url

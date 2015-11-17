@@ -66,9 +66,9 @@ describe 'ToFullscale component', ->
       return if noflo.isBrowser()
       it 'should return fullscale URL when one exists', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'https://s3.eu-central-1.amazonaws.com/bergie-iki-fi/ingress-table-test.jpg'
+          chai.expect(image).to.equal 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/ingress-table-test.jpg'
           done()
-        url.send 'https://s3.eu-central-1.amazonaws.com/bergie-iki-fi/ingress-table-test-small.jpg'
+        url.send 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/ingress-table-test-small.jpg'
       it 'should return thumbnail URL when one doesn\'t exist', (done) ->
         newUrl.on 'data', (image) ->
           chai.expect(image).to.equal 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
