@@ -26,7 +26,7 @@
     "noflo-groups": "0.1.7",
     "noflo-objects": "0.1.12",
     "noflo-strings": "0.1.11",
-    "request": "2.64.0",
+    "request": "2.67.0",
     "rgbquant": "git://github.com/leeoniya/RgbQuant.js.git#master",
     "superagent": "0.21.0",
     "temporary": "0.0.8",
