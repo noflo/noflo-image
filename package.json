@@ -18,7 +18,7 @@
     "chroma-js": "0.7.8",
     "image-size": "0.2.5",
     "jsfeat": "0.0.4",
-    "noflo": "0.5.14",
+    "noflo": "~0.5.21",
     "noflo-canvas": "0.1.17",
     "noflo-ajax": "0.1.4",
     "noflo-core": "0.1.14",
