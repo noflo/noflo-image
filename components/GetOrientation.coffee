@@ -2,30 +2,30 @@ noflo = require 'noflo'
 
 exports.getComponent = ->
   c = new noflo.Component
+  c.icon = 'file-image-o'
   c.description = 'Get orientation from image dimensions'
 
   c.inPorts.add 'dimensions',
     datatype: 'object'
-    process: (event, packet) ->
-      switch event
-        when 'begingroup'
-          c.outPorts.orientation.beginGroup packet
-        when 'data'
-          return unless packet.width or packet.height
-          orientation = 'square'
-          if packet.width > packet.height
-            orientation = 'landscape'
-          if packet.width < packet.height
-            orientation = 'portrait'
-          c.outPorts.orientation.send
-            orientation: orientation
-        when 'endgroup'
-          c.outPorts.orientation.endGroup()
-        when 'disconnect'
-          c.outPorts.orientation.disconnect()
 
   c.outPorts.add 'orientation',
     datatype: 'object'
 
-  c
+  noflo.helpers.WirePattern c,
+    in: 'dimensions'
+    out: 'orientation'
+    forwardGroups: true
+    async: true
+  , (packet, groups, out, callback) ->
+    return callback new Error "Dimension is missing width" unless packet.width
+    return callback new Error "Dimension is missing height" unless packet.height
+    orientation = 'square'
+    if packet.width > packet.height
+      orientation = 'landscape'
+    if packet.width < packet.height
+      orientation = 'portrait'
+    out.send
+      orientation: orientation
+    do callback
 
+  c
