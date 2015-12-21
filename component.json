@@ -3,7 +3,7 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repository": "noflo/noflo-image",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
@@ -53,7 +53,8 @@
     "components/ExtractLightness.coffee",
     "components/ExtractSaturation.coffee",
     "components/GetBorderlessBox.coffee",
-    "components/Crop.coffee"
+    "components/Crop.coffee",
+    "components/GetBorderlessBox.coffee"
   ],
   "json": [
     "component.json",
