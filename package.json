@@ -15,12 +15,14 @@
     "test": "grunt test"
   },
   "dependencies": {
+    "URIjs": "1.16.1",
+    "animated-gif-detector": "^1.1.4",
     "chroma-js": "0.7.8",
     "image-size": "0.2.5",
     "jsfeat": "0.0.4",
     "noflo": "~0.5.21",
-    "noflo-canvas": "0.1.17",
     "noflo-ajax": "0.1.4",
+    "noflo-canvas": "0.1.17",
     "noflo-core": "0.1.14",
     "noflo-filesystem": "1.0.6",
     "noflo-groups": "0.1.7",
@@ -29,8 +31,7 @@
     "request": "2.64.0",
     "rgbquant": "git://github.com/leeoniya/RgbQuant.js.git#master",
     "superagent": "0.21.0",
-    "temporary": "0.0.8",
-    "URIjs": "1.16.1"
+    "temporary": "0.0.8"
   },
   "devDependencies": {
     "chai": "1.9.2",
@@ -58,6 +59,7 @@
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
       "Crop": "components/Crop.coffee",
+      "DetectAnimatedGif": "components/DetectAnimatedGif.coffee",
       "ExtractLightness": "components/ExtractLightness.coffee",
       "ExtractSaturation": "components/ExtractSaturation.coffee",
       "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
