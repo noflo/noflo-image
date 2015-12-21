@@ -44,7 +44,7 @@ getCanvasWithImageNoShift = (name, callback) ->
 
 getData = (name, def) ->
   p = './fixtures/' + name
-  try  
+  try
     return require p
   catch err
     console.log 'WARN: getData():', err.message
@@ -79,6 +79,11 @@ cropAndSave = (path, canvas, rectangle) ->
 
   writePNG path, newCanvas
 
+getBuffer = (path) ->
+  path = "spec/fixtures/#{path}"
+  fs.readFileSync(path)
+
+exports.getBuffer = getBuffer
 exports.getData = getData
 exports.cropAndSave = cropAndSave
 exports.writeOut = writeOut
