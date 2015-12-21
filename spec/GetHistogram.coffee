@@ -43,6 +43,8 @@ describe 'GetHistogram component', ->
         chai.expect(res.g.length).to.be.equal 256
         chai.expect(res.b).to.be.an 'array'
         chai.expect(res.b.length).to.be.equal 256
+        chai.expect(res.a).to.be.an 'array'
+        chai.expect(res.a.length).to.be.equal 256
         chai.expect(res.y).to.be.an 'array'
         chai.expect(res.y.length).to.be.equal 256
         chai.expect(res.h).to.be.an 'array'
@@ -71,7 +73,7 @@ describe 'GetHistogram component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-normalized']
         chai.expect(res).to.be.an 'object'
-        keys = ['r', 'g', 'b', 'y', 'h', 's', 'l', 'c']
+        keys = ['r', 'g', 'b', 'a', 'y', 'h', 's', 'l', 'c']
         for key in keys
           histogram = res[key]
           chai.expect(histogram).to.be.an 'array'
@@ -97,7 +99,7 @@ describe 'GetHistogram component', ->
         chai.expect(groups).to.be.eql ['histogram-saturated']
         chai.expect(res).to.be.an 'object'
         chai.expect(res.s).to.be.an 'array'
-        histogram = res.s        
+        histogram = res.s
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
         high = histogram.slice histogram.length/2
