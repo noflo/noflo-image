@@ -139,17 +139,34 @@ exports.getComponent = ->
       else
         break
 
-    bbox.height -= bbox.y
-    bbox.width -= bbox.x
+    croppedBbox =
+      x: 0
+      y: 0
+      width: canvas.width
+      height: canvas.height
+
+    verticalVariation = Math.min bbox.y, croppedBbox.height - bbox.height
+    horizontalVariation = Math.min bbox.x, croppedBbox.width - bbox.width
+
+    if verticalVariation > horizontalVariation * 0.5
+      croppedBbox.y = verticalVariation
+      croppedBbox.height = croppedBbox.height - verticalVariation
+      croppedBbox.height -= croppedBbox.y
+    if horizontalVariation > verticalVariation * 0.5
+      croppedBbox.x = horizontalVariation
+      croppedBbox.width = croppedBbox.width - horizontalVariation
+      croppedBbox.width -= croppedBbox.x
+
     # Check for invalid bboxes (e.g. images with one color, small bboxes)
-    if bbox.height * bbox.width <= 0.1 * gray.length or
-    bbox.width < 0 or
-    bbox.height < 0
-      bbox =
+    if (croppedBbox.height * croppedBbox.width) <= (0.25 * gray.length) or
+        croppedBbox.width < 0 or
+        croppedBbox.height < 0
+      croppedBbox =
         x: 0
         y: 0
         width: canvas.width
         height: canvas.height
-    out.send bbox
+
+    out.send croppedBbox
     do callback
   c
