@@ -309,8 +309,5 @@ describe 'GetBorderlessBox component', ->
       inSrc = 'de.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
-        mean.send 0.5
-        max.send 10
-        avg.send 10
         canvas.send c
         canvas.endGroup()
