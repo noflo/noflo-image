@@ -37,7 +37,7 @@ isBorder = (array, prev, threshold) ->
 
 exports.getComponent = ->
   c = new noflo.Component
-  c.description = 'Extract the borderless bounding box of an image'
+  c.description = 'Extract a bounding box with top and bottom black borders removed (avoids removing more than 25% of image)'
   c.icon = 'file-image-o'
   c.inPorts = new noflo.InPorts
     canvas:
