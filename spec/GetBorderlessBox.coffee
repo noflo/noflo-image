@@ -302,6 +302,7 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 480
           height: 360
+        console.log res
         checkSimilar chai, res, expected, 3
         done()
 
