@@ -148,17 +148,22 @@ exports.getComponent = ->
     verticalVariation = Math.min bbox.y, croppedBbox.height - bbox.height
     horizontalVariation = Math.min bbox.x, croppedBbox.width - bbox.width
 
-    if verticalVariation > horizontalVariation * 0.5
-      croppedBbox.y = verticalVariation
-      croppedBbox.height = croppedBbox.height - verticalVariation
-      croppedBbox.height -= croppedBbox.y
-    if horizontalVariation > verticalVariation * 0.5
-      croppedBbox.x = horizontalVariation
-      croppedBbox.width = croppedBbox.width - horizontalVariation
-      croppedBbox.width -= croppedBbox.x
+    # If there is no cropping necessary in the lateral borders
+    # 10 is a threshold value
+    if horizontalVariation < 10
+      # Change bbox to verticalVariation if same size crop is wanted
+      croppedBbox.y = bbox.y
+      croppedBbox.height = bbox.height - croppedBbox.y
+
+    # Uncomment following lines if lateral crop is necessary
+    # if horizontalVariation > verticalVariation
+    #   croppedBbox.x = horizontalVariation
+    #   croppedBbox.width = bbox.width - croppedBbox.x
 
     # Check for invalid bboxes (e.g. images with one color, small bboxes)
-    if (croppedBbox.height * croppedBbox.width) <= (0.25 * gray.length) or
+    if ((croppedBbox.height - croppedBbox.y) *
+        (croppedBbox.width - croppedBbox.x)) <=
+        (0.25 * gray.length) or
         croppedBbox.width < 0 or
         croppedBbox.height < 0
       croppedBbox =
