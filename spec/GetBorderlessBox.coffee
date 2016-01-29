@@ -286,3 +286,30 @@ describe 'GetBorderlessBox component', ->
         avg.send 10
         canvas.send c
         canvas.endGroup()
+
+    it 'should not remove more than 25% of image', (done) ->
+      @timeout 10000
+      groupId = '25-of-image'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['25-of-image']
+        expected =
+          x: 0
+          y: 0
+          width: 480
+          height: 360
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'de.jpg'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        mean.send 0.5
+        max.send 10
+        avg.send 10
+        canvas.send c
+        canvas.endGroup()
