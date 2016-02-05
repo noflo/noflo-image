@@ -3,6 +3,10 @@ temporary = require 'temporary'
 fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
+pkg = require '../package.json'
+
+buildUserAgent = ->
+  "#{pkg.name}/#{pkg.version} (+#{pkg.repository.url})"
 
 # @runtime noflo-nodejs
 # @name UrlToTempFile
@@ -53,6 +57,8 @@ exports.getComponent = ->
       req = request
         url: url
         timeout: 10000
+        headers:
+          'user-agent': buildUserAgent()
       req.pipe stream
       error = null
       req.on 'response', (resp) ->
