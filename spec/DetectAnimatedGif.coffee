@@ -21,12 +21,12 @@ describe 'DetectAnimatedGif component', ->
     c.outPorts.animated.attach out
 
   describe 'when instantiated', ->
-    it 'should have one input ports', ->
+    it 'should have one input port', ->
       chai.expect(c.inPorts.buffer).to.be.an 'object'
     it 'should have one output port', ->
       chai.expect(c.outPorts.animated).to.be.an 'object'
 
-  describe 'with an animated GIF', ->
+  describe 'with an animated GIF buffer', ->
     it 'should return true', (done) ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.a 'boolean'
@@ -37,7 +37,7 @@ describe 'DetectAnimatedGif component', ->
       buffer = testutils.getBuffer url
       ins.send buffer
 
-  describe 'with a static GIF', ->
+  describe 'with a static GIF buffer', ->
     it 'should return false', (done) ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.a 'boolean'
@@ -48,7 +48,7 @@ describe 'DetectAnimatedGif component', ->
       buffer = testutils.getBuffer url
       ins.send buffer
 
-  describe 'with a non-GIF image file', ->
+  describe 'with a non-GIF buffer', ->
     it 'should return false', (done) ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.a 'boolean'
@@ -59,7 +59,7 @@ describe 'DetectAnimatedGif component', ->
       buffer = testutils.getBuffer url
       ins.send buffer
 
-  describe 'with a non-image file', ->
+  describe 'with a non-image buffer', ->
     it 'should return false', (done) ->
       out.once 'data', (data) ->
         chai.expect(data).to.be.a 'boolean'
@@ -69,3 +69,41 @@ describe 'DetectAnimatedGif component', ->
       url = '../DetectAnimatedGif.coffee'
       buffer = testutils.getBuffer url
       ins.send buffer
+
+  describe 'with an animated GIF file', ->
+    it 'should return true', (done) ->
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.a 'boolean'
+        chai.expect(data).to.equal true
+        done()
+
+      ins.send 'spec/fixtures/animated.gif'
+
+  describe 'with an static GIF file', ->
+    it 'should return true', (done) ->
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.a 'boolean'
+        chai.expect(data).to.equal false
+        done()
+
+      ins.send 'spec/fixtures/static.gif'
+
+  describe 'with a non-GIF file', ->
+    it 'should return false', (done) ->
+      @timeout 5000
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.a 'boolean'
+        chai.expect(data).to.equal false
+        done()
+
+      ins.send 'spec/fixtures/crash.png'
+
+  describe 'with a non-image file', ->
+    it 'should return false', (done) ->
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.a 'boolean'
+        chai.expect(data).to.equal false
+        done()
+
+      ins.send 'spec/DetectAnimatedGif.coffee'
+
