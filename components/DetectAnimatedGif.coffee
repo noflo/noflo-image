@@ -25,17 +25,24 @@ exports.getComponent = ->
     if Buffer.isBuffer buffer
       out.send animated buffer
       do callback
+      return
     else if typeof buffer is 'string'
+      isAnimated = false
       fs.createReadStream buffer
         .pipe animated()
         .once 'animated', ->
+          isAnimated = true
           out.send true
           do callback
+          return
         .on 'finish', ->
-          out.send false
+          unless isAnimated
+            out.send false
           do callback
+          return
     else
       out.send false
       do callback
+      return
 
   c
