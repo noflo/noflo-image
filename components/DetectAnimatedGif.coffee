@@ -32,12 +32,9 @@ exports.getComponent = ->
         .pipe animated()
         .once 'animated', ->
           isAnimated = true
-          out.send true
-          do callback
           return
         .on 'finish', ->
-          unless isAnimated
-            out.send false
+          out.send isAnimated
           do callback
           return
     else
