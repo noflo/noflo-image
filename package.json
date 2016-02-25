@@ -29,7 +29,7 @@
     "noflo-strings": "0.1.11",
     "request": "2.64.0",
     "rgbquant": "git://github.com/leeoniya/RgbQuant.js.git#master",
-    "superagent": "0.21.0",
+    "superagent": "1.5.0",
     "temporary": "0.0.8",
     "urijs": "^1.17.0"
   },
