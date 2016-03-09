@@ -17,7 +17,7 @@
   "dependencies": {
     "animated-gif-detector": "^1.1.5",
     "chroma-js": "0.7.8",
-    "image-size": "0.2.5",
+    "image-size": "0.3.5",
     "jsfeat": "0.0.4",
     "noflo": "~0.5.21",
     "noflo-ajax": "0.1.4",
