@@ -34,7 +34,6 @@ describe 'ApplyVignette component', ->
         groups.push group
       outImage.once 'data', (res) ->
         chai.expect(res).to.be.an 'object'
-        testutils.writePNG 'vignette_new.png', res
         # Tests result versus reference data
         refSrc = 'vignette.png'
         idOut = testutils.getCanvasWithImageNoShift refSrc, (ref) =>
