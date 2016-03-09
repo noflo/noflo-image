@@ -31,6 +31,7 @@ class CreateImage extends noflo.AsyncComponent
     super 'url', 'image'
 
   doAsync: (url, callback) ->
+    #@outPorts.image.connect()
     onLoad = (err, image) =>
       if err
         onError err
@@ -38,6 +39,8 @@ class CreateImage extends noflo.AsyncComponent
       @outPorts.image.beginGroup url
       @outPorts.image.send image
       @outPorts.image.endGroup()
+      console.log 'createImage-node disconnect'
+      #@outPorts.image.disconnect()
       callback null
 
     onError = (err) ->

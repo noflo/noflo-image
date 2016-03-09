@@ -29,6 +29,7 @@ class CreateImage extends noflo.AsyncComponent
       @crossorigin = data
 
   doAsync: (url, callback) ->
+    #@outPorts.image.connect()
     image = new Image()
     if @crossorigin
       image.crossOrigin = @crossorigin
@@ -36,6 +37,8 @@ class CreateImage extends noflo.AsyncComponent
       @outPorts.image.beginGroup url
       @outPorts.image.send image
       @outPorts.image.endGroup()
+      console.log 'createImage disconnect'
+      #@outPorts.image.disconnect()
       callback null
     image.onerror = (err) ->
       err.url = url

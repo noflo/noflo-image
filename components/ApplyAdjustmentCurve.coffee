@@ -15,6 +15,7 @@ exports.getComponent = ->
       c.outPorts.canvas.endGroup()
     if event is 'disconnect'
       c.outPorts.canvas.disconnect()
+    console.log 'canv', event 
     return unless event is 'data'
     c.canvas = payload
     c.computeFilter()
@@ -27,8 +28,10 @@ exports.getComponent = ->
   c.outPorts.add 'canvas'
 
   c.computeFilter = ->
+    console.log 'computefilter s'
     return unless c.outPorts.canvas.isAttached()
     return unless c.curve? and c.canvas?
+    console.log 'computefilter ccc'
 
     canvas = c.canvas
     curve = c.curve
