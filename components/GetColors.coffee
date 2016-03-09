@@ -53,7 +53,8 @@ exports.getComponent = ->
     catch e
       out.canvas.send data
       out.colors.send []
-      return callback e
+      do callback
+      return
     out.canvas.send data
     out.colors.send colors
     do callback
