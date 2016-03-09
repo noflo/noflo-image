@@ -44,7 +44,6 @@ describe 'ApplyVignette component', ->
           
           refCtx = ref.getContext '2d'
           refData = refCtx.getImageData(0, 0, ref.width, ref.height).data
-          testutils.writePNG 'vignette.out.png', res
           
           for x in [0...resData.length] by 4
             difference = Math.abs(refData[x]-resData[x])
