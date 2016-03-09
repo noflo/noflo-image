@@ -3,9 +3,13 @@ temporary = require 'temporary'
 fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
+pkg = require '../package.json'
 
 # @runtime noflo-nodejs
 # @name UrlToBuffer
+
+buildUserAgent = ->
+  "#{pkg.name}/#{pkg.version} (+#{pkg.repository.url})"
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -45,6 +49,8 @@ exports.getComponent = ->
       req = request
         url: url
         timeout: 10000
+        headers:
+          'user-agent': buildUserAgent()
       bufs = []
       error = null
       req.on 'data', (data) ->

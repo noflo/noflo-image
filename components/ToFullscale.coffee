@@ -1,6 +1,9 @@
 noflo = require 'noflo'
 superagent = require 'superagent'
-URI = require 'URIjs'
+unless noflo.isBrowser()
+  URI = require 'urijs'
+else
+  URI = require 'URIjs'
 
 convertFlickr = (url) ->
   # See docs in https://www.flickr.com/services/api/misc.urls.html

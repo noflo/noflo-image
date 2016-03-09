@@ -21,6 +21,7 @@ exports.getComponent = ->
     return unless c.outPorts.curve.isAttached()
     return unless payload of presets
     c.outPorts.curve.send presets[payload]
+    c.outPorts.curve.disconnect()
 
   c.outPorts.add 'curve'
 

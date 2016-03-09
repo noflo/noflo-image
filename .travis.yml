@@ -1,8 +1,16 @@
 language: node_js
 node_js:
-  - "0.10"
+- '0.12'
 before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq libcairo2-dev libgif-dev
+- sudo apt-get update -qq
+- sudo apt-get install -qq libcairo2-dev libgif-dev
 before_script:
-  - npm install -g grunt-cli
+- npm install -g grunt-cli
+deploy:
+  provider: npm
+  email: vilson@void.cc
+  api_key:
+    secure: KLsA9Ct3N8JF0KdxSF2PCbnL1GW2+A31f5A85LxuE3YEJUiRu03v6NDklBBRX2EMYppG7vm2h30wojblFi5jbfa/wW0lzeAG0or+jQBjsyuJ0hAGOygW/e+83gI57AweBtJpZ5C2CvpACVX2DntYHPmjXyObTEsCSuRvEaBRA5w=
+  on:
+    tags: true
+    repo: noflo/noflo-image

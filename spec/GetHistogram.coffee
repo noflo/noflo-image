@@ -43,6 +43,8 @@ describe 'GetHistogram component', ->
         chai.expect(res.g.length).to.be.equal 256
         chai.expect(res.b).to.be.an 'array'
         chai.expect(res.b.length).to.be.equal 256
+        chai.expect(res.a).to.be.an 'array'
+        chai.expect(res.a.length).to.be.equal 256
         chai.expect(res.y).to.be.an 'array'
         chai.expect(res.y.length).to.be.equal 256
         chai.expect(res.h).to.be.an 'array'
@@ -71,7 +73,7 @@ describe 'GetHistogram component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-normalized']
         chai.expect(res).to.be.an 'object'
-        keys = ['r', 'g', 'b', 'y', 'h', 's', 'l', 'c']
+        keys = ['r', 'g', 'b', 'a', 'y', 'h', 's', 'l', 'c']
         for key in keys
           histogram = res[key]
           chai.expect(histogram).to.be.an 'array'
@@ -97,7 +99,7 @@ describe 'GetHistogram component', ->
         chai.expect(groups).to.be.eql ['histogram-saturated']
         chai.expect(res).to.be.an 'object'
         chai.expect(res.s).to.be.an 'array'
-        histogram = res.s        
+        histogram = res.s
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
         high = histogram.slice histogram.length/2
@@ -188,6 +190,51 @@ describe 'GetHistogram component', ->
         done()
 
       inSrc = 'dark.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+  describe 'when passed a canvas with any transparent pixel', ->
+    it 'should calculate A-histogram with 100% frequency on 255', (done) ->
+      groupId = 'histogram-alpha'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['histogram-alpha']
+        chai.expect(res).to.be.an 'object'
+        chai.expect(res.a).to.be.an 'array'
+        histogram = res.a
+        chai.expect(histogram[255]).to.equal 1.0
+        done()
+
+      inSrc = 'dark.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+  describe 'when passed a 100% transparent canvas', ->
+    it 'should calculate A-histogram with 100% frequency on zero', (done) ->
+      groupId = 'histogram-alpha'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['histogram-alpha']
+        chai.expect(res).to.be.an 'object'
+        chai.expect(res.a).to.be.an 'array'
+        histogram = res.a
+        # Zero alpha is transparent, so A-histogram should be all zero
+        chai.expect(histogram[0]).to.equal 1.0
+        done()
+
+      inSrc = 'all-transparent.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
         canvas.send c

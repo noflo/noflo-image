@@ -23,6 +23,7 @@ computeHistogram = (canvas) ->
     r: zero new Array 256
     g: zero new Array 256
     b: zero new Array 256
+    a: zero new Array 256
     y: zero new Array 256
     h: zero new Array 361 # degrees [0,0, 360.0] -> [0, 361]
     s: zero new Array 101 # [0.0, 1.0] -> [0, 101]
@@ -34,12 +35,13 @@ computeHistogram = (canvas) ->
   imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
   data = imageData.data
   for i in [0...data.length] by 4
-    [r, g, b] = [data[i], data[i+1], data[i+2]]
+    [r, g, b, a] = [data[i], data[i+1], data[i+2], data[i+3]]
     y = cie_y601 r/255, g/255, b/255
     y = Math.floor y*255
     res.r[r]+=1
     res.g[g]+=1
     res.b[b]+=1
+    res.a[a]+=1
     res.y[y]+=1
 
     rgb = chroma(r, g, b, 'rgb')
@@ -59,6 +61,7 @@ computeHistogram = (canvas) ->
   normalize res.r, pixels
   normalize res.g, pixels
   normalize res.b, pixels
+  normalize res.a, pixels
   normalize res.y, pixels
   normalize res.h, pixels
   normalize res.s, pixels
@@ -70,7 +73,7 @@ computeHistogram = (canvas) ->
 exports.getComponent = ->
   c = new noflo.Component
   c.icon = 'file-image-o'
-  c.description = 'Calculate RGBY and HSCL histograms of a given canvas.'
+  c.description = 'Calculate RGBAY and HSCL histograms of a given canvas.'
 
   c.outPorts.add 'histogram',
     datatype: 'object'
