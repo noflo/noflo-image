@@ -6,10 +6,9 @@ unless noflo.isBrowser()
 else
   ApplyVignette = require 'noflo-image/components/ApplyVignette.js'
   testutils = require 'noflo-image/spec/testutils.js'
- 
- 
+
 describe 'ApplyVignette component', ->
- 
+
   c = null
   inImage = null
   outImage = null
@@ -20,13 +19,13 @@ describe 'ApplyVignette component', ->
     outImage = noflo.internalSocket.createSocket()
     c.inPorts.canvas.attach inImage
     c.outPorts.canvas.attach outImage
- 
+
   describe 'when instantiated', ->
     it 'should have one input port', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
     it 'should have one output port', ->
       chai.expect(c.outPorts.canvas).to.be.an 'object'
- 
+
   describe 'with file system image', ->
     it 'should make an image with a dark vignette', (done) ->
       id = null
@@ -35,19 +34,16 @@ describe 'ApplyVignette component', ->
         groups.push group
       outImage.once 'data', (res) ->
         chai.expect(res).to.be.an 'object'
-
         # Tests result versus reference data
         refSrc = 'vignette.png'
         idOut = testutils.getCanvasWithImageNoShift refSrc, (ref) =>
           resCtx = res.getContext '2d'
           resData = resCtx.getImageData(0, 0, res.width, res.height).data
-          
           refCtx = ref.getContext '2d'
           refData = refCtx.getImageData(0, 0, ref.width, ref.height).data
-          
           for x in [0...resData.length] by 4
             difference = Math.abs(refData[x]-resData[x])
-            threshold = 2.5
+            threshold = 20.0
             chai.expect(difference).to.be.at.most threshold
           done()
 
