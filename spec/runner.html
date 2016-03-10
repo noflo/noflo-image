@@ -17,7 +17,10 @@
     <script src="../browser/noflo-image.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
     <script src="../node_modules/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd');</script>
+    <script>
+      window.initMochaPhantomJS();
+      mocha.setup('bdd');
+    </script>
     <script src="./CreateImage.js"></script>
     <script src="./CalculateAspectRatio.js"></script>
     <script src="./GetCannyEdges.js"></script>
