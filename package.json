@@ -29,7 +29,7 @@
     "noflo-strings": "0.1.11",
     "request": "^2.69.0",
     "rgbquant": "1.1.2",
-    "superagent": "0.21.0",
+    "superagent": "1.8.1",
     "temporary": "0.0.8",
     "urijs": "^1.17.0"
   },
