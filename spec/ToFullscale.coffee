@@ -71,9 +71,9 @@ describe 'ToFullscale component', ->
         url.send 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/ingress-table-test-small.jpg'
       it 'should return thumbnail URL when one doesn\'t exist', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
+          chai.expect(image).to.equal 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/deathmonkey-map-small.jpg'
           done()
-        url.send 'http://bergie.iki.fi/files/deathmonkey-map-small.jpg'
+        url.send 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/deathmonkey-map-small.jpg'
 
     describe 'with Wikimedia Commons thumbnails', ->
       it 'should return correct URL for non-sized', (done) ->
