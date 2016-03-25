@@ -54,7 +54,6 @@ tryFindingFullscale = (url, out, callback) ->
   # Verify that it exists
   superagent.head fullUrl
   .end (err, res) ->
-    return callback err if err
     newUrl = fullUrl if res and res.statusCode is 200
     out.beginGroup url
     out.send newUrl
