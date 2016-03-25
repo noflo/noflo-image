@@ -59,12 +59,13 @@ describe 'Measure component', ->
   describe 'with remote JPG image', ->
     url = 'http://s3.eu-central-1.amazonaws.com/bergie-iki-fi/flowhub-promo.jpg'
     it 'should have the correct group', (done) ->
+      @timeout 10000
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
       ins.send url
     it 'should find correct dimensions', (done) ->
-      @timeout 0
+      @timeout 10000
       error.once 'data', (data) ->
         console.log data
         chai.expect(true).to.equal false
