@@ -14,7 +14,7 @@ describe 'GetGIFFrame component', ->
   out = null
 
   beforeEach ->
-    c = Crop.getComponent()
+    c = GetGIFFrame.getComponent()
     ins = noflo.internalSocket.createSocket()
     frame = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
