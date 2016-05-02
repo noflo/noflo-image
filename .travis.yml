@@ -10,6 +10,7 @@ addons:
     - g++-4.8
     - libcairo2-dev
     - libgif-dev
+    - graphicsmagick
 before_script:
 - npm install -g grunt-cli
 env:
