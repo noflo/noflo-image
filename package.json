@@ -73,6 +73,7 @@
       "GetColorsFromCentroids": "components/GetColorsFromCentroids.coffee",
       "GetColorsFromRectangles": "components/GetColorsFromRectangles.coffee",
       "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
+      "GetGIFFrame": "components/GetGIFFrame.coffee",
       "GetHistogram": "components/GetHistogram.coffee",
       "GetOrientation": "components/GetOrientation.coffee",
       "GetPresetCurve": "components/GetPresetCurve.coffee",
