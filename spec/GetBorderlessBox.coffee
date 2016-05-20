@@ -63,7 +63,6 @@ describe 'GetBorderlessBox component', ->
         # filepath = 'bird.jpg'
         # testutils.getCanvasWithImageNoShift filepath, (c) ->
         #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -91,7 +90,6 @@ describe 'GetBorderlessBox component', ->
         # filepath = 'bird2.jpg'
         # testutils.getCanvasWithImageNoShift filepath, (c) ->
         #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -119,7 +117,6 @@ describe 'GetBorderlessBox component', ->
         # filepath = 'borderless3.jpg'
         # testutils.getCanvasWithImageNoShift filepath, (c) ->
         #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -147,7 +144,6 @@ describe 'GetBorderlessBox component', ->
         # filepath = 'borderless4.jpg'
         # testutils.getCanvasWithImageNoShift filepath, (c) ->
         #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -175,7 +171,6 @@ describe 'GetBorderlessBox component', ->
         # filepath = 'borderless1.jpg'
         # testutils.getCanvasWithImageNoShift filepath, (c) ->
         #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -287,22 +282,24 @@ describe 'GetBorderlessBox component', ->
         canvas.send c
         canvas.endGroup()
 
-    it 'should not remove more than 25% of image', (done) ->
+    it 'should not remove more than 50% of image', (done) ->
       @timeout 10000
-      groupId = '25-of-image'
+      groupId = '50-of-image'
       groups = []
       out.once 'begingroup', (group) ->
         groups.push group
       out.once 'endgroup', (group) ->
         groups.pop()
       out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['25-of-image']
+        chai.expect(groups).to.be.eql ['50-of-image']
         expected =
           x: 0
           y: 0
           width: 480
           height: 360
-        console.log res
+        # filepath = 'de.jpg'
+        # testutils.getCanvasWithImageNoShift filepath, (c) ->
+        #   testutils.cropAndSave "#{filepath}_borderless.jpg", c, res
         checkSimilar chai, res, expected, 3
         done()
 

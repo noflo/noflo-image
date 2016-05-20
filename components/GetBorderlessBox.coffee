@@ -37,7 +37,7 @@ isBorder = (array, prev, threshold) ->
 
 exports.getComponent = ->
   c = new noflo.Component
-  c.description = 'Extract a bounding box with top and bottom black borders removed (avoids removing more than 25% of image)'
+  c.description = 'Extract a bounding box with top and bottom black borders removed (avoids removing more than 50% of image)'
   c.icon = 'file-image-o'
   c.inPorts = new noflo.InPorts
     canvas:
@@ -145,25 +145,29 @@ exports.getComponent = ->
       width: canvas.width
       height: canvas.height
 
-    verticalVariation = Math.min bbox.y, croppedBbox.height - bbox.height
-    horizontalVariation = Math.min bbox.x, croppedBbox.width - bbox.width
-
-    # If there is no cropping necessary in the lateral borders
-    # 10 is a threshold value
-    if horizontalVariation < 10
-      # Change bbox to verticalVariation if same size crop is wanted
+    # If there is not too much difference between up and down borders, crop them
+    if (Math.abs bbox.y - (canvas.height - bbox.height)) <
+        (Math.max bbox.y, (canvas.height - bbox.height)) * 0.75
       croppedBbox.y = bbox.y
       croppedBbox.height = bbox.height - croppedBbox.y
 
     # Uncomment following lines if lateral crop is necessary
+    # if (Math.abs bbox.x - (croppedBbox.width - bbox.width)) <
+    #     (Math.max bbox.x, (croppedBbox.width - bbox.width)) * 0.75
+    #   croppedBbox.x = bbox.x
+    #   croppedBbox.width = bbox.width - croppedBbox.x
+
+    # verticalVariation = Math.min bbox.y, croppedBbox.height - bbox.height
+    # horizontalVariation = Math.min bbox.x, croppedBbox.width - bbox.width
+
     # if horizontalVariation > verticalVariation
     #   croppedBbox.x = horizontalVariation
     #   croppedBbox.width = bbox.width - croppedBbox.x
 
-    # Check for invalid bboxes (e.g. images with one color, small bboxes)
-    if ((croppedBbox.height - croppedBbox.y) *
-        (croppedBbox.width - croppedBbox.x)) <=
-        (0.25 * gray.length) or
+    # Check for invalid bboxes (e.g. images with only one color, small bboxes)
+    newLength = (croppedBbox.height - croppedBbox.y) *
+      (croppedBbox.width - croppedBbox.x)
+    if (newLength < (0.5 * gray.length)) or
         croppedBbox.width < 0 or
         croppedBbox.height < 0
       croppedBbox =
