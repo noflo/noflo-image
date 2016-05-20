@@ -60,9 +60,6 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 1024
           height: 683
-        # filepath = 'bird.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
         checkSimilar chai, res, expected, 3
         done()
 
@@ -87,9 +84,6 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 1024
           height: 683
-        # filepath = 'bird2.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
         checkSimilar chai, res, expected, 3
         done()
 
@@ -114,9 +108,6 @@ describe 'GetBorderlessBox component', ->
           y: 48
           width: 480
           height: 264
-        # filepath = 'borderless3.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
         checkSimilar chai, res, expected, 3
         done()
 
@@ -141,9 +132,6 @@ describe 'GetBorderlessBox component', ->
           y: 103
           width: 640
           height: 433
-        # filepath = 'borderless4.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
         checkSimilar chai, res, expected, 3
         done()
 
@@ -168,9 +156,6 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 600
           height: 338
-        # filepath = 'borderless1.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
         checkSimilar chai, res, expected, 3
         done()
 
@@ -297,13 +282,58 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 480
           height: 360
-        # filepath = 'de.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.jpg", c, res
         checkSimilar chai, res, expected, 3
         done()
 
       inSrc = 'de.jpg'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should not remove borders from an image that has all the borders', (done) ->
+      @timeout 10000
+      groupId = 'all-borders'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['all-borders']
+        expected =
+          x: 0
+          y: 0
+          width: 648
+          height: 371
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'borderless5.jpeg'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should not crop images with solid background', (done) ->
+      @timeout 10000
+      groupId = 'solid-background'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['solid-background']
+        expected =
+          x: 0
+          y: 0
+          width: 300
+          height: 300
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'borderless6.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
         canvas.send c

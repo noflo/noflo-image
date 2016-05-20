@@ -37,7 +37,7 @@ isBorder = (array, prev, threshold) ->
 
 exports.getComponent = ->
   c = new noflo.Component
-  c.description = 'Extract a bounding box with top and bottom black borders removed (avoids removing more than 50% of image)'
+  c.description = 'Extract a bounding box with top and bottom borders removed (according to a certain threshold)'
   c.icon = 'file-image-o'
   c.inPorts = new noflo.InPorts
     canvas:
@@ -69,6 +69,8 @@ exports.getComponent = ->
     c.params.max = 10 unless c.params.max
     c.params.avg = 10 unless c.params.avg
     threshold = c.params
+    diffPercentualTopBottom = 0.25
+    maxPercentualCrop = 0.5
 
     # Convert to grayscale
     gray = []
@@ -145,9 +147,11 @@ exports.getComponent = ->
       width: canvas.width
       height: canvas.height
 
-    # If there is not too much difference between up and down borders, crop them
+    # If there is not too much difference between top and bottom borders,
+    # then crop them
     if (Math.abs bbox.y - (canvas.height - bbox.height)) <
-        (Math.max bbox.y, (canvas.height - bbox.height)) * 0.25
+        (Math.max bbox.y, (canvas.height - bbox.height)) *
+        diffPercentualTopBottom
       croppedBbox.y = bbox.y
       croppedBbox.height = bbox.height - croppedBbox.y
 
@@ -167,7 +171,7 @@ exports.getComponent = ->
     # Check for invalid bboxes (e.g. images with only one color, small bboxes)
     newLength = (croppedBbox.height - croppedBbox.y) *
       (croppedBbox.width - croppedBbox.x)
-    if (newLength < (0.5 * gray.length)) or
+    if (newLength < (maxPercentualCrop * gray.length)) or
         croppedBbox.width < 0 or
         croppedBbox.height < 0
       croppedBbox =
