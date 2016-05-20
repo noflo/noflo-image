@@ -147,7 +147,7 @@ exports.getComponent = ->
 
     # If there is not too much difference between up and down borders, crop them
     if (Math.abs bbox.y - (canvas.height - bbox.height)) <
-        (Math.max bbox.y, (canvas.height - bbox.height)) * 0.75
+        (Math.max bbox.y, (canvas.height - bbox.height)) * 0.25
       croppedBbox.y = bbox.y
       croppedBbox.height = bbox.height - croppedBbox.y
 
