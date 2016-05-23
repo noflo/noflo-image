@@ -60,10 +60,6 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 1024
           height: 683
-        # filepath = 'bird.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -88,10 +84,6 @@ describe 'GetBorderlessBox component', ->
           y: 0
           width: 1024
           height: 683
-        # filepath = 'bird2.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -112,18 +104,14 @@ describe 'GetBorderlessBox component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['rectangle-ranges']
         expected =
-          x: 64
-          y: 0
-          width: 1152
-          height: 720
-        # filepath = 'borderless2.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
+          x: 0
+          y: 48
+          width: 480
+          height: 264
         checkSimilar chai, res, expected, 3
         done()
 
-      inSrc = 'borderless2.jpg'
+      inSrc = 'borderless3.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
         canvas.send c
@@ -141,23 +129,19 @@ describe 'GetBorderlessBox component', ->
         chai.expect(groups).to.be.eql ['rectangle-ranges']
         expected =
           x: 0
-          y: 48
-          width: 480
-          height: 264
-        # filepath = 'borderless3.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
+          y: 103
+          width: 640
+          height: 433
         checkSimilar chai, res, expected, 3
         done()
 
-      inSrc = 'borderless3.jpg'
+      inSrc = 'borderless4.jpg'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
         canvas.send c
         canvas.endGroup()
 
-    it 'should remove borders #3', (done) ->
+    it 'should not remove left and right white borders', (done) ->
       @timeout 10000
       groupId = 'rectangle-ranges'
       groups = []
@@ -169,41 +153,9 @@ describe 'GetBorderlessBox component', ->
         chai.expect(groups).to.be.eql ['rectangle-ranges']
         expected =
           x: 0
-          y: 103
-          width: 640
-          height: 433
-        # filepath = 'borderless4.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless4.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should remove left and right white borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 38
           y: 0
-          width: 522
+          width: 600
           height: 338
-        # filepath = 'borderless1.jpg'
-        # testutils.getCanvasWithImageNoShift filepath, (c) ->
-        #   testutils.cropAndSave "#{filepath}_borderless.png", c, res
-        #   done()
         checkSimilar chai, res, expected, 3
         done()
 
@@ -216,7 +168,7 @@ describe 'GetBorderlessBox component', ->
         canvas.send c
         canvas.endGroup()
 
-    it 'should remove left and right black borders', (done) ->
+    it 'should not remove left and right black borders', (done) ->
       @timeout 10000
       groupId = 'rectangle-ranges'
       groups = []
@@ -227,9 +179,9 @@ describe 'GetBorderlessBox component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['rectangle-ranges']
         expected =
-          x: 64
+          x: 0
           y: 0
-          width: 1152
+          width: 1280
           height: 720
         checkSimilar chai, res, expected, 3
         done()
@@ -312,5 +264,77 @@ describe 'GetBorderlessBox component', ->
         mean.send 0.5
         max.send 10
         avg.send 10
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should not remove more than 50% of image', (done) ->
+      @timeout 10000
+      groupId = '50-of-image'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['50-of-image']
+        expected =
+          x: 0
+          y: 0
+          width: 480
+          height: 360
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'de.jpg'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should not remove borders from an image that has all the borders', (done) ->
+      @timeout 10000
+      groupId = 'all-borders'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['all-borders']
+        expected =
+          x: 0
+          y: 0
+          width: 648
+          height: 371
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'borderless5.jpeg'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should not crop images with solid background', (done) ->
+      @timeout 10000
+      groupId = 'solid-background'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['solid-background']
+        expected =
+          x: 0
+          y: 0
+          width: 300
+          height: 300
+        checkSimilar chai, res, expected, 3
+        done()
+
+      inSrc = 'borderless6.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
         canvas.send c
         canvas.endGroup()

@@ -11,6 +11,7 @@ addons:
     - libcairo2-dev
     - libgif-dev
     - graphicsmagick
+    - libjpeg8-dev
 before_script:
 - npm install -g grunt-cli
 env:
