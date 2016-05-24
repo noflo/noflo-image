@@ -3,7 +3,7 @@
   "description": "Image processing utilities for NoFlo, browser and Node.js.",
   "author": "Forrest Oliphant",
   "repository": "noflo/noflo-image",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
