@@ -13,6 +13,216 @@ checkSimilar = (chai, bbox, expected, delta) ->
   chai.expect(bbox.width).to.be.closeTo expected.width, delta
   chai.expect(bbox.height).to.be.closeTo expected.height, delta
 
+fixtures = [
+  id: 'not crop a blank image'
+  src: 'borders/border-blank.png'
+  expected:
+    x: 0
+    y: 0
+    width: 10
+    height: 20
+,
+  id: 'not crop on right side only'
+  src: 'borders/border-right.png'
+  expected:
+      x: 0
+      y: 0
+      width: 200
+      height: 150
+,
+  id: 'not crop on right side only, with artefacts'
+  src: 'borders/border-neumann.png'
+  expected:
+    x: 0
+    y: 0
+    width: 733
+    height: 731
+,
+  id: 'not crop on left side only'
+  src: 'borders/border-left.png'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+,
+  id: 'not crop on top side only'
+  src: 'borders/border-top.png'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+,
+  id: 'not crop on bottom side only'
+  src: 'borders/border-bottom.png'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+,
+  id: 'crop around a polygon'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+  src: 'borders/border-polygon.png'
+,
+  id: 'not crop around circles'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+  src: 'borders/border-circles.png'
+,
+  id: 'crop around stripes'
+  expected:
+    x: 0
+    y: 12
+    width: 200
+    height: 126
+  src: 'borders/border-stripes.png'
+,
+  id: 'crop around pyramid'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+  src: 'borders/border-pyramid.png'
+,
+  id: 'crop around pyramid (blur)'
+  expected:
+    x: 0
+    y: 0
+    width: 200
+    height: 150
+  src: 'borders/border-pyramid-blur.jpg'
+,
+  id: 'crop left and right borders around non-continuous lines'
+  src: 'borders/border-non-continuous-lines.jpg'
+  expected:
+    x: 32
+    y: 0
+    width: 529
+    height: 338
+,
+  id: 'not crop background color'
+  src: 'borders/border-header.png'
+  expected:
+    x: 0
+    y: 0
+    width: 1952
+    height: 512
+,
+  id: 'crop on left and right sides (YouTube preview)'
+  src: 'borders/border-left-right.jpg'
+  expected:
+    x: 56
+    y: 0
+    width: 368
+    height: 360
+,
+  id: 'not remove negative spaces'
+  src: 'borders/border-negative.jpg'
+  expected:
+    x: 0
+    y: 0
+    width: 1024
+    height: 683
+,
+  id: 'not remove negative spaces #2'
+  src: 'borders/border-negative2.jpg'
+  expected:
+    x: 0
+    y: 0
+    width: 1024
+    height: 683
+,
+  id: 'remove top and bottom borders from Youtube previews'
+  src: 'borders/border-top-bottom-youtube.jpg'
+  expected:
+    x: 0
+    y: 80
+    width: 480
+    height: 208
+,
+  id: 'remove top and bottom borders'
+  src: 'borders/border-top-bottom.jpg'
+  expected:
+    x: 0
+    y: 48
+    width: 480
+    height: 264
+,
+  id: 'remove top and bottom white borders'
+  src: 'borders/borders-top-bottom-white.jpg'
+  expected:
+    x: 0
+    y: 103
+    width: 640
+    height: 433
+,
+  id: 'remove left and right black borders'
+  src: 'borders/border-left-right-black.jpg'
+  expected:
+    x: 64
+    y: 0
+    width: 1152
+    height: 720
+,
+  id: 'not remove borders from a image with solid background'
+  src: 'borders/border-solid.jpg'
+  expected:
+    x: 0
+    y: 0
+    width: 80
+    height: 80
+,
+  id: 'not remove borders from a flag'
+  src: 'borders/border-flag.jpg'
+  expected:
+    x: 0
+    y: 0
+    width: 1400
+    height: 1075
+,
+  id: 'not remove borders from an image with different sizes of borders'
+  src: 'borders/border-different.jpg'
+  expected:
+    x: 0
+    y: 0
+    width: 480
+    height: 360
+,
+  id: 'not remove borders from an image that has all the borders',
+  src: 'borders/border-all.jpeg'
+  expected:
+    x: 0
+    y: 0
+    width: 648
+    height: 371
+,
+  id: 'not crop images of logos'
+  src: 'borders/border-logo.png'
+  expected:
+    x: 0
+    y: 0
+    width: 300
+    height: 300
+,
+  id: 'not crop images of logos #2'
+  expected:
+    x: 0
+    y: 0
+    width: 100
+    height: 100,
+  src: 'borders/border-logo2.png'
+]
+
 describe 'GetBorderlessBox component', ->
   c = null
   canvas = null
@@ -45,296 +255,24 @@ describe 'GetBorderlessBox component', ->
       chai.expect(c.outPorts.rectangle).to.be.an 'object'
 
   describe 'when passed a canvas', ->
-    it 'should not remove negative spaces', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 0
-          width: 1024
-          height: 683
-        checkSimilar chai, res, expected, 3
-        done()
 
-      inSrc = 'bird.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
+    fixtures.forEach (fixture) ->
+      {id, src, expected} = fixture
+      it "should #{id}", (done) ->
+        @timeout 10000
+        groups = []
+        out.once 'begingroup', (group) ->
+          groups.push group
+        out.once 'endgroup', (group) ->
+          groups.pop()
+        out.once 'data', (res) ->
+          chai.expect(groups).to.be.eql [id]
+          # testutils.getCanvasWithImageNoShift src, (c) ->
+          #   testutils.cropAndSave "#{src}_borderless.png", c, res
+          checkSimilar chai, res, expected, 3
+          done()
 
-    it 'should not remove negative spaces #2', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 0
-          width: 1024
-          height: 683
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'bird2.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should remove borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 48
-          width: 480
-          height: 264
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless3.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should remove borders #2', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 103
-          width: 640
-          height: 433
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless4.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not remove left and right white borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 0
-          width: 600
-          height: 338
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless1.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        mean.send 0.5
-        max.send 10
-        avg.send 10
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not remove left and right black borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 0
-          width: 1280
-          height: 720
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless2.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should remove up and down black borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 48
-          width: 480
-          height: 264
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless3.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should remove up and down white borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 106
-          width: 640
-          height: 430
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless4.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not remove borders', (done) ->
-      @timeout 10000
-      groupId = 'rectangle-ranges'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['rectangle-ranges']
-        expected =
-          x: 0
-          y: 0
-          width: 80
-          height: 80
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'original.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        mean.send 0.5
-        max.send 10
-        avg.send 10
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not remove more than 50% of image', (done) ->
-      @timeout 10000
-      groupId = '50-of-image'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['50-of-image']
-        expected =
-          x: 0
-          y: 0
-          width: 480
-          height: 360
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'de.jpg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not remove borders from an image that has all the borders', (done) ->
-      @timeout 10000
-      groupId = 'all-borders'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['all-borders']
-        expected =
-          x: 0
-          y: 0
-          width: 648
-          height: 371
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless5.jpeg'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
-
-    it 'should not crop images with solid background', (done) ->
-      @timeout 10000
-      groupId = 'solid-background'
-      groups = []
-      out.once 'begingroup', (group) ->
-        groups.push group
-      out.once 'endgroup', (group) ->
-        groups.pop()
-      out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql ['solid-background']
-        expected =
-          x: 0
-          y: 0
-          width: 300
-          height: 300
-        checkSimilar chai, res, expected, 3
-        done()
-
-      inSrc = 'borderless6.png'
-      testutils.getCanvasWithImageNoShift inSrc, (c) ->
-        canvas.beginGroup groupId
-        canvas.send c
-        canvas.endGroup()
+        testutils.getCanvasWithImageNoShift src, (c) ->
+          canvas.beginGroup id
+          canvas.send c
+          canvas.endGroup()

@@ -69,8 +69,9 @@ exports.getComponent = ->
     c.params.max = 10 unless c.params.max
     c.params.avg = 10 unless c.params.avg
     threshold = c.params
-    diffPercentualTopBottom = 0.25
-    maxPercentualCrop = 0.5
+    diffPercentual = 0.25
+    maxPercentualCrop = 0.75
+    percentualConsideredBorder = 0.05
 
     # Convert to grayscale
     gray = []
@@ -147,33 +148,33 @@ exports.getComponent = ->
       width: canvas.width
       height: canvas.height
 
-    # If there is not too much difference between top and bottom borders,
-    # then crop them
+    # Crop if there is not too much difference between top and bottom borders
     if (Math.abs bbox.y - (canvas.height - bbox.height)) <
-        (Math.max bbox.y, (canvas.height - bbox.height)) *
-        diffPercentualTopBottom
+        (Math.max bbox.y, (canvas.height - bbox.height)) * diffPercentual
       croppedBbox.y = bbox.y
       croppedBbox.height = bbox.height - croppedBbox.y
 
-    # Uncomment following lines if lateral crop is necessary
-    # if (Math.abs bbox.x - (croppedBbox.width - bbox.width)) <
-    #     (Math.max bbox.x, (croppedBbox.width - bbox.width)) * 0.75
-    #   croppedBbox.x = bbox.x
-    #   croppedBbox.width = bbox.width - croppedBbox.x
+    # Crop if there is not too much difference between left and right borders
+    if (Math.abs bbox.x - (canvas.width - bbox.width)) <
+        (Math.max bbox.x, (canvas.width - bbox.width)) * diffPercentual
+      croppedBbox.x = bbox.x
+      croppedBbox.width = bbox.width - croppedBbox.x
 
-    # verticalVariation = Math.min bbox.y, croppedBbox.height - bbox.height
-    # horizontalVariation = Math.min bbox.x, croppedBbox.width - bbox.width
+    # Calculate maximum variation in each direction
+    verticalVariation = Math.max bbox.y, canvas.height - croppedBbox.height
+    horizontalVariation = Math.max bbox.x, canvas.width - croppedBbox.width
 
-    # if horizontalVariation > verticalVariation
-    #   croppedBbox.x = horizontalVariation
-    #   croppedBbox.width = bbox.width - croppedBbox.x
-
-    # Check for invalid bboxes (e.g. images with only one color, small bboxes)
     newLength = (croppedBbox.height - croppedBbox.y) *
       (croppedBbox.width - croppedBbox.x)
-    if (newLength < (maxPercentualCrop * gray.length)) or
-        croppedBbox.width < 0 or
-        croppedBbox.height < 0
+
+    # Do not crop if:
+    # - The new image size is low than a certain maxPercentualCrop
+    if (newLength < ((1.0 - maxPercentualCrop) * gray.length)) or
+        # - There are horizontal AND vertical borders
+        ((verticalVariation > percentualConsideredBorder * canvas.height) and
+        (horizontalVariation > percentualConsideredBorder * canvas.width)) or
+        # - All the image was cropped
+        croppedBbox.width < 0 or croppedBbox.height < 0
       croppedBbox =
         x: 0
         y: 0

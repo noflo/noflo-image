@@ -4,4 +4,5 @@
 /spec/fixtures/*/*.out
 /browser/
 /spec/*.xml
+/spec/fixtures/borders/*_borderless.png
 .DS_Store
