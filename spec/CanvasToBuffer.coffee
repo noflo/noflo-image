@@ -38,7 +38,7 @@ describe 'CanvasToBuffer component', ->
           chai.expect(data).to.be.an 'object'
           chai.expect(data).to.be.an.instanceOf Buffer
           done()
-        src = 'spec/test-80x80.jpg'
+        src = 'original.jpg'
         testutils.getCanvasWithImageNoShift src, (canvas) ->
           ins.beginGroup 'foo'
           ins.send canvas
