@@ -60,6 +60,7 @@
       "ApplyVignette": "components/ApplyVignette.coffee",
       "BufferToCanvas": "components/BufferToCanvas-node.coffee",
       "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
+      "CanvasToBuffer": "components/CanvasToBuffer.coffee",
       "CreateImage": "components/CreateImage-node.coffee",
       "Crop": "components/Crop.coffee",
       "DetectAnimatedGif": "components/DetectAnimatedGif.coffee",
