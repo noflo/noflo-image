@@ -15,7 +15,7 @@ describe 'CanvasToBuffer component', ->
     ins = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
-    c.inPorts.url.attach ins
+    c.inPorts.canvas.attach ins
     c.outPorts.buffer.attach out
     c.outPorts.error.attach error
 
