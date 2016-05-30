@@ -2,8 +2,10 @@ noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
   CanvasToBuffer = require '../components/CanvasToBuffer.coffee'
+  testutils = require './testutils'
 else
   CanvasToBuffer = require 'noflo-image/components/CanvasToBuffer.js'
+  testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'CanvasToBuffer component', ->
   c = null
