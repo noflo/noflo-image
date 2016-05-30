@@ -32,7 +32,7 @@ describe 'CanvasToBuffer component', ->
   describe 'when sending a canvas', ->
     unless noflo.isBrowser()
       it 'should return a buffer', (done) ->
-        expected = 'spec/test-80x80.jpg'
+        @timeout 5000
         out.once 'data', (data) ->
           console.log 'data', data
           chai.expect(data).to.be.an 'object'
