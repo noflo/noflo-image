@@ -26,6 +26,8 @@ exports.getComponent = ->
     async: true
   , (canvas, groups, out, callback) ->
     canvas.toBuffer (err, buffer) ->
+      console.log 'err', err
+      console.log 'buffer', buffer
       if err
         return callback err
       out.send buffer
