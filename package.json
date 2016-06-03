@@ -26,7 +26,7 @@
     "noflo-canvas": "~0.2.0",
     "noflo-core": "0.2.0",
     "noflo-filesystem": "1.0.6",
-    "noflo-groups": "0.1.7",
+    "noflo-groups": "0.1.10",
     "noflo-objects": "0.1.12",
     "noflo-strings": "0.1.11",
     "read-chunk": "^2.0.0",
