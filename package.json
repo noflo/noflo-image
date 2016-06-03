@@ -21,7 +21,7 @@
     "gm": "^1.22.0",
     "image-size": "~0.4.0",
     "jsfeat": "0.0.8",
-    "noflo": "^0.5.21",
+    "noflo": "0.x >= 0.5",
     "noflo-ajax": "~0.1.6",
     "noflo-canvas": "~0.2.3",
     "noflo-core": "~0.2.2",
