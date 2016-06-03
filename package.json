@@ -28,7 +28,7 @@
     "noflo-filesystem": "1.0.6",
     "noflo-groups": "0.1.7",
     "noflo-objects": "0.1.12",
-    "noflo-strings": "0.1.11",
+    "noflo-strings": "0.1.13",
     "read-chunk": "^2.0.0",
     "request": "^2.69.0",
     "rgbquant": "1.1.2",
