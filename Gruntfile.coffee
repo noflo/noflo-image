@@ -85,7 +85,7 @@ module.exports = ->
     @task.run 'connect'
     if target is 'all' or target is 'nodejs'
       @task.run 'mochaTest'
-    if target is 'all' or target is 'browser'
+    if target is 'browser'
       @task.run 'coffee'
       @task.run 'mocha_phantomjs'
 
