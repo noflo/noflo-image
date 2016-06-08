@@ -34,7 +34,7 @@ describe 'UrlToCanvas graph', ->
     it 'should make a canvas with the correct size', (done) ->
       @timeout 10000
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data.width).to.equal 1024
         chai.expect(data.height).to.equal 768
         done()
@@ -52,7 +52,7 @@ describe 'UrlToCanvas graph', ->
     it 'should make a canvas with the correct size', (done) ->
       @timeout 10000
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data.width).to.equal 1024
         chai.expect(data.height).to.equal 768
         done()

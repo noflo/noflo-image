@@ -7,7 +7,6 @@ else
   GetFeaturesYAPE = require 'noflo-image/components/GetFeaturesYAPE.js'
   testutils = require 'noflo-image/spec/testutils.js'
 
-
 describe 'GetFeaturesYAPE component', ->
   c = null
   ins = null
@@ -53,7 +52,7 @@ describe 'GetFeaturesYAPE component', ->
               corners.once "data", (corners) ->
                 testutils.writeOut ref+'.out', { corners: corners }
                 chai.expect(corners).to.be.an 'array'
-                chai.expect(corners[0]).to.be.an 'object'
+                chai.expect(corners[0]).isObject
                 chai.expect(corners[0]).to.have.property 'x'
                 chai.expect(corners[0]).to.have.property 'y'
                 chai.expect(corners[0]).to.have.property 'score'
@@ -75,7 +74,7 @@ describe 'GetFeaturesYAPE component', ->
               canvas.once "begingroup", (group) ->
                 groups.push group
               canvas.once "data", (canvas) ->
-                chai.expect(canvas).to.be.an 'object'
+                chai.expect(canvas).isObject
                 chai.expect(groups).to.have.length 1
                 chai.expect(groups[0]).to.equal id
                 done()

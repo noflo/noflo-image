@@ -32,13 +32,13 @@ describe 'UrlToBuffer component', ->
       it 'should return a buffer', (done) ->
         expected = 'spec/test-80x80.jpg'
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           chai.expect(data).to.be.an.instanceOf Buffer
           done()
         ins.send expected
       it 'should send an error for zero-sized images', (done) ->
         error.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           chai.expect(data.url).to.equal 'spec/empty.jpg'
           done()
         ins.send 'spec/empty.jpg'
@@ -55,7 +55,7 @@ describe 'UrlToBuffer component', ->
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data).to.be.an.instanceOf Buffer
         done()
       ins.send url
@@ -76,7 +76,7 @@ describe 'UrlToBuffer component', ->
     it 'should return a buffer', (done) ->
       @timeout 15000
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data).to.be.an.instanceOf Buffer
         done()
       ins.send url
