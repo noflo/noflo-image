@@ -50,7 +50,11 @@
     "grunt-noflo-manifest": "^0.1.11",
     "mocha": "^2.5.3"
   },
-  "keywords": [],
+  "keywords": [
+    "noflo",
+    "image",
+    "image processing"
+  ],
   "noflo": {
     "components": {
       "AdjustBrightness": "components/AdjustBrightness.coffee",
