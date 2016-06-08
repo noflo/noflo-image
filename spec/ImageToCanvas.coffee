@@ -19,7 +19,7 @@ describe 'ImageToCanvas component', ->
     outCanvas = noflo.internalSocket.createSocket()
     c.inPorts.image.attach inImage
     c.outPorts.canvas.attach outCanvas
-   
+
   describe 'when instantiated', ->
     it 'should have one input ports', ->
       chai.expect(c.inPorts.image).to.be.an 'object'
@@ -30,7 +30,7 @@ describe 'ImageToCanvas component', ->
     it 'should make a canvas with the correct size', (done) ->
       @timeout 2000
       outCanvas.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data.width).to.equal 1024
         chai.expect(data.height).to.equal 681
         done()

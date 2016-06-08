@@ -32,14 +32,14 @@ describe 'CreateImage component', ->
     unless noflo.isBrowser()
       it 'should make image from file system test image', (done) ->
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           chai.expect(data.width).to.equal 80
           chai.expect(data.height).to.equal 80
           done()
         ins.send 'spec/test-80x80.jpg'
       it 'should send an error for zero-sized images', (done) ->
         error.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           chai.expect(data.url).to.equal 'spec/empty.jpg'
           done()
         ins.send 'spec/empty.jpg'
@@ -58,7 +58,7 @@ describe 'CreateImage component', ->
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data.width).to.equal 80
         chai.expect(data.height).to.equal 80
         done()
@@ -79,7 +79,7 @@ describe 'CreateImage component', ->
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
+        chai.expect(data).isObject
         chai.expect(data.width).to.equal 770
         chai.expect(data.height).to.equal 376
         done()
@@ -102,13 +102,6 @@ describe 'CreateImage component', ->
         url = 'http://i.meemoo.me/v1/out/gf06kZyrQW6DWmwMf5zp_meemoo.png'
         sock_cors.send 'Anonymous'
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           done()
         ins.send url
-      # it 'should error', (done) ->
-      #   url = 'http://meemoo.org/hack-our-apps/shots/monochrome.png'
-      #   sock_cors.send 'Anonymous'
-      #   error.once 'data', (data) ->
-      #     chai.expect(data).to.be.an 'object'
-      #     done()
-      #   ins.send url

@@ -34,7 +34,7 @@ describe 'CanvasToBuffer component', ->
       it 'should return a buffer', (done) ->
         @timeout 5000
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
+          chai.expect(data).isObject
           chai.expect(data).to.be.an.instanceOf Buffer
           done()
         src = 'original.jpg'

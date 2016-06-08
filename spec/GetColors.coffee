@@ -7,7 +7,6 @@ unless noflo.isBrowser()
 else
   GetColors = require 'noflo-image/components/GetColors.js'
 
-
 createCanvas = (width, height) ->
   if noflo.isBrowser()
     canvas = document.createElement 'canvas'
@@ -102,7 +101,7 @@ describe 'GetColors component', ->
       canvas.once "begingroup", (group) ->
         groups.push group
       canvas.once "data", (canvas) ->
-        chai.expect(canvas).to.be.an 'object'
+        chai.expect(canvas).isObject
         chai.expect(groups).to.have.length 1
         chai.expect(groups[0]).to.equal id
         done()

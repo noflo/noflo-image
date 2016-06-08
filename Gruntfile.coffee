@@ -61,6 +61,21 @@ module.exports = ->
         'max_line_length':
           'level': 'ignore'
 
+    # NoFlo lint
+    noflo_lint:
+      options:
+        description: 'error'
+        icon: 'error'
+        port_descriptions: 'error'
+        asynccomponent: 'error'
+        wirepattern: 'warn'
+        process_api: 'warn'
+        legacy_api: 'warn'
+      files:
+        src: [
+          'graphs/*.json'
+        ]
+
   # Grunt plugins used for building
   @loadNpmTasks 'grunt-noflo-manifest'
   @loadNpmTasks 'grunt-noflo-browser'
@@ -72,6 +87,7 @@ module.exports = ->
   @loadNpmTasks 'grunt-mocha-phantomjs'
   @loadNpmTasks 'grunt-coffeelint'
   @loadNpmTasks 'grunt-contrib-connect'
+  @loadNpmTasks 'grunt-noflo-lint'
 
   # Our local tasks
   @registerTask 'build', 'Build NoFlo for the chosen target platform', (target = 'all') =>
@@ -82,6 +98,7 @@ module.exports = ->
   @registerTask 'test', 'Build NoFlo and run automated tests', (target = 'all') =>
     @task.run 'coffeelint'
     @task.run 'build'
+    @task.run 'noflo_lint'
     @task.run 'connect'
     if target is 'all' or target is 'nodejs'
       @task.run 'mochaTest'
