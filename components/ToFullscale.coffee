@@ -54,12 +54,12 @@ tryFindingFullscale = (url, out, callback) ->
   # Verify that it exists
   superagent.head fullUrl
   .end (err, res) ->
-    return callback err if err
+    return callback err if err and res.statusCode isnt 404
     newUrl = fullUrl if res and res.statusCode is 200
     out.beginGroup url
     out.send newUrl
     out.endGroup()
-    callback null
+    do callback
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -106,5 +106,6 @@ exports.getComponent = ->
     out.beginGroup url
     out.send newUrl
     out.endGroup()
-    callback null
+    do callback
+
   c
