@@ -41,9 +41,7 @@ exports.getComponent = ->
       buffer = new Buffer data, 'base64'
       tmpFile = new temporary.File
       tmpFile.writeFileSync buffer, 'base64'
-      out.beginGroup url
       out.send tmpFile.path
-      out.endGroup()
       do callback
       return
     if urlOptions.protocol
@@ -83,9 +81,7 @@ exports.getComponent = ->
               e.url = url
               tmpFile.unlink()
               return callback e
-            out.beginGroup url
             out.send tmpFile.path
-            out.endGroup()
             do callback
         catch e
           tmpFile.unlink()
@@ -102,9 +98,7 @@ exports.getComponent = ->
           e = new Error "Zero-sized local image file"
           e.url = path
           return callback e
-        out.beginGroup url
         out.send url
-        out.endGroup()
         do callback
     catch e
       e.url = url
