@@ -42,7 +42,9 @@ describe 'Measure component', ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
+      ins.beginGroup url
       ins.send url
+      ins.endGroup()
     it 'should find correct dimensions', (done) ->
       @timeout 10000
       error.once 'data', (data) ->
@@ -62,7 +64,9 @@ describe 'Measure component', ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
+      ins.beginGroup url
       ins.send url
+      ins.endGroup()
     it 'should find correct dimensions', (done) ->
       @timeout 0
       error.once 'data', (data) ->
