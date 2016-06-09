@@ -49,7 +49,9 @@ describe 'UrlToTempFile component', ->
       out.once 'begingroup', (group) ->
         chai.expect(group).to.equal url
         done()
+      ins.beginGroup url
       ins.send url
+      ins.endGroup()
     it 'should create a temporary file with a valid path', (done) ->
       error.once 'data', (data) ->
         chai.expect(true).to.equal false

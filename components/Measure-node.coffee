@@ -24,9 +24,7 @@ class Measure extends noflo.AsyncComponent
       if err
         onError err
         return
-      @outPorts.dimensions.beginGroup url
       @outPorts.dimensions.send dimensions
-      @outPorts.dimensions.endGroup()
       callback null
 
     onError = (err) ->

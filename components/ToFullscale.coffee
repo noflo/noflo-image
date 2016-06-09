@@ -56,9 +56,7 @@ tryFindingFullscale = (url, out, callback) ->
   .end (err, res) ->
     return callback err if err
     newUrl = fullUrl if res and res.statusCode is 200
-    out.beginGroup url
     out.send newUrl
-    out.endGroup()
     callback null
 
 exports.getComponent = ->
@@ -77,7 +75,6 @@ exports.getComponent = ->
     out: 'url'
     async: true
     forwardGroups: true
-    group: true
   , (url, groups, out, callback) ->
     newUrl = url
     unless url
@@ -103,8 +100,6 @@ exports.getComponent = ->
     if url.match /[-_](small|thumb)/
       return tryFindingFullscale url, out, callback
 
-    out.beginGroup url
     out.send newUrl
-    out.endGroup()
     callback null
   c
