@@ -158,8 +158,14 @@ describe 'GetColors component', ->
       id = getCanvasWithImage input, (canvas) ->
         ins.send canvas
   describe 'when given not an image', ->
-    it 'should output no colors', (done) ->
+    it 'should return an error', (done) ->
       error.on "data", (err) ->
         chai.expect(err).to.be.an 'object'
         done()
       ins.send ''
+  describe 'when given null', ->
+    it 'should return an error', (done) ->
+      error.on "data", (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      ins.send null

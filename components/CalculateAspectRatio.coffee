@@ -21,9 +21,9 @@ exports.getComponent = ->
     forwardGroups: true
     async: true
   , (packet, groups, out, callback) ->
-    unless packet.width > 0
+    unless packet?.width > 0
       return callback new Error "Dimension is missing width"
-    unless packet.height > 0
+    unless packet?.height > 0
       return callback new Error "Dimension is missing height"
     divisor = gcd packet.width, packet.height
     numerator = packet.width / divisor

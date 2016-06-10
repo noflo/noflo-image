@@ -89,7 +89,7 @@ exports.getComponent = ->
     async: true
   , (payload, groups, out, callback) ->
     canvas = payload
-    unless canvas.width > 0 and canvas.height > 0
+    unless canvas?.width > 0 and canvas?.height > 0
       err = new Error "Failed to compute histogram. Canvas has zero dimensions"
       return callback err
     histogram = computeHistogram canvas

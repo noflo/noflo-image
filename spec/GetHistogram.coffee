@@ -250,3 +250,8 @@ describe 'GetHistogram component', ->
       error.on 'data', (err) ->
         done()
       canvas.send ''
+  describe 'when passed null', ->
+    it 'should return an error', (done) ->
+      error.on 'data', (err) ->
+        done()
+      canvas.send null

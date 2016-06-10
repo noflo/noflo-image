@@ -53,9 +53,14 @@ describe 'CalculateAspectRatio component', ->
       dimensions.send
         width: 1080
         height: 1920
-    it 'should return error for a image without width or height', (done) ->
+    it 'should return error for a image without height', (done) ->
       error.on 'data', (err) ->
         chai.expect(err).to.be.an 'object'
         done()
       dimensions.send
         width: 1080
+    it 'should return error for a image with null dimensions', (done) ->
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      dimensions.send null

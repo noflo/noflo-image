@@ -35,8 +35,8 @@ exports.getComponent = ->
     forwardGroups: yes
     async: yes
   , (data, groups, out, callback) ->
-    c.params.colors = 10 unless c.params.colors
-    c.params.method = 1 unless c.params.method
+    c.params.colors = 10 unless c.params.colors?
+    c.params.method = 1 unless c.params.method?
     try
       quant = new RgbQuant
         colors: c.params.colors

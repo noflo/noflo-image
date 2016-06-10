@@ -47,3 +47,8 @@ describe 'GetOrientation component', ->
         done()
       dimensions.send
         width: 1080
+    it 'should return error for null input', (done) ->
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      dimensions.send null
