@@ -17,6 +17,7 @@ describe 'GetOrientation component', ->
     error = noflo.internalSocket.createSocket()
     c.inPorts.dimensions.attach dimensions
     c.outPorts.orientation.attach orientation
+    c.outPorts.error.attach error
 
   describe 'calculating orientations', ->
     it 'should be able to return correct for 1680 x 1050 image', (done) ->
@@ -40,4 +41,9 @@ describe 'GetOrientation component', ->
       dimensions.send
         width: 1080
         height: 1920
-
+    it 'should return error for a image without height', (done) ->
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      dimensions.send
+        width: 1080
