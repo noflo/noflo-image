@@ -54,6 +54,8 @@ exports.getComponent = ->
   c.outPorts = new noflo.OutPorts
     rectangle:
       datatype: 'object'
+    error:
+      datatype: 'object'
 
   noflo.helpers.WirePattern c,
     in: 'canvas'
@@ -62,6 +64,9 @@ exports.getComponent = ->
     forwardGroups: yes
     async: yes
   , (canvas, groups, out, callback) ->
+    unless canvas?.width > 0 and canvas?.height > 0
+      return callback new Error "Error when trying to extract a bounding box. The canvas is missing."
+
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     data = imageData.data

@@ -11,20 +11,25 @@ describe 'GetHistogram component', ->
   c = null
   canvas = null
   out = null
+  error = null
 
   beforeEach ->
     c = GetHistogram.getComponent()
     canvas = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
+    error = noflo.internalSocket.createSocket()
 
     c.inPorts.canvas.attach canvas
     c.outPorts.histogram.attach out
+    c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.histogram).to.be.an 'object'
+    it 'should have an error output port', ->
+      chai.expect(c.outPorts.error).to.be.an 'object'
 
   describe 'when passed a canvas', ->
     it 'should calculate histograms with the right ranges', (done) ->
@@ -239,3 +244,14 @@ describe 'GetHistogram component', ->
         canvas.beginGroup groupId
         canvas.send c
         canvas.endGroup()
+
+  describe 'when passed a zero sized canvas', ->
+    it 'should return an error', (done) ->
+      error.on 'data', (err) ->
+        done()
+      canvas.send ''
+  describe 'when passed null', ->
+    it 'should return an error', (done) ->
+      error.on 'data', (err) ->
+        done()
+      canvas.send null

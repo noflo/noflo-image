@@ -10,8 +10,9 @@ exports.getComponent = ->
 
   c.inPorts.add 'dimensions',
     datatype: 'object'
-
   c.outPorts.add 'ratio',
+    datatype: 'object'
+  c.outPorts.add 'error',
     datatype: 'object'
 
   noflo.helpers.WirePattern c,
@@ -20,8 +21,10 @@ exports.getComponent = ->
     forwardGroups: true
     async: true
   , (packet, groups, out, callback) ->
-    return callback new Error "Dimension is missing width" unless packet.width
-    return callback new Error "Dimension is missing height" unless packet.height
+    unless packet?.width > 0
+      return callback new Error "Dimension is missing width"
+    unless packet?.height > 0
+      return callback new Error "Dimension is missing height"
     divisor = gcd packet.width, packet.height
     numerator = packet.width / divisor
     denominator = packet.height / divisor

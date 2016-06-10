@@ -15,6 +15,8 @@ exports.getComponent = ->
   c.outPorts = new noflo.OutPorts
     canvas:
       datatype: 'object'
+    error:
+      datatype: 'object'
 
   noflo.helpers.WirePattern c,
     in: ['canvas', 'rectangle']
@@ -22,6 +24,17 @@ exports.getComponent = ->
     forwardGroups: yes
     async: yes
   , (input, groups, out, callback) ->
+    unless input.rectangle?
+      return callback new Error "Error when trying to crop the canvas given a rectangle. The rectangle is missing."
+    unless input.canvas?
+      return callback new Error "Error when trying to crop the canvas given a rectangle. The canvas is missing."
+    unless input.rectangle.x? and input.rectangle.y? and input.rectangle.width? and input.rectangle.height?
+      return callback new Error "Error when trying to crop the canvas given a rectangle. Rectangle is missing x, y, width or height"
+    unless input.rectangle.width > 0 and input.rectangle.height > 0
+      return callback new Error "Error when trying to crop the canvas given a rectangle. Rectangle width or height is not a positive value"
+    unless input.canvas.width > 0 and input.canvas.height > 0
+      return callback new Error "Error when trying to crop the canvas given a rectangle. Canvas is missing width or height"
+
     originalCanvas = input.canvas
     {x, y, width, height} = input.rectangle
     width = Math.abs originalCanvas.width - x if width > originalCanvas.width

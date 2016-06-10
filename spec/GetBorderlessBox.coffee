@@ -230,6 +230,7 @@ describe 'GetBorderlessBox component', ->
   max = null
   avg = null
   out = null
+  error = null
 
   beforeEach ->
     c = GetBorderlessBox.getComponent()
@@ -238,12 +239,14 @@ describe 'GetBorderlessBox component', ->
     max = noflo.internalSocket.createSocket()
     avg = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
+    error = noflo.internalSocket.createSocket()
 
     c.inPorts.canvas.attach canvas
     c.inPorts.mean.attach mean
     c.inPorts.max.attach max
     c.inPorts.avg.attach avg
     c.outPorts.rectangle.attach out
+    c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -253,6 +256,7 @@ describe 'GetBorderlessBox component', ->
       chai.expect(c.inPorts.avg).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.rectangle).to.be.an 'object'
+      chai.expect(c.outPorts.error).to.be.an 'object'
 
   describe 'when passed a canvas', ->
 
@@ -276,3 +280,18 @@ describe 'GetBorderlessBox component', ->
           canvas.beginGroup id
           canvas.send c
           canvas.endGroup()
+
+  describe 'when passed a null canvas', ->
+    it 'should return an error', (done) ->
+      groupId = 'null-canvas'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      error.on "data", (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      canvas.beginGroup groupId
+      canvas.send null
+      canvas.endGroup()
