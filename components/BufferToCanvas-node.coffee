@@ -15,6 +15,8 @@ exports.getComponent = ->
     description: 'An image buffer'
   c.outPorts.add 'canvas',
     datatype: 'object'
+  c.outPorts.add 'error',
+    datatype: 'object'
 
   noflo.helpers.WirePattern c,
     in: ['buffer']
@@ -24,6 +26,9 @@ exports.getComponent = ->
   , (payload, groups, out, callback) ->
     image = new Canvas.Image
     image.src = payload
+    unless image.width > 0 and image.height > 0
+      err = new Error "Failed to convert a buffer to a canvas"
+      return callback err
     # Create a host canvas and draw on it
     canvas = new Canvas(image.width, image.height)
     ctx = canvas.getContext '2d'
