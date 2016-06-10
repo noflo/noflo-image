@@ -17,6 +17,7 @@ describe 'CalculateAspectRatio component', ->
     error = noflo.internalSocket.createSocket()
     c.inPorts.dimensions.attach dimensions
     c.outPorts.ratio.attach ratio
+    c.outPorts.error.attach error
 
   describe 'calculating aspect ratios', ->
     it 'should be able to return correct for 1680 x 1050 image', (done) ->
@@ -52,3 +53,9 @@ describe 'CalculateAspectRatio component', ->
       dimensions.send
         width: 1080
         height: 1920
+    it 'should return error for a image without width or height', (done) ->
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      dimensions.send
+        width: 1080
