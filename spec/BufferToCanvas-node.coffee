@@ -7,7 +7,7 @@ else
   BufferToCanvas = require 'noflo-image/components/BufferToCanvas-node.js'
   testutils = require 'noflo-image/spec/testutils.js'
 
-describe.only 'BufferToCanvas component', ->
+describe 'BufferToCanvas component', ->
   c = null
   inBuffer = null
   outCanvas = null

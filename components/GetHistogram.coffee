@@ -75,10 +75,11 @@ exports.getComponent = ->
   c.icon = 'file-image-o'
   c.description = 'Calculate RGBAY and HSCL histograms of a given canvas.'
 
+  c.inPorts.add 'canvas',
+    datatype: 'object'
   c.outPorts.add 'histogram',
     datatype: 'object'
-
-  c.inPorts.add 'canvas',
+  c.outPorts.add 'error',
     datatype: 'object'
 
   noflo.helpers.WirePattern c,
@@ -88,7 +89,11 @@ exports.getComponent = ->
     async: true
   , (payload, groups, out, callback) ->
     canvas = payload
-    out.send computeHistogram canvas
+    unless canvas.width > 0 and canvas.height > 0
+      err = new Error "Failed to compute histogram"
+      return callback err
+    histogram = computeHistogram canvas
+    out.send histogram
     do callback
 
   c
