@@ -39,7 +39,7 @@ getCanvasWithImage = (name, callback) ->
     callback canvas
   return id
 
-describe.only 'GetColors component', ->
+describe 'GetColors component', ->
   c = null
   ins = null
   colors = null

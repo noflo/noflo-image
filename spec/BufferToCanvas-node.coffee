@@ -58,6 +58,26 @@ describe 'BufferToCanvas component', ->
       error.on 'data', (err) ->
         chai.expect(err).to.be.an 'object'
         done()
-
       buffer = ''
       inBuffer.send buffer
+  describe 'with a empty buffer', ->
+    it 'should return an error', (done) ->
+      @timeout 1000
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      inBuffer.send {}
+  describe 'with a null buffer', ->
+    it 'should return an error', (done) ->
+      @timeout 1000
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      inBuffer.send null
+  describe 'with a not buffer', ->
+    it 'should return an error', (done) ->
+      @timeout 1000
+      error.on 'data', (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      inBuffer.send 42
