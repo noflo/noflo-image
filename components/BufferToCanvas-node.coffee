@@ -27,7 +27,7 @@ exports.getComponent = ->
     image = new Canvas.Image
     image.src = payload
     unless image.width > 0 and image.height > 0
-      err = new Error "Failed to convert a buffer to a canvas"
+      err = new Error "Failed to convert a buffer to a canvas. Buffer has zero dimensions"
       return callback err
     # Create a host canvas and draw on it
     canvas = new Canvas(image.width, image.height)
