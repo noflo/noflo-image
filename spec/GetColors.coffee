@@ -39,19 +39,22 @@ getCanvasWithImage = (name, callback) ->
     callback canvas
   return id
 
-describe 'GetColors component', ->
+describe.only 'GetColors component', ->
   c = null
   ins = null
   colors = null
   canvas = null
+  error = null
   beforeEach ->
     c = GetColors.getComponent()
     ins = noflo.internalSocket.createSocket()
     colors = noflo.internalSocket.createSocket()
     canvas = noflo.internalSocket.createSocket()
+    error = noflo.internalSocket.createSocket()
     c.inPorts.canvas.attach ins
     c.outPorts.colors.attach colors
     c.outPorts.canvas.attach canvas
+    c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have a input ports', ->
@@ -62,6 +65,7 @@ describe 'GetColors component', ->
     it 'should have output ports', ->
       chai.expect(c.outPorts.colors).to.be.an 'object'
       chai.expect(c.outPorts.canvas).to.be.an 'object'
+      chai.expect(c.outPorts.error).to.be.an 'object'
 
   describe 'when passed a canvas', ->
     input = 'colorful-octagon.png'
@@ -153,4 +157,9 @@ describe 'GetColors component', ->
         done()
       id = getCanvasWithImage input, (canvas) ->
         ins.send canvas
-
+  describe 'when given not an image', ->
+    it 'should output no colors', (done) ->
+      error.on "data", (err) ->
+        chai.expect(err).to.be.an 'object'
+        done()
+      ins.send ''
