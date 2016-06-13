@@ -29,6 +29,7 @@ class Measure extends noflo.AsyncComponent
 
     onError = (err) ->
       err.url = url
+      console.log "Error on Measure-node component when loading #{url}."
       return callback err
 
     urlOptions = urlUtil.parse url

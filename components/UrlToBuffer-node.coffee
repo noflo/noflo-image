@@ -64,6 +64,7 @@ exports.getComponent = ->
         error = err
       req.on 'end', ->
         if error
+          console.log "Error in UrlToBuffer component on request."
           return callback error
         try
           buffer = Buffer.concat bufs
@@ -74,6 +75,7 @@ exports.getComponent = ->
         catch e
           # tmpFile.unlink()
           e.url = url
+          console.log "Error in UrlToBuffer component when sending the buffer."
           return callback e
       return
 
@@ -93,6 +95,7 @@ exports.getComponent = ->
           do callback
     catch e
       e.url = url
+      console.log "Error in UrlToBuffer component when loading local image."
       return callback e
 
   c

@@ -69,6 +69,7 @@ exports.getComponent = ->
       req.on 'end', ->
         if error
           tmpFile.unlink()
+          console.log "Error in UrlToTempFile component on request."
           return callback error
         try
           fs.stat tmpFile.path, (err, stats) ->
@@ -86,6 +87,7 @@ exports.getComponent = ->
         catch e
           tmpFile.unlink()
           e.url = url
+          console.log "Error in UrlToTempFile component when sending the temporary file."
           return callback e
       return
 
@@ -102,6 +104,7 @@ exports.getComponent = ->
         do callback
     catch e
       e.url = url
+      console.log "Error in UrlToTempFile component when loading local image."
       return callback e
 
   c
