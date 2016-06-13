@@ -61,15 +61,15 @@ exports.getComponent = ->
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
-        error = new Error "#{url} responded with #{resp.statusCode}"
+        error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
+        error = new Error "Error in UrlToTempFile component. Request returned error for #{url}."
         err.url = url
-        error = err
       req.on 'end', ->
         if error
           tmpFile.unlink()
-          return callback new Error "Error in UrlToTempFile component on request #{url}."
+          return callback error
         try
           fs.stat tmpFile.path, (err, stats) ->
             if err
