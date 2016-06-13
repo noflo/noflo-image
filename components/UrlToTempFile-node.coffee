@@ -65,7 +65,7 @@ exports.getComponent = ->
         error.url = url
       req.on 'error', (err) ->
         error = new Error "Error in UrlToTempFile component. Request returned error for #{url}."
-        err.url = url
+        error.url = url
       req.on 'end', ->
         if error
           tmpFile.unlink()
