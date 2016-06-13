@@ -54,18 +54,18 @@ exports.getComponent = ->
       stream = fs.createWriteStream tmpFile.path
       req = request
         url: url
-        timeout: 10000
+        timeout: 30000
         headers:
           'user-agent': buildUserAgent()
       req.pipe stream
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
-        error = new Error "#{url} responded with #{resp.statusCode}"
+        error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
-        err.url = url
-        error = err
+        error = new Error "Error in UrlToTempFile component. Request returned error for #{url}."
+        error.url = url
       req.on 'end', ->
         if error
           tmpFile.unlink()
@@ -86,6 +86,7 @@ exports.getComponent = ->
         catch e
           tmpFile.unlink()
           e.url = url
+          console.log "Error in UrlToTempFile component when sending the temporary file."
           return callback e
       return
 
@@ -102,6 +103,7 @@ exports.getComponent = ->
         do callback
     catch e
       e.url = url
+      console.log "Error in UrlToTempFile component when loading local image."
       return callback e
 
   c
