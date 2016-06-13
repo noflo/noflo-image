@@ -54,7 +54,7 @@ exports.getComponent = ->
       stream = fs.createWriteStream tmpFile.path
       req = request
         url: url
-        timeout: 10000
+        timeout: 30000
         headers:
           'user-agent': buildUserAgent()
       req.pipe stream
@@ -69,8 +69,7 @@ exports.getComponent = ->
       req.on 'end', ->
         if error
           tmpFile.unlink()
-          console.log "Error in UrlToTempFile component on request."
-          return callback error
+          return callback new Error "Error in UrlToTempFile component on request #{url}."
         try
           fs.stat tmpFile.path, (err, stats) ->
             if err
