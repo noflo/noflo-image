@@ -48,6 +48,11 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
           done()
         url.send 'https://farm8.staticflickr.com/7395/12952090783_65a0f60fd9_o.jpg'
+      it 'should return correct URL for downloading original', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o.png'
+          done()
+        url.send 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o_d.png'
 
     describe 'with WordPress.com images', ->
       it 'should return correct URL for non-sized', (done) ->
