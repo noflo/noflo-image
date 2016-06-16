@@ -9,6 +9,9 @@ convertFlickr = (url) ->
   # See docs in https://www.flickr.com/services/api/misc.urls.html
   format = url.match /_(.)\.(gif|png|jpg)/
   if format
+    # If is a downloading image, return original
+    return url.replace(/_(.)\.(gif|png|jpg)/, '.$2') if format[1] is 'd'
+
     # We already have the original
     return url if format[1] is 'o'
 
