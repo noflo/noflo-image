@@ -38,7 +38,9 @@ exports.getComponent = ->
     chunk.then (buffer) ->
       type = fileType buffer
       unless type
-        return callback new Error 'Unsupported MIME type'
+        err = new Error 'Unsupported MIME type'
+        err.payload = payload
+        return callback err
       if type.ext is 'gif'
         tmpFile = new temporary.File
         gm payload
@@ -46,6 +48,7 @@ exports.getComponent = ->
         .write tmpFile.path, (err) ->
           if err
             tmpFile.unlink()
+            err.payload = payload
             return callback err
           out.send tmpFile.path
           do callback
@@ -55,5 +58,3 @@ exports.getComponent = ->
         out.send payload
         do callback
         return
-
-  c
