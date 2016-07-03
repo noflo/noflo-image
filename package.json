@@ -15,7 +15,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "animated-gif-detector": "^1.1.5",
+    "animated-gif-detector": "^1.1.7",
     "chroma-js": "~1.1.1",
     "file-type": "^3.8.0",
     "gm": "^1.22.0",
