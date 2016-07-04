@@ -51,9 +51,7 @@ exports.getComponent = ->
       if c.params.css
         colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
     catch e
-      out.canvas.send data
-      out.colors.send []
-      return callback e
+      return callback new Error "Error when trying to get colors: #{e}"
     out.canvas.send data
     out.colors.send colors
     do callback
