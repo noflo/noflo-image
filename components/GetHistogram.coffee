@@ -84,16 +84,16 @@ exports.getComponent = ->
 
   noflo.helpers.WirePattern c,
     in: ['canvas']
-    out: ['histogram']
+    out: ['histogram', 'error']
     forwardGroups: true
     async: true
-  , (payload, groups, out, callback) ->
+  , (payload, groups, outPorts, callback) ->
     canvas = payload
     unless canvas?.width > 0 and canvas?.height > 0
       err = new Error "Failed to compute histogram. Canvas has zero dimensions"
-      return callback err
+      outPorts.error.send err
+      do callback
+      return
     histogram = computeHistogram canvas
-    out.send histogram
+    outPorts.histogram.send histogram
     do callback
-
-  c

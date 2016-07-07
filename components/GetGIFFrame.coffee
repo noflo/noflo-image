@@ -29,10 +29,10 @@ exports.getComponent = ->
   noflo.helpers.WirePattern c,
     in: 'in'
     params: 'frame'
-    out: 'out'
+    out: ['out', 'error']
     forwardGroups: true
     async: true
-  , (payload, groups, out, callback) ->
+  , (payload, groups, outPorts, callback) ->
     chunk = readChunk payload, 0, 262
     frame = if c.params.frame then c.params.frame else 0
     chunk.then (buffer) ->
@@ -40,7 +40,9 @@ exports.getComponent = ->
       unless type
         err = new Error 'Unsupported MIME type'
         err.payload = payload
-        return callback err
+        outPorts.error.send err
+        do callback
+        return
       if type.ext is 'gif'
         tmpFile = new temporary.File
         gm payload
@@ -49,12 +51,14 @@ exports.getComponent = ->
           if err
             tmpFile.unlink()
             err.payload = payload
-            return callback err
-          out.send tmpFile.path
+            outPorts.error.send err
+            do callback
+            return
+          outPorts.out.send tmpFile.path
           do callback
           return
       else
         # Not a GIF, just send the tempfile path along
-        out.send payload
+        outPorts.out.send payload
         do callback
         return
