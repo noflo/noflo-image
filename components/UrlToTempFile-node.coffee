@@ -38,13 +38,18 @@ exports.getComponent = ->
     if urlOptions.protocol is 'data:'
       # Data URL
       data = url.split(",")[1]
+      unless data?
+        return callback new Error "Zero-sized data from #{url}"
       buffer = new Buffer data, 'base64'
+      unless buffer.length > 0
+        return callback new Error "Zero-sized buffer from #{url}"
       tmpFile = new temporary.File
-      tmpFile.writeFileSync buffer, 'base64'
-      out.send tmpFile.path
-      do callback
-      return
-    if urlOptions.protocol
+      tmpFile.writeFile buffer, 'base64', (error) ->
+        return callback error if error
+        out.send tmpFile.path
+        do callback
+        return
+    else if urlOptions.protocol
       unless urlOptions.protocol in ['http:', 'https:']
         callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
         return
@@ -89,21 +94,19 @@ exports.getComponent = ->
           console.log "Error in UrlToTempFile component when sending the temporary file."
           return callback e
       return
-
-    # Local image
-    path = url
-    try
-      fs.stat path, (err, stats) ->
-        return callback err if err
-        if stats.size is 0
-          e = new Error "Zero-sized local image file"
-          e.url = path
-          return callback e
-        out.send url
-        do callback
-    catch e
-      e.url = url
-      console.log "Error in UrlToTempFile component when loading local image."
-      return callback e
-
-  c
+    else
+      # Local image
+      path = url
+      try
+        fs.stat path, (err, stats) ->
+          return callback err if err
+          if stats.size is 0
+            e = new Error "Zero-sized local image file"
+            e.url = path
+            return callback e
+          out.send url
+          do callback
+      catch e
+        e.url = url
+        console.log "Error in UrlToTempFile component when loading local image."
+        return callback e
