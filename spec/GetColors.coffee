@@ -148,11 +148,12 @@ describe 'GetColors component', ->
         ins.send canvas
         ins.endGroup()
   describe 'when given a small image', ->
-    it 'should return an error', (done) ->
+    it 'should return an empty array', (done) ->
       input = '1x1.gif'
       id = null
-      error.on "data", (err) ->
-        chai.expect(err).to.be.an 'object'
+      colors.once "data", (colors) ->
+        chai.expect(colors).to.be.an 'array'
+        chai.expect(colors).to.have.length 0
         done()
       id = getCanvasWithImage input, (canvas) ->
         ins.send canvas

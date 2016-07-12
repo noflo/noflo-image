@@ -35,6 +35,9 @@ exports.getComponent = ->
     forwardGroups: yes
     async: yes
   , (data, groups, out, callback) ->
+    unless data?.height? > 0 and data?.width? > 0
+      return callback new Error "Error when trying to get colors: canvas is undefined."
+
     c.params.colors = 10 unless c.params.colors?
     c.params.method = 1 unless c.params.method?
     try
@@ -51,7 +54,11 @@ exports.getComponent = ->
       if c.params.css
         colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
     catch e
-      return callback new Error "Error when trying to get colors: #{e}"
+      out.canvas.send data
+      out.colors.send []
+      console.warn "Error when trying to get colors: #{e} Sending an empty array."
+      do callback
+      return
     out.canvas.send data
     out.colors.send colors
     do callback
