@@ -96,4 +96,4 @@ exports.getComponent = ->
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
     computeHistogram imageData.data, result, ->
       outPorts.histogram.send result
-    do callback
+      do callback
