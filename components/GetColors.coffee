@@ -1,6 +1,13 @@
 noflo = require 'noflo'
 RgbQuant = require 'rgbquant'
 
+# Try to use nextTick or fallback to setTimeout
+runAsync = (callback) ->
+  if process?.nextTick?
+    process.nextTick callback
+  else
+    setTimeout callback, 0
+
 exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Extract the dominant colors of an image'
@@ -40,28 +47,29 @@ exports.getComponent = ->
 
     c.params.colors = 10 unless c.params.colors?
     c.params.method = 1 unless c.params.method?
-    try
-      quant = new RgbQuant
-        colors: c.params.colors
-        method: c.params.method
-        initColors: 4096
-      # analyze histograms
-      quant.sample(data)
-      # build palette
-      outputTuples = true
-      noSort = true
-      colors = quant.palette outputTuples, noSort
-      if c.params.css
-        colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
-    catch e
+    runAsync ->
+      try
+        quant = new RgbQuant
+          colors: c.params.colors
+          method: c.params.method
+          initColors: 4096
+        # analyze histograms
+        quant.sample(data)
+        # build palette
+        outputTuples = true
+        noSort = true
+        colors = quant.palette outputTuples, noSort
+        if c.params.css
+          colors = colors.map (color) -> "rgb(#{color[0]}, #{color[1]}, #{color[2]})"
+      catch e
+        out.canvas.send data
+        out.colors.send []
+        console.warn "Error when trying to get colors: #{e} Sending an empty array."
+        do callback
+        return
       out.canvas.send data
-      out.colors.send []
-      console.warn "Error when trying to get colors: #{e} Sending an empty array."
+      out.colors.send colors
       do callback
-      return
-    out.canvas.send data
-    out.colors.send colors
-    do callback
 
   c.inPorts.quality.on 'data', (data) ->
     console.warn 'the quality inport is deprecated'
