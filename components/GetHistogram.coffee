@@ -95,6 +95,5 @@ exports.getComponent = ->
       c: zero new Array 101 # ?
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
     computeHistogram imageData.data, result, ->
-      console.log JSON.stringify result
       outPorts.histogram.send result
     do callback
