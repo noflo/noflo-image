@@ -26,6 +26,7 @@ exports.getComponent = ->
   , (payload, groups, out, callback) ->
     image = new Canvas.Image
     image.src = payload
+    console.log "BufferToCanvas", image.width, image.height
     unless image.width > 0 and image.height > 0
       err = new Error "Failed to convert a buffer to a canvas. Buffer has zero dimensions"
       return callback err
