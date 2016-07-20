@@ -54,6 +54,7 @@ exports.getComponent = ->
         callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
         return
 
+      console.log 'UrlToTempFile url', url
       # Remote image
       tmpFile = new temporary.File
       stream = fs.createWriteStream tmpFile.path
@@ -65,6 +66,7 @@ exports.getComponent = ->
       req.pipe stream
       error = null
       req.on 'response', (resp) ->
+        console.log 'UrlToTempFile response', resp.statusCode
         return if resp.statusCode is 200
         error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
         error.url = url
@@ -72,20 +74,25 @@ exports.getComponent = ->
         error = new Error "Error in UrlToTempFile component. Request returned error for #{url}."
         error.url = url
       req.on 'end', ->
+        console.log 'UrlToTempFile end'
         if error
           tmpFile.unlink()
+          console.log 'UrlToTempFile error', error
           return callback error
         try
           fs.stat tmpFile.path, (err, stats) ->
             if err
               tmpFile.unlink()
               err.url = url
+              console.log 'UrlToTempFile error', err
               return callback err
             if stats.size is 0
               e = new Error "Zero-sized temporary image file"
               e.url = url
               tmpFile.unlink()
+              console.log 'UrlToTempFile error', e
               return callback e
+            console.log 'UrlToTempFile ok', tmpFile.path
             out.send tmpFile.path
             do callback
         catch e
