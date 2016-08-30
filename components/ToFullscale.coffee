@@ -51,16 +51,7 @@ convertGravatar = (url) ->
   return URI.build parts
 
 tryFindingFullscale = (url, out, callback) ->
-  # Convert
-  newUrl = url
-  fullUrl = url.replace /[-_](small|thumbnail|thumb|tm)/, ''
-  # Verify that it exists
-  superagent.head fullUrl
-  .end (err, res) ->
-    return callback err if err
-    newUrl = fullUrl if res and res.statusCode is 200
-    out.send newUrl
-    callback null
+  return url.replace /[-_](small|thumbnail|thumb|tm)/, ''
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -101,7 +92,7 @@ exports.getComponent = ->
       newUrl = convertGravatar url, callback
 
     if url.match /[-_](small|thumb)/
-      return tryFindingFullscale url, out, callback
+      newUrl = tryFindingFullscale url, callback
 
     # Verify that the newUrl exists
     superagent.head newUrl
