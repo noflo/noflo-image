@@ -98,6 +98,9 @@ exports.getComponent = ->
     superagent.head newUrl
     .end (err, res) ->
       return callback err if err
+      console.log 'URL', url
+      console.log 'new URL', newUrl
+      console.log 'status', res.statusCode
       # If the newUrl exists, send it
       if res and res.statusCode is 200
         out.send newUrl

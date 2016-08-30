@@ -5,7 +5,7 @@ unless noflo.isBrowser()
 else
   ToFullscale = require 'noflo-image/components/ToFullscale.js'
 
-describe 'ToFullscale component', ->
+describe.only 'ToFullscale component', ->
   c = null
   url = null
   newUrl = null
