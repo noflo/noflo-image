@@ -96,7 +96,9 @@ exports.getComponent = ->
 
     # Verify that the newUrl exists
     superagent.head newUrl
+    .redirects(1)
     .end (err, res) ->
+      newUrl = res.request?.uri?.href ? newUrl
       return callback err if err
       console.log 'URL', url
       console.log 'new URL', newUrl
