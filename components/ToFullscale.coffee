@@ -108,8 +108,10 @@ exports.getComponent = ->
     .end (err, res) ->
       return callback err if err
       # If the newUrl exists, send it
-      return newUrl if res and res.statusCode is 200
+      if res and res.statusCode is 200
+        out.send newUrl
       # Otherwise, keep the original one
-      out.send url
+      else
+        out.send url
       callback null
   c
