@@ -103,6 +103,13 @@ exports.getComponent = ->
     if url.match /[-_](small|thumb)/
       return tryFindingFullscale url, out, callback
 
-    out.send newUrl
-    callback null
+    # Verify that the newUrl exists
+    superagent.head newUrl
+    .end (err, res) ->
+      return callback err if err
+      # If the newUrl exists, send it
+      return newUrl if res and res.statusCode is 200
+      # Otherwise, keep the original one
+      out.send url
+      callback null
   c
