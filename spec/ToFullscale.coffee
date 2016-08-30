@@ -28,6 +28,7 @@ describe 'ToFullscale component', ->
         url.send 'http://www.esa.int/var/esa/storage/images/esa_multimedia/images/2014/04/glowing_jewels_in_the_galactic_plane/14491843-1-eng-GB/Glowing_jewels_in_the_Galactic_Plane.jpg'
 
     describe 'with Flickr images', ->
+      @timeout 5*1000
       it 'should return correct URL for non-sized', (done) ->
         newUrl.on 'data', (image) ->
           chai.expect(image).to.equal 'https://farm8.staticflickr.com/7395/12952090783_ce023450da_b.jpg'
@@ -53,6 +54,11 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o.png'
           done()
         url.send 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o_d.png'
+      it 'should return the same URL for and old image', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://farm4.staticflickr.com/3493/3961596996_367327afd9.jpg'
+          done()
+        url.send 'https://farm4.staticflickr.com/3493/3961596996_367327afd9.jpg'
 
     describe 'with WordPress.com images', ->
       it 'should return correct URL for non-sized', (done) ->
