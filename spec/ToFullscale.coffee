@@ -63,7 +63,7 @@ describe 'ToFullscale component', ->
     describe 'with WordPress.com images', ->
       it 'should return correct URL for non-sized', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'https://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
+          chai.expect(image).to.equal 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
           done()
         url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
       it 'should return correct URL for thumbnails', (done) ->
@@ -89,7 +89,7 @@ describe 'ToFullscale component', ->
     describe 'with Wikimedia Commons thumbnails', ->
       it 'should return correct URL for non-sized', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'https://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
+          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
           done()
         url.send 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
       it 'should return correct URL for thumbnails', (done) ->
