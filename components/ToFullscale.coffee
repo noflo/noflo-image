@@ -101,18 +101,22 @@ exports.getComponent = ->
     if url.match /[-_](small|thumb)/
       newUrl = tryFindingFullscale url, callback
 
-    # Verify that the newUrl exists
-    superagent.head newUrl
-    .redirects(1)
-    .end (err, res) ->
-      # If the response is not 200, send the original URL
-      unless res and res.statusCode is 200
-        out.send url
+    if newUrl isnt url
+      # Verify that the newUrl exists
+      superagent.head newUrl
+      .redirects(1)
+      .end (err, res) ->
+        # If the response is not 200, send the original URL
+        unless res and res.statusCode is 200
+          out.send url
+          do callback
+          return
+        # Use redirection URL
+        if res.redirects?.length > 0
+          newUrl = tryRedirect url, res.redirects[0]
+        out.send newUrl
         do callback
-        return
-      # Use redirection URL
-      if res.redirects?.length > 0
-        newUrl = tryRedirect url, res.redirects[0]
-      out.send newUrl
+    else
+      out.send url
       do callback
   c
