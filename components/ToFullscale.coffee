@@ -5,6 +5,8 @@ unless noflo.isBrowser()
 else
   URI = require 'URIjs'
 
+timeout_HEAD = 15000
+
 convertFlickr = (url) ->
   # See docs in https://www.flickr.com/services/api/misc.urls.html
   format = url.match /_(.)\.(gif|png|jpg)/
@@ -105,6 +107,7 @@ exports.getComponent = ->
       # Verify that the newUrl exists
       superagent.head newUrl
       .redirects(1)
+      .timeout(timeout_HEAD)
       .end (err, res) ->
         # If the response is not 200, send the original URL
         unless res and res.statusCode is 200
