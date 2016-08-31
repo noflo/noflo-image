@@ -55,8 +55,9 @@ tryFindingFullscale = (url) ->
 
 # Flickr redirects to a photo_unavailable image if the new URL do not exists
 tryRedirect = (original, redirected) ->
-  return redirected unless redirected.indexOf('staticflickr.com') isnt -1
-  return original if redirected.match /photo_unavailable/
+  if (original.indexOf('staticflickr.com') isnt -1) and
+  (redirected.indexOf('photo_unavailable') isnt -1)
+    return original
   return redirected
 
 exports.getComponent = ->
@@ -105,15 +106,11 @@ exports.getComponent = ->
     .redirects(1)
     .end (err, res) ->
       return callback err if err
-      console.log 'URL', url
-      console.log 'new URL', newUrl
-      console.log 'status', res.statusCode
-      console.log 'res.redirects', res.redirects
       # If the newUrl exists, send it
       if res and res.statusCode is 200
         # Use redirection URL
-        if res.redirects?
-          newUrl = tryRedirect res.redirects[0], url
+        if res.redirects?.length > 0
+          newUrl = tryRedirect url, res.redirects[0]
         out.send newUrl
       # Otherwise, keep the original one
       else
