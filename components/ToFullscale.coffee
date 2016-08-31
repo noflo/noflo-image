@@ -105,15 +105,14 @@ exports.getComponent = ->
     superagent.head newUrl
     .redirects(1)
     .end (err, res) ->
-      return callback err if err
-      # If the newUrl exists, send it
-      if res and res.statusCode is 200
-        # Use redirection URL
-        if res.redirects?.length > 0
-          newUrl = tryRedirect url, res.redirects[0]
-        out.send newUrl
-      # Otherwise, keep the original one
-      else
+      # If the response is not 200, send the original URL
+      unless res and res.statusCode is 200
         out.send url
-      callback null
+        do callback
+        return
+      # Use redirection URL
+      if res.redirects?.length > 0
+        newUrl = tryRedirect url, res.redirects[0]
+      out.send newUrl
+      do callback
   c
