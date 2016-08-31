@@ -6,7 +6,7 @@ else
   ToFullscale = require 'noflo-image/components/ToFullscale.js'
 
 describe 'ToFullscale component', ->
-  @timeout 5*1000
+  @timeout 10*1000
   c = null
   url = null
   newUrl = null
