@@ -5,6 +5,8 @@ unless noflo.isBrowser()
 else
   URI = require 'URIjs'
 
+timeout_HEAD = 15000
+
 convertFlickr = (url) ->
   # See docs in https://www.flickr.com/services/api/misc.urls.html
   format = url.match /_(.)\.(gif|png|jpg)/
@@ -50,17 +52,15 @@ convertGravatar = (url) ->
   parts.query = URI.buildQuery q
   return URI.build parts
 
-tryFindingFullscale = (url, out, callback) ->
-  # Convert
-  newUrl = url
-  fullUrl = url.replace /[-_](small|thumbnail|thumb|tm)/, ''
-  # Verify that it exists
-  superagent.head fullUrl
-  .end (err, res) ->
-    return callback err if err
-    newUrl = fullUrl if res and res.statusCode is 200
-    out.send newUrl
-    callback null
+tryFindingFullscale = (url) ->
+  return url.replace /[-_](small|thumbnail|thumb|tm)/, ''
+
+# Flickr redirects to a photo_unavailable image if the new URL do not exists
+tryRedirect = (original, redirected) ->
+  if (original.indexOf('staticflickr.com') isnt -1) and
+  (redirected.indexOf('photo_unavailable') isnt -1)
+    return original
+  return redirected
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -101,8 +101,25 @@ exports.getComponent = ->
       newUrl = convertGravatar url, callback
 
     if url.match /[-_](small|thumb)/
-      return tryFindingFullscale url, out, callback
+      newUrl = tryFindingFullscale url, callback
 
-    out.send newUrl
-    callback null
+    if newUrl isnt url
+      # Verify that the newUrl exists
+      superagent.head newUrl
+      .redirects(1)
+      .timeout(timeout_HEAD)
+      .end (err, res) ->
+        # If the response is not 200, send the original URL
+        unless res and res.statusCode is 200
+          out.send url
+          do callback
+          return
+        # Use redirection URL
+        if res.redirects?.length > 0
+          newUrl = tryRedirect url, res.redirects[0]
+        out.send newUrl
+        do callback
+    else
+      out.send url
+      do callback
   c

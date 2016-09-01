@@ -6,6 +6,7 @@ else
   ToFullscale = require 'noflo-image/components/ToFullscale.js'
 
 describe 'ToFullscale component', ->
+  @timeout 20*1000
   c = null
   url = null
   newUrl = null
@@ -53,6 +54,11 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o.png'
           done()
         url.send 'https://farm4.staticflickr.com/3493/3961596996_c9fb5c5e00_o_d.png'
+      it 'should return the same URL for and old image', (done) ->
+        newUrl.on 'data', (image) ->
+          chai.expect(image).to.equal 'https://farm4.staticflickr.com/3493/3961596996_367327afd9.jpg'
+          done()
+        url.send 'https://farm4.staticflickr.com/3493/3961596996_367327afd9.jpg'
 
     describe 'with WordPress.com images', ->
       it 'should return correct URL for non-sized', (done) ->
@@ -62,7 +68,7 @@ describe 'ToFullscale component', ->
         url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
       it 'should return correct URL for thumbnails', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
+          chai.expect(image).to.equal 'https://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
           done()
         url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg?w=400'
 
@@ -88,12 +94,12 @@ describe 'ToFullscale component', ->
         url.send 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
       it 'should return correct URL for thumbnails', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
+          chai.expect(image).to.equal 'https://upload.wikimedia.org/wikipedia/commons/7/7a/India_-_Varanasi_green_peas_-_2714.jpg'
           done()
         url.send 'http://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/India_-_Varanasi_green_peas_-_2714.jpg/700px-India_-_Varanasi_green_peas_-_2714.jpg'
       it 'should return correct URL for thumbnails with escaped characters', (done) ->
         newUrl.on 'data', (image) ->
-          chai.expect(image).to.equal 'http://upload.wikimedia.org/wikipedia/commons/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
+          chai.expect(image).to.equal 'https://upload.wikimedia.org/wikipedia/commons/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
           done()
         url.send 'http://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG/1000px-Vistas_desde_la_iglesia_de_San_Pedro%2C_Riga%2C_Letonia%2C_2012-08-07%2C_DD_01.JPG'
 
