@@ -41,7 +41,7 @@ describe 'GetHistogram component', ->
       out.once 'endgroup', (group) ->
         groups.pop()
       out.once 'data', (res) ->
-        chai.expect(groups).to.be.eql groupId
+        chai.expect(groups).to.be.eql ['histogram-values']
         chai.expect(res).to.be.deep.equal
         chai.expect(res).to.be.an 'object'
         hists = 'rgbayhslc'
