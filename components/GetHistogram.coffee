@@ -91,7 +91,7 @@ exports.getComponent = ->
       y: zero new Array 256
       h: zero new Array 361 # degrees [0,0, 360.0] -> [0, 361]
       s: zero new Array 101 # [0.0, 1.0] -> [0, 101]
-      c: zero new Array 101 # ?
+      c: zero new Array 135 # ?
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
     computeHistogram imageData.data, result, ->
       outPorts.histogram.send result
