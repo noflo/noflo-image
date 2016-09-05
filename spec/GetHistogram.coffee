@@ -84,7 +84,7 @@ describe 'GetHistogram component', ->
         chai.expect(res.l).to.be.an 'array'
         chai.expect(res.l.length).to.be.equal 101
         chai.expect(res.c).to.be.an 'array'
-        chai.expect(res.c.length).to.be.equal 101
+        chai.expect(res.c.length).to.be.equal 135
         done()
 
       inSrc = 'original.jpg'
