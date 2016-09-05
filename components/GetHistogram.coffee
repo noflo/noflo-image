@@ -1,6 +1,5 @@
 noflo = require 'noflo'
-chroma = require 'chroma-js'
-
+d3 = require 'd3-color'
 # @runtime noflo-nodejs
 
 zero = (a) ->
@@ -28,14 +27,14 @@ addEntryHistogram = (data, res, i, callback) ->
   res.a[a]+=1
   res.y[y]+=1
 
-  rgb = chroma(r, g, b, 'rgb')
+  rgb = d3.rgb(r, g, b)
   # CIE LCH (or popular HCL) and HSL
-  lch = rgb.lch()
-  hsl = rgb.hsl()
-  h = Math.round hsl[0]
-  s = hsl[1]*100|0
-  l = hsl[2]*100|0
-  c = Math.round lch[1]
+  lch = d3.hcl(rgb)
+  hsl = d3.hsl(rgb)
+  h = Math.round(hsl.h)|0
+  s = hsl.s*100|0
+  l = hsl.l*100|0
+  c = Math.round(lch.c)|0
   res.h[h] += 1
   res.s[s] += 1
   res.l[l] += 1
@@ -92,7 +91,7 @@ exports.getComponent = ->
       y: zero new Array 256
       h: zero new Array 361 # degrees [0,0, 360.0] -> [0, 361]
       s: zero new Array 101 # [0.0, 1.0] -> [0, 101]
-      c: zero new Array 101 # ?
+      c: zero new Array 135 # https://github.com/gka/chroma.js/issues/63
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
     computeHistogram imageData.data, result, ->
       outPorts.histogram.send result
