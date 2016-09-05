@@ -1,6 +1,5 @@
 noflo = require 'noflo'
-chroma = require 'chroma-js'
-
+d3 = require 'd3-color'
 # @runtime noflo-nodejs
 
 exports.getComponent = ->
@@ -32,15 +31,15 @@ exports.getComponent = ->
       r = data[i]
       g = data[i+1]
       b = data[i+2]
-      [h, s, l] = chroma(r, g, b, 'rgb').hsl()
-      if s >= threshold
+      rgb = d3.rgb(r, g, b)
+      hsl = d3.hsl(rgb)
+      if hsl.s >= threshold
         saturatedPixels += 1
       else
         mutedPixels += 1
     imageArea = canvas.width * canvas.height
     saturation = (saturatedPixels - mutedPixels) / imageArea
-    
+
     out.send saturation
 
   c
-        
