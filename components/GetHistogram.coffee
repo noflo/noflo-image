@@ -45,7 +45,7 @@ addEntryHistogram = (data, res, i, callback) ->
 
 computeHistogram = (data, res, step=defaultStep, callback) ->
   rgba = 4
-  coutHistograms = 0
+  countHistograms = 0
   step = if (data.length < (step * rgba)) or (step < 1) then 1 else step
   pixels = data.length / (rgba * step)
   last = data.length - step * rgba
@@ -56,8 +56,8 @@ computeHistogram = (data, res, step=defaultStep, callback) ->
         # Normalize such that 1.0 means all pixels have this color
         for histogram of res
           normalize res[histogram], pixels, ->
-            coutHistograms++
-            if coutHistograms == (Object.keys res).length
+            countHistograms++
+            if countHistograms == (Object.keys res).length
               do callback
 
 exports.getComponent = ->
