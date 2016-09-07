@@ -88,7 +88,7 @@ exports.getComponent = ->
       do callback
       return
 
-    step = if c.params.step? then c.params.step else defaultStep
+    step = if c.params.step? then Math.round c.params.step else defaultStep
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     result =
