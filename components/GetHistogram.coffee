@@ -2,6 +2,8 @@ noflo = require 'noflo'
 d3 = require 'd3-color'
 # @runtime noflo-nodejs
 
+defaultStep = 1
+
 zero = (a) ->
   for i in [0...a.length]
     a[i] = 0
@@ -41,14 +43,15 @@ addEntryHistogram = (data, res, i, callback) ->
   res.c[c] += 1
   do callback
 
-computeHistogram = (data, res, callback) ->
-  pixels = data.length/4
-  countEntries = 0
+computeHistogram = (data, res, step=defaultStep, callback) ->
+  rgba = 4
   coutHistograms = 0
-  for i in [0...data.length] by 4
-    addEntryHistogram data, res, i, ->
-      countEntries++
-      if countEntries == pixels
+  step = if (data.length < (step * rgba)) or (step < 1) then 1 else step
+  pixels = data.length / (rgba * step)
+  last = data.length - step * rgba
+  for index in [0...data.length] by step * rgba
+    addEntryHistogram data, res, index, ->
+      if index >= last
         # Normalize such that 1.0 means all pixels have this color
         for histogram of res
           normalize res[histogram], pixels, ->
@@ -63,6 +66,8 @@ exports.getComponent = ->
 
   c.inPorts.add 'canvas',
     datatype: 'object'
+  c.inPorts.add 'step',
+    datatype: 'number'
   c.outPorts.add 'histogram',
     datatype: 'object'
   c.outPorts.add 'error',
@@ -70,6 +75,7 @@ exports.getComponent = ->
 
   noflo.helpers.WirePattern c,
     in: ['canvas']
+    params: ['step']
     out: ['histogram', 'error']
     forwardGroups: true
     async: true
@@ -81,6 +87,7 @@ exports.getComponent = ->
       do callback
       return
 
+    c.params.step = defaultStep unless c.params.step
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     result =
@@ -93,6 +100,6 @@ exports.getComponent = ->
       s: zero new Array 101 # [0.0, 1.0] -> [0, 101]
       c: zero new Array 135 # https://github.com/gka/chroma.js/issues/63
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
-    computeHistogram imageData.data, result, ->
+    computeHistogram imageData.data, result, c.params.step, ->
       outPorts.histogram.send result
       do callback
