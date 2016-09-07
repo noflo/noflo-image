@@ -12,22 +12,26 @@ describe 'GetHistogram component', ->
   @timeout 3*1000
   c = null
   canvas = null
+  step = null
   out = null
   error = null
 
   beforeEach ->
     c = GetHistogram.getComponent()
     canvas = noflo.internalSocket.createSocket()
+    step = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
 
     c.inPorts.canvas.attach canvas
+    c.inPorts.step.attach step
     c.outPorts.histogram.attach out
     c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
+      chai.expect(c.inPorts.step).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.histogram).to.be.an 'object'
     it 'should have an error output port', ->
@@ -55,6 +59,7 @@ describe 'GetHistogram component', ->
       inSrc = 'colorful-octagon.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
+        step.send 2
         canvas.send c
         canvas.endGroup()
 

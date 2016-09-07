@@ -49,6 +49,7 @@ computeHistogram = (data, res, step=defaultStep, callback) ->
   step = if (data.length < (step * rgba)) or (step < 1) then 1 else step
   pixels = data.length / (rgba * step)
   last = data.length - step * rgba
+
   for index in [0...data.length] by step * rgba
     addEntryHistogram data, res, index, ->
       if index >= last
