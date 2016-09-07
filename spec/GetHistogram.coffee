@@ -63,6 +63,56 @@ describe 'GetHistogram component', ->
         canvas.send c
         canvas.endGroup()
 
+    it 'should calculate histograms even if step is higher than image size', (done) ->
+      groupId = 'huge-step'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['huge-step']
+        chai.expect(res).to.be.deep.equal
+        chai.expect(res).to.be.an 'object'
+        hists = 'rgbayhslc'
+        for hist in hists
+          expected = fixtures.histogram.colorful[hist]
+          for val, i in res[hist]
+            chai.expect(val, "histogram-#{hist}").to.be.closeTo expected[i], 0.001
+        done()
+
+      inSrc = 'colorful-octagon.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        step.send 1000000
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should calculate histograms even if step is not valid', (done) ->
+      groupId = 'invalid-step'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['invalid-step']
+        chai.expect(res).to.be.deep.equal
+        chai.expect(res).to.be.an 'object'
+        hists = 'rgbayhslc'
+        for hist in hists
+          expected = fixtures.histogram.colorful[hist]
+          for val, i in res[hist]
+            chai.expect(val, "histogram-#{hist}").to.be.closeTo expected[i], 0.001
+        done()
+
+      inSrc = 'colorful-octagon.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        step.send 0
+        canvas.send c
+        canvas.endGroup()
+
     it 'should calculate histograms with the right ranges', (done) ->
       groupId = 'histogram-ranges'
       groups = []
