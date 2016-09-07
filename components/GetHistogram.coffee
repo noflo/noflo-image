@@ -88,7 +88,7 @@ exports.getComponent = ->
       do callback
       return
 
-    c.params.step = defaultStep unless c.params.step
+    step = if c.params.step? then c.params.step else defaultStep
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
     result =
@@ -101,6 +101,6 @@ exports.getComponent = ->
       s: zero new Array 101 # [0.0, 1.0] -> [0, 101]
       c: zero new Array 135 # https://github.com/gka/chroma.js/issues/63
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
-    computeHistogram imageData.data, result, c.params.step, ->
+    computeHistogram imageData.data, result, step, ->
       outPorts.histogram.send result
       do callback
