@@ -12,22 +12,26 @@ describe 'GetHistogram component', ->
   @timeout 3*1000
   c = null
   canvas = null
+  step = null
   out = null
   error = null
 
   beforeEach ->
     c = GetHistogram.getComponent()
     canvas = noflo.internalSocket.createSocket()
+    step = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
     error = noflo.internalSocket.createSocket()
 
     c.inPorts.canvas.attach canvas
+    c.inPorts.step.attach step
     c.outPorts.histogram.attach out
     c.outPorts.error.attach error
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
+      chai.expect(c.inPorts.step).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.histogram).to.be.an 'object'
     it 'should have an error output port', ->
@@ -55,6 +59,57 @@ describe 'GetHistogram component', ->
       inSrc = 'colorful-octagon.png'
       testutils.getCanvasWithImageNoShift inSrc, (c) ->
         canvas.beginGroup groupId
+        step.send 2
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should calculate histograms even if step is higher than image size', (done) ->
+      groupId = 'huge-step'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['huge-step']
+        chai.expect(res).to.be.deep.equal
+        chai.expect(res).to.be.an 'object'
+        hists = 'rgbayhslc'
+        for hist in hists
+          expected = fixtures.histogram.colorful[hist]
+          for val, i in res[hist]
+            chai.expect(val, "histogram-#{hist}").to.be.closeTo expected[i], 0.001
+        done()
+
+      inSrc = 'colorful-octagon.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        step.send 1000000
+        canvas.send c
+        canvas.endGroup()
+
+    it 'should calculate histograms even if step is not valid', (done) ->
+      groupId = 'invalid-step'
+      groups = []
+      out.once 'begingroup', (group) ->
+        groups.push group
+      out.once 'endgroup', (group) ->
+        groups.pop()
+      out.once 'data', (res) ->
+        chai.expect(groups).to.be.eql ['invalid-step']
+        chai.expect(res).to.be.deep.equal
+        chai.expect(res).to.be.an 'object'
+        hists = 'rgbayhslc'
+        for hist in hists
+          expected = fixtures.histogram.colorful[hist]
+          for val, i in res[hist]
+            chai.expect(val, "histogram-#{hist}").to.be.closeTo expected[i], 0.001
+        done()
+
+      inSrc = 'colorful-octagon.png'
+      testutils.getCanvasWithImageNoShift inSrc, (c) ->
+        canvas.beginGroup groupId
+        step.send 0
         canvas.send c
         canvas.endGroup()
 
