@@ -4,6 +4,7 @@ fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
 pkg = require '../package.json'
+log = require 'graceful-logger'
 
 buildUserAgent = ->
   "#{pkg.name}/#{pkg.version} (+#{pkg.repository.url})"
@@ -69,8 +70,16 @@ exports.getComponent = ->
         error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
-        error = new Error "Error in UrlToTempFile component. Request returned error for #{url}."
+        tmpFile.unlink()
+        if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
+          error = new Error "Error in UrlToTempFile component: request timeout for #{url}."
+          error.url = url
+          log.err error
+          return callback error
+        error = new Error "Error in UrlToTempFile component: request returned error #{err} for #{url}."
         error.url = url
+        log.err error
+        return callback error
       req.on 'end', ->
         if error
           tmpFile.unlink()
