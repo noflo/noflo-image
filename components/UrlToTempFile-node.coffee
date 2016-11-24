@@ -4,6 +4,7 @@ fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
 pkg = require '../package.json'
+log = require 'graceful-logger'
 
 buildUserAgent = ->
   "#{pkg.name}/#{pkg.version} (+#{pkg.repository.url})"
