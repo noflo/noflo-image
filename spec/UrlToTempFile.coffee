@@ -78,7 +78,6 @@ describe 'UrlToTempFile component', ->
     it 'should do a correct error', (done) ->
       @timeout 0
       error.once 'data', (data) ->
-        console.log JSON.stringify data
         chai.expect(data.url).to.equal url
         done()
       ins.send url

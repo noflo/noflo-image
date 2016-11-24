@@ -71,7 +71,7 @@ exports.getComponent = ->
         error.url = url
       req.on 'error', (err) ->
         tmpFile.unlink()
-        if err.code is 'ETIMEDOUT'
+        if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
           error = new Error "Error in UrlToTempFile component: request timeout for #{url}."
           error.url = url
           log.err error
