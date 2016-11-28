@@ -31,7 +31,7 @@
     "noflo-objects": "~0.2.0",
     "noflo-strings": "~0.2.0",
     "read-chunk": "^2.0.0",
-    "request": "^2.69.0",
+    "request": "^2.79.0",
     "rgbquant": "1.1.2",
     "superagent": "2.2.0",
     "temporary": "0.0.8",
