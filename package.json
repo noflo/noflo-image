@@ -35,7 +35,7 @@
     "rgbquant": "1.1.2",
     "superagent": "2.2.0",
     "temporary": "0.0.8",
-    "urijs": "^1.17.0"
+    "urijs": "^1.18.4"
   },
   "devDependencies": {
     "chai": "^1.9.2",
