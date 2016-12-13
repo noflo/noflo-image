@@ -1,5 +1,4 @@
 language: node_js
-dist: trusty
 node_js:
 - '4.2'
 sudo: false
@@ -13,6 +12,8 @@ addons:
     - libgif-dev
     - graphicsmagick
     - libjpeg8-dev
+services:
+  - docker
 before_script:
 - npm install -g grunt-cli
 env:
