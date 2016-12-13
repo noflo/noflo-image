@@ -115,3 +115,15 @@ describe 'UrlToTempFile component', ->
         chai.expect(data).to.be.eql err
         done()
       ins.send url
+
+  describe 'with wayback machine image', ->
+    return if noflo.isBrowser()
+    url = "http://web.archive.org/web/20130725203730/http://automata.cc/thumb-chuck-wiimote.png"
+    it 'should create a valid temporary file', (done) ->
+      @timeout 0
+      error.on 'data', (error) -> done(error)
+      out.once 'data', (data) ->
+        chai.expect(data).to.be.a 'string'
+        chai.expect(data).to.have.length.above 0
+        done()
+      ins.send url
