@@ -38,6 +38,12 @@ exports.getComponent = ->
     chunk.then (buffer) ->
       type = fileType buffer
       unless type
+        # Try poor parsing it to see if it's a SVG
+        asString = buffer.toString()
+        if asString.match '<svg'
+          outPorts.out.send payload
+          do callback
+          return
         err = new Error 'Unsupported MIME type'
         err.payload = payload
         outPorts.error.send err
