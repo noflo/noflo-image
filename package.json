@@ -26,7 +26,7 @@
     "noflo-ajax": "~0.1.6",
     "noflo-canvas": "~0.2.3",
     "noflo-core": "~0.2.2",
-    "noflo-filesystem": "~1.0.8",
+    "noflo-filesystem": "~1.1.1",
     "noflo-groups": "~0.1.10",
     "noflo-objects": "~0.2.0",
     "noflo-strings": "~0.2.0",
