@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  GetBorderlessBox = require '../components/GetBorderlessBox.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  GetBorderlessBox = require 'noflo-image/components/GetBorderlessBox.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 checkSimilar = (chai, bbox, expected, delta) ->
@@ -231,22 +232,25 @@ describe 'GetBorderlessBox component', ->
   avg = null
   out = null
   error = null
-
-  beforeEach ->
-    c = GetBorderlessBox.getComponent()
-    canvas = noflo.internalSocket.createSocket()
-    mean = noflo.internalSocket.createSocket()
-    max = noflo.internalSocket.createSocket()
-    avg = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach canvas
-    c.inPorts.mean.attach mean
-    c.inPorts.max.attach max
-    c.inPorts.avg.attach avg
-    c.outPorts.rectangle.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetBorderlessBox', (err, instance) ->
+      return done err if err
+      c = instance
+      canvas = noflo.internalSocket.createSocket()
+      mean = noflo.internalSocket.createSocket()
+      max = noflo.internalSocket.createSocket()
+      avg = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach canvas
+      c.inPorts.mean.attach mean
+      c.inPorts.max.attach max
+      c.inPorts.avg.attach avg
+      c.outPorts.rectangle.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -290,7 +294,7 @@ describe 'GetBorderlessBox component', ->
       out.once 'endgroup', (group) ->
         groups.pop()
       error.on "data", (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       canvas.beginGroup groupId
       canvas.send null

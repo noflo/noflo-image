@@ -1,9 +1,10 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  ToFullscale = require '../components/ToFullscale.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
 else
-  ToFullscale = require 'noflo-image/components/ToFullscale.js'
+  baseDir = '/noflo-image'
 
 describe 'ToFullscale component', ->
   @timeout 20*1000
@@ -11,14 +12,19 @@ describe 'ToFullscale component', ->
   url = null
   newUrl = null
   error = null
-  beforeEach ->
-    @timeout 50000
-    c = ToFullscale.getComponent()
-    url = noflo.internalSocket.createSocket()
-    newUrl = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.url.attach url
-    c.outPorts.url.attach newUrl
+
+  beforeEach (done) ->
+    @timeout 5000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/ToFullscale', (err, instance) ->
+      return done err if err
+      c = instance
+      url = noflo.internalSocket.createSocket()
+      newUrl = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.url.attach url
+      c.outPorts.url.attach newUrl
+      done()
 
   describe 'getting fullscale URLs', ->
     describe 'with random online images', ->
@@ -71,7 +77,6 @@ describe 'ToFullscale component', ->
           chai.expect(image).to.equal 'https://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg'
           done()
         url.send 'http://tctechcrunch2011.files.wordpress.com/2013/07/henri-bergius3.jpg?w=400'
-
 
     describe 'with a small variant', ->
       return if noflo.isBrowser()

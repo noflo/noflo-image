@@ -2,10 +2,11 @@ noflo = require 'noflo'
 unless noflo.isBrowser()
   fixtures = require './fixtures'
   chai = require 'chai' unless chai
-  GetHistogram = require '../components/GetHistogram.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  GetHistogram = require 'noflo-image/components/GetHistogram.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetHistogram component', ->
@@ -16,17 +17,20 @@ describe 'GetHistogram component', ->
   out = null
   error = null
 
-  beforeEach ->
-    c = GetHistogram.getComponent()
-    canvas = noflo.internalSocket.createSocket()
-    step = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach canvas
-    c.inPorts.step.attach step
-    c.outPorts.histogram.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetHistogram', (err, instance) ->
+      return done err if err
+      c = instance
+      canvas = noflo.internalSocket.createSocket()
+      step = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach canvas
+      c.inPorts.step.attach step
+      c.outPorts.histogram.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -48,7 +52,6 @@ describe 'GetHistogram component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-values']
         chai.expect(res).to.be.deep.equal
-        chai.expect(res).to.be.an 'object'
         hists = 'rgbayhslc'
         for hist in hists
           expected = fixtures.histogram.colorful[hist]
@@ -73,7 +76,6 @@ describe 'GetHistogram component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['huge-step']
         chai.expect(res).to.be.deep.equal
-        chai.expect(res).to.be.an 'object'
         hists = 'rgbayhslc'
         for hist in hists
           expected = fixtures.histogram.colorful[hist]
@@ -98,7 +100,6 @@ describe 'GetHistogram component', ->
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['invalid-step']
         chai.expect(res).to.be.deep.equal
-        chai.expect(res).to.be.an 'object'
         hists = 'rgbayhslc'
         for hist in hists
           expected = fixtures.histogram.colorful[hist]
@@ -122,24 +123,14 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-ranges']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.r).to.be.an 'array'
         chai.expect(res.r.length).to.be.equal 256
-        chai.expect(res.g).to.be.an 'array'
         chai.expect(res.g.length).to.be.equal 256
-        chai.expect(res.b).to.be.an 'array'
         chai.expect(res.b.length).to.be.equal 256
-        chai.expect(res.a).to.be.an 'array'
         chai.expect(res.a.length).to.be.equal 256
-        chai.expect(res.y).to.be.an 'array'
         chai.expect(res.y.length).to.be.equal 256
-        chai.expect(res.h).to.be.an 'array'
         chai.expect(res.h.length).to.be.equal 361
-        chai.expect(res.s).to.be.an 'array'
         chai.expect(res.s.length).to.be.equal 101
-        chai.expect(res.l).to.be.an 'array'
         chai.expect(res.l.length).to.be.equal 101
-        chai.expect(res.c).to.be.an 'array'
         chai.expect(res.c.length).to.be.equal 135
         done()
 
@@ -158,11 +149,9 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-normalized']
-        chai.expect(res).to.be.an 'object'
         keys = ['r', 'g', 'b', 'a', 'y', 'h', 's', 'l', 'c']
         for key in keys
           histogram = res[key]
-          chai.expect(histogram).to.be.an 'array'
           sum = histogram.reduce (a,b) -> return a + b
           chai.expect(sum).to.be.closeTo 1.0, 1.0
         done()
@@ -183,8 +172,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-saturated']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.s).to.be.an 'array'
         histogram = res.s
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
@@ -210,8 +197,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-muted']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.s).to.be.an 'array'
         histogram = res.s
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
@@ -237,8 +222,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-light']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.l).to.be.an 'array'
         histogram = res.l
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
@@ -264,8 +247,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-dark']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.l).to.be.an 'array'
         histogram = res.l
         low = histogram.slice 0, histogram.length/2
         sumLow = low.reduce (a,b) -> return a + b
@@ -291,8 +272,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-alpha']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.a).to.be.an 'array'
         histogram = res.a
         chai.expect(histogram[255]).to.equal 1.0
         done()
@@ -313,8 +292,6 @@ describe 'GetHistogram component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.be.eql ['histogram-alpha']
-        chai.expect(res).to.be.an 'object'
-        chai.expect(res.a).to.be.an 'array'
         histogram = res.a
         # Zero alpha is transparent, so A-histogram should be all zero
         chai.expect(histogram[0]).to.equal 1.0

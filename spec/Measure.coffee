@@ -1,23 +1,29 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  Measure = require '../components/Measure-node.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
 else
-  Measure = require 'noflo-image/components/Measure.js'
+  baseDir = '/noflo-image'
 
 describe 'Measure component', ->
   c = null
   ins = null
   out = null
   error = null
-  beforeEach ->
-    c = Measure.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.url.attach ins
-    c.outPorts.dimensions.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/Measure', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.url.attach ins
+      c.outPorts.dimensions.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -29,7 +35,6 @@ describe 'Measure component', ->
     unless noflo.isBrowser()
       it 'should get dimensions of file system test image', (done) ->
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
           chai.expect(data.width).to.equal 80
           chai.expect(data.height).to.equal 80
           done()
@@ -48,11 +53,9 @@ describe 'Measure component', ->
     it 'should find correct dimensions', (done) ->
       @timeout 10000
       error.once 'data', (data) ->
-        console.log data
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.equal 80
         chai.expect(data.height).to.equal 80
         done()
@@ -70,11 +73,9 @@ describe 'Measure component', ->
     it 'should find correct dimensions', (done) ->
       @timeout 0
       error.once 'data', (data) ->
-        console.log data
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.equal 770
         chai.expect(data.height).to.equal 376
         done()

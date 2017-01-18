@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  ExtractLightness = require '../components/ExtractLightness.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  ExtractLightness = require 'noflo-image/components/ExtractLightness.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'ExtractLightness component', ->
@@ -12,14 +13,17 @@ describe 'ExtractLightness component', ->
   ins = null
   paths = null
   out = null
-
-  beforeEach ->
-    c = ExtractLightness.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach ins
-    c.outPorts.lightness.attach out
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/ExtractLightness', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.outPorts.lightness.attach out
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -37,7 +41,6 @@ describe 'ExtractLightness component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.a 'number'
         chai.expect(res).to.be.closeTo 0.8, 2.0
         done()
 
@@ -57,7 +60,6 @@ describe 'ExtractLightness component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.a 'number'
         chai.expect(res).to.be.gte 0
         done()
 
@@ -77,7 +79,6 @@ describe 'ExtractLightness component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.a 'number'
         chai.expect(res).to.be.lte 0
         done()
 

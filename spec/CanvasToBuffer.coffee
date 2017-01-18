@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  CanvasToBuffer = require '../components/CanvasToBuffer.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  CanvasToBuffer = require 'noflo-image/components/CanvasToBuffer.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'CanvasToBuffer component', ->
@@ -12,14 +13,19 @@ describe 'CanvasToBuffer component', ->
   ins = null
   out = null
   error = null
-  beforeEach ->
-    c = CanvasToBuffer.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.canvas.attach ins
-    c.outPorts.buffer.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/CanvasToBuffer', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.outPorts.buffer.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -34,8 +40,7 @@ describe 'CanvasToBuffer component', ->
       it 'should return a buffer', (done) ->
         @timeout 5000
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
-          chai.expect(data).to.be.an.instanceOf Buffer
+          chai.expect(data).to.be.an.instanceof Buffer
           done()
         src = 'original.jpg'
         testutils.getCanvasWithImageNoShift src, (canvas) ->

@@ -1,26 +1,30 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  GetFeaturesYAPE = require '../components/GetFeaturesYAPE.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  GetFeaturesYAPE = require 'noflo-image/components/GetFeaturesYAPE.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
-
 
 describe 'GetFeaturesYAPE component', ->
   c = null
   ins = null
   corners = null
   canvas = null
-  beforeEach ->
-    c = GetFeaturesYAPE.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    corners = noflo.internalSocket.createSocket()
-    canvas = noflo.internalSocket.createSocket()
-    c.inPorts.canvas.attach ins
-    c.outPorts.corners.attach corners
-    c.outPorts.canvas.attach canvas
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetFeaturesYAPE', (err, instance) ->
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      corners = noflo.internalSocket.createSocket()
+      canvas = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.outPorts.corners.attach corners
+      c.outPorts.canvas.attach canvas
+      done()
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -38,7 +42,6 @@ describe 'GetFeaturesYAPE component', ->
   testcases.pop() if noflo.isBrowser()
 
   for testcase in testcases
-
       describe testcase, ->
           describe 'when passed a canvas', ->
             @timeout 3000
@@ -52,8 +55,6 @@ describe 'GetFeaturesYAPE component', ->
                 groups.push group
               corners.once "data", (corners) ->
                 testutils.writeOut ref+'.out', { corners: corners }
-                chai.expect(corners).to.be.an 'array'
-                chai.expect(corners[0]).to.be.an 'object'
                 chai.expect(corners[0]).to.have.property 'x'
                 chai.expect(corners[0]).to.have.property 'y'
                 chai.expect(corners[0]).to.have.property 'score'
@@ -75,7 +76,6 @@ describe 'GetFeaturesYAPE component', ->
               canvas.once "begingroup", (group) ->
                 groups.push group
               canvas.once "data", (canvas) ->
-                chai.expect(canvas).to.be.an 'object'
                 chai.expect(groups).to.have.length 1
                 chai.expect(groups[0]).to.equal id
                 done()

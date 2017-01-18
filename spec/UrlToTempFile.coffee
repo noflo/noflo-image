@@ -1,23 +1,29 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  UrlToTempFile = require '../components/UrlToTempFile-node.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
 else
-  UrlToTempFile = require 'noflo-image/components/UrlToTempFile.js'
+  baseDir = '/noflo-image'
 
 describe 'UrlToTempFile component', ->
   c = null
   ins = null
   out = null
   error = null
-  beforeEach ->
-    c = UrlToTempFile.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.url.attach ins
-    c.outPorts.tempfile.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/UrlToTempFile', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.url.attach ins
+      c.outPorts.tempfile.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -32,13 +38,11 @@ describe 'UrlToTempFile component', ->
       it 'should return path to the fs image itself', (done) ->
         expected = 'spec/test-80x80.jpg'
         out.once 'data', (data) ->
-          chai.expect(data).to.be.an 'string'
           chai.expect(data).to.equal expected
           done()
         ins.send expected
       it 'should send an error for zero-sized images', (done) ->
         error.once 'data', (data) ->
-          chai.expect(data).to.be.an 'object'
           chai.expect(data.url).to.equal 'spec/empty.jpg'
           done()
         ins.send 'spec/empty.jpg'
@@ -57,7 +61,6 @@ describe 'UrlToTempFile component', ->
         chai.expect(true).to.equal false
         done()
       out.once 'data', (data) ->
-        chai.expect(data).to.be.a 'string'
         chai.expect(data).to.have.length.above 0
         done()
       ins.send url
@@ -88,7 +91,6 @@ describe 'UrlToTempFile component', ->
     it 'should create a temporary file with a valid path', (done) ->
       @timeout 15000
       out.on 'data', (data) ->
-        chai.expect(data).to.be.a 'string'
         chai.expect(data).to.have.length.above 0
         done()
       error.on 'data', (error) -> done(error)
@@ -101,7 +103,7 @@ describe 'UrlToTempFile component', ->
       @timeout 15000
       out.on 'data', (data) -> done(data)
       error.on 'data', (error) ->
-        chai.expect(error).to.be.an 'object'
+        chai.expect(error).to.be.instanceof Error
         done()
       ins.send url
 

@@ -1,43 +1,12 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  fs = require 'fs'
-  Canvas = require('noflo-canvas').canvas
-  GetColors = require '../components/GetColors.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
+  testutils = require './testutils'
 else
-  GetColors = require 'noflo-image/components/GetColors.js'
-
-
-createCanvas = (width, height) ->
-  if noflo.isBrowser()
-    canvas = document.createElement 'canvas'
-    canvas.width = width
-    canvas.height = height
-  else
-    canvas = new Canvas width, height
-  return canvas
-
-getImageData = (name, callback) ->
-  if noflo.isBrowser()
-    id = 'http://localhost:8000/spec/fixtures/'+name
-    image = new Image()
-    image.onload = ->
-      callback image
-    image.src = id
-  else
-    id = 'spec/fixtures/'+name
-    fs.readFile id, (err, data) ->
-      image = new Canvas.Image
-      image.src = data
-      callback image
-  return id
-
-getCanvasWithImage = (name, callback) ->
-  id = getImageData name, (img) ->
-    canvas = createCanvas img.width, img.height
-    canvas.getContext('2d').drawImage(img, 0, 0)
-    callback canvas
-  return id
+  baseDir = '/noflo-image'
+  testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetColors component', ->
   c = null
@@ -45,16 +14,21 @@ describe 'GetColors component', ->
   colors = null
   canvas = null
   error = null
-  beforeEach ->
-    c = GetColors.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    colors = noflo.internalSocket.createSocket()
-    canvas = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.canvas.attach ins
-    c.outPorts.colors.attach colors
-    c.outPorts.canvas.attach canvas
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetColors', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      colors = noflo.internalSocket.createSocket()
+      canvas = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.outPorts.colors.attach colors
+      c.outPorts.canvas.attach canvas
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have a input ports', ->
@@ -87,15 +61,13 @@ describe 'GetColors component', ->
       colors.once "begingroup", (group) ->
         groups.push group
       colors.once "data", (colors) ->
-        chai.expect(colors).to.be.an 'array'
         chai.expect(colors).to.have.length expected.length
-        chai.expect(colors[0]).to.be.an 'array'
         chai.expect(colors[0]).to.have.length 3
         chai.expect(colors).to.deep.equal expected
         chai.expect(groups).to.have.length 1
         chai.expect(groups[0]).to.equal id
         done()
-      id = getCanvasWithImage input, (canvas) ->
+      id = testutils.getCanvasWithImageNoShift input, (canvas) ->
         ins.beginGroup id
         ins.send canvas
         ins.endGroup()
@@ -106,11 +78,10 @@ describe 'GetColors component', ->
       canvas.once "begingroup", (group) ->
         groups.push group
       canvas.once "data", (canvas) ->
-        chai.expect(canvas).to.be.an 'object'
         chai.expect(groups).to.have.length 1
         chai.expect(groups[0]).to.equal id
         done()
-      id = getCanvasWithImage input, (canvas) ->
+      id = testutils.getCanvasWithImage input, (canvas) ->
         ins.beginGroup id
         ins.send canvas
         ins.endGroup()
@@ -138,12 +109,10 @@ describe 'GetColors component', ->
     ]
     it 'should extract the colors and output css strings', (done) ->
       colors.once "data", (colors) ->
-        chai.expect(colors).to.be.an 'array'
         chai.expect(colors).to.have.length expected.length
-        chai.expect(colors[0]).to.be.a 'string'
         chai.expect(colors).to.deep.equal expected
         done()
-      id = getCanvasWithImage input, (canvas) ->
+      id = testutils.getCanvasWithImageNoShift input, (canvas) ->
         ins.beginGroup id
         ins.send canvas
         ins.endGroup()
@@ -152,20 +121,19 @@ describe 'GetColors component', ->
       input = '1x1.gif'
       id = null
       colors.once "data", (colors) ->
-        chai.expect(colors).to.be.an 'array'
         chai.expect(colors).to.have.length 0
         done()
-      id = getCanvasWithImage input, (canvas) ->
+      id = testutils.getCanvasWithImage input, (canvas) ->
         ins.send canvas
   describe 'when given not an image', ->
     it 'should return an error', (done) ->
       error.on "data", (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       ins.send ''
   describe 'when given null', ->
     it 'should return an error', (done) ->
       error.on "data", (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       ins.send null

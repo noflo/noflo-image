@@ -81,12 +81,13 @@ module.exports = ->
 
   @registerTask 'test', 'Build NoFlo and run automated tests', (target = 'all') =>
     @task.run 'coffeelint'
-    @task.run 'build'
-    @task.run 'connect'
+    @task.run 'coffee'
+    @task.run 'noflo_manifest'
     if target is 'all' or target is 'nodejs'
       @task.run 'mochaTest'
     if target is 'browser'
-      @task.run 'coffee'
+      @task.run 'connect'
+      @task.run 'noflo_browser'
       @task.run 'mocha_phantomjs'
 
   @registerTask 'default', ['test']
