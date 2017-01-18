@@ -1,25 +1,30 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  VideoToCanvas = require '../components/VideoToCanvas.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  VideoToCanvas = require 'noflo-image/components/VideoToCanvas.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
-
 describe 'VideoToCanvas component', ->
-
   c = null
   inVideo = null
   outCanvas = null
-  beforeEach ->
-    c = VideoToCanvas.getComponent()
-    inVideo = noflo.internalSocket.createSocket()
-    outCanvas = noflo.internalSocket.createSocket()
-    c.inPorts.video.attach inVideo
-    c.outPorts.canvas.attach outCanvas
-   
+
+  beforeEach (done) ->
+    @timeout 10000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/VideoToCanvas', (err, instance) ->
+      return done err if err
+      c = instance
+      inVideo = noflo.internalSocket.createSocket()
+      outCanvas = noflo.internalSocket.createSocket()
+      c.inPorts.video.attach inVideo
+      c.outPorts.canvas.attach outCanvas
+      done()
+
   describe 'when instantiated', ->
     it 'should have two input ports', ->
       chai.expect(c.inPorts.video).to.be.an 'object'

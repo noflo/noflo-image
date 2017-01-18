@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  GetColorsFromCentroids = require '../components/GetColorsFromCentroids.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  GetColorsFromCentroids = require 'noflo-image/components/GetColorsFromCentroids.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetColorsFromCentroids component', ->
@@ -13,16 +14,19 @@ describe 'GetColorsFromCentroids component', ->
   paths = null
   out = null
 
-  beforeEach ->
-    c = GetColorsFromCentroids.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    paths = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach ins
-    c.inPorts.paths.attach paths
-
-    c.outPorts.colors.attach out
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetColorsFromCentroids', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      paths = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.inPorts.paths.attach paths
+      c.outPorts.colors.attach out
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -51,7 +55,6 @@ describe 'GetColorsFromCentroids component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.an 'array'
         chai.expect(res.length).to.be.equal somePaths.length
         chai.expect(res[0]).to.equal 'rgb(0, 255, 255)'
         done()

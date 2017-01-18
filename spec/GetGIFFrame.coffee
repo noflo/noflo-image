@@ -1,11 +1,12 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  GetGIFFrame = require '../components/GetGIFFrame.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
   gm = require 'gm'
 else
-  GetGIFFrame = require 'noflo-image/components/GetGIFFrame.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetGIFFrame component', ->
@@ -15,17 +16,21 @@ describe 'GetGIFFrame component', ->
   out = null
   error = null
 
-  beforeEach ->
-    c = GetGIFFrame.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    frame = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-
-    c.inPorts.in.attach ins
-    c.inPorts.frame.attach frame
-    c.outPorts.out.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader  baseDir
+    loader.load 'image/GetGIFFrame', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      frame = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.in.attach ins
+      c.inPorts.frame.attach frame
+      c.outPorts.out.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->

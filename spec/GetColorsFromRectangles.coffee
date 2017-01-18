@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  GetColorsFromRectangles = require '../components/GetColorsFromRectangles.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  GetColorsFromRectangles = require 'noflo-image/components/GetColorsFromRectangles.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetColorsFromRectangles component', ->
@@ -15,21 +16,24 @@ describe 'GetColorsFromRectangles component', ->
   rect = null
   out = null
 
-  beforeEach ->
-    c = GetColorsFromRectangles.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    canvas = noflo.internalSocket.createSocket()
-    css = noflo.internalSocket.createSocket()
-    colors = noflo.internalSocket.createSocket()
-    rect = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach ins
-    c.inPorts.rect.attach rect
-    c.inPorts.css.attach css
-    c.inPorts.colors.attach colors
-
-    c.outPorts.out.attach out
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/GetColorsFromRectangles', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      canvas = noflo.internalSocket.createSocket()
+      css = noflo.internalSocket.createSocket()
+      colors = noflo.internalSocket.createSocket()
+      rect = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach ins
+      c.inPorts.rect.attach rect
+      c.inPorts.css.attach css
+      c.inPorts.colors.attach colors
+      c.outPorts.out.attach out
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -56,7 +60,6 @@ describe 'GetColorsFromRectangles component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.an 'array'
         chai.expect(res.length).to.be.equal someRects.length
         done()
 
