@@ -56,7 +56,11 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.2.0"
   },
-  "keywords": [],
+  "keywords": [
+    "noflo",
+    "ecosystem:noflo",
+    "image processing"
+  ],
   "noflo": {
     "components": {
       "AdjustBrightness": "components/AdjustBrightness.coffee",
