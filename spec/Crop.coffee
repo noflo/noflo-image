@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  Crop = require '../components/Crop.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  Crop = require 'noflo-image/components/Crop.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'Crop component', ->
@@ -13,18 +14,21 @@ describe 'Crop component', ->
   rectangle = null
   out = null
   error = null
-
-  beforeEach ->
-    c = Crop.getComponent()
-    canvas = noflo.internalSocket.createSocket()
-    rectangle = noflo.internalSocket.createSocket()
-    out = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach canvas
-    c.inPorts.rectangle.attach rectangle
-    c.outPorts.canvas.attach out
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/Crop', (err, instance) ->
+      return done err if err
+      c = instance
+      canvas = noflo.internalSocket.createSocket()
+      rectangle = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach canvas
+      c.inPorts.rectangle.attach rectangle
+      c.outPorts.canvas.attach out
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have input ports', ->
@@ -128,7 +132,7 @@ describe 'Crop component', ->
         out.once 'endgroup', (group) ->
           groups.pop()
         error.on "data", (err) ->
-          chai.expect(err).to.be.an 'object'
+          chai.expect(err).to.be.instanceof Error
           done()
         rect =
           x: -40
@@ -149,7 +153,7 @@ describe 'Crop component', ->
         out.once 'endgroup', (group) ->
           groups.pop()
         error.on "data", (err) ->
-          chai.expect(err).to.be.an 'object'
+          chai.expect(err).to.be.instanceof Error
           done()
         inSrc = 'original.jpg'
         testutils.getCanvasWithImageNoShift inSrc, (c) ->
@@ -167,7 +171,7 @@ describe 'Crop component', ->
         out.once 'endgroup', (group) ->
           groups.pop()
         error.on "data", (err) ->
-          chai.expect(err).to.be.an 'object'
+          chai.expect(err).to.be.instanceof Error
           done()
         inSrc = 'original.jpg'
         rect =

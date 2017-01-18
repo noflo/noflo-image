@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  FindFreeRectangles = require '../components/FindFreeRectangles.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  FindFreeRectangles = require 'noflo-image/components/FindFreeRectangles.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'FindFreeRectangles component', ->
@@ -15,20 +16,23 @@ describe 'FindFreeRectangles component', ->
   inMax = null
   out = null
 
-  before ->
-    c = FindFreeRectangles.getComponent()
-    inCanvas = noflo.internalSocket.createSocket()
-    inPolygon = noflo.internalSocket.createSocket()
-    inThreshold = noflo.internalSocket.createSocket()
-    inMax = noflo.internalSocket.createSocket()
-
-    out = noflo.internalSocket.createSocket()
-
-    c.inPorts.canvas.attach inCanvas
-    c.inPorts.polygon.attach inPolygon
-    c.inPorts.threshold.attach inThreshold
-    c.inPorts.max.attach inMax
-    c.outPorts.out.attach out
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/FindFreeRectangles', (err, instance) ->
+      return done err if err
+      c = instance
+      inCanvas = noflo.internalSocket.createSocket()
+      inPolygon = noflo.internalSocket.createSocket()
+      inThreshold = noflo.internalSocket.createSocket()
+      inMax = noflo.internalSocket.createSocket()
+      out = noflo.internalSocket.createSocket()
+      c.inPorts.canvas.attach inCanvas
+      c.inPorts.polygon.attach inPolygon
+      c.inPorts.threshold.attach inThreshold
+      c.inPorts.max.attach inMax
+      c.outPorts.out.attach out
+      done()
  
   describe 'when instantiated', ->
     it 'should have four input ports', ->
@@ -60,7 +64,6 @@ describe 'FindFreeRectangles component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.an 'array'
         chai.expect(res.length).to.be.equal 10
         chai.expect(res[0]).to.eql expected
         done()
@@ -84,7 +87,6 @@ describe 'FindFreeRectangles component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.an 'array'
         chai.expect(res.length).to.be.equal 0
         done()
 
@@ -116,7 +118,6 @@ describe 'FindFreeRectangles component', ->
         groups.pop()
       out.once 'data', (res) ->
         chai.expect(groups).to.eql [1]
-        chai.expect(res).to.be.an 'array'
         chai.expect(res[0]).to.eql expected
         done()
 

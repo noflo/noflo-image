@@ -1,10 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
-  BufferToCanvas = require '../components/BufferToCanvas-node.coffee'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   testutils = require './testutils'
 else
-  BufferToCanvas = require 'noflo-image/components/BufferToCanvas-node.js'
+  baseDir = '/noflo-image'
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'BufferToCanvas component', ->
@@ -12,15 +13,19 @@ describe 'BufferToCanvas component', ->
   inBuffer = null
   outCanvas = null
   error = null
-
-  beforeEach ->
-    c = BufferToCanvas.getComponent()
-    inBuffer = noflo.internalSocket.createSocket()
-    outCanvas = noflo.internalSocket.createSocket()
-    error = noflo.internalSocket.createSocket()
-    c.inPorts.buffer.attach inBuffer
-    c.outPorts.canvas.attach outCanvas
-    c.outPorts.error.attach error
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/BufferToCanvas', (err, instance) ->
+      return done err if err
+      c = instance
+      inBuffer = noflo.internalSocket.createSocket()
+      outCanvas = noflo.internalSocket.createSocket()
+      error = noflo.internalSocket.createSocket()
+      c.inPorts.buffer.attach inBuffer
+      c.outPorts.canvas.attach outCanvas
+      c.outPorts.error.attach error
+      done()
 
   describe 'when instantiated', ->
     it 'should have one input ports', ->
@@ -40,7 +45,6 @@ describe 'BufferToCanvas component', ->
       outCanvas.once 'endgroup', (group) ->
         groups.pop()
       outCanvas.once 'data', (data) ->
-        chai.expect(data).to.be.an 'object'
         chai.expect(data.width).to.equal 80
         chai.expect(data.height).to.equal 80
         done()
@@ -56,7 +60,7 @@ describe 'BufferToCanvas component', ->
     it 'should return an error', (done) ->
       @timeout 1000
       error.on 'data', (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       buffer = ''
       inBuffer.send buffer
@@ -64,20 +68,20 @@ describe 'BufferToCanvas component', ->
     it 'should return an error', (done) ->
       @timeout 1000
       error.on 'data', (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       inBuffer.send {}
   describe 'with a null buffer', ->
     it 'should return an error', (done) ->
       @timeout 1000
       error.on 'data', (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       inBuffer.send null
   describe 'with a not buffer', ->
     it 'should return an error', (done) ->
       @timeout 1000
       error.on 'data', (err) ->
-        chai.expect(err).to.be.an 'object'
+        chai.expect(err).to.be.instanceof Error
         done()
       inBuffer.send 42

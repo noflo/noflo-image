@@ -1,8 +1,11 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
   chai = require 'chai' unless chai
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
   FindFeatureFreeAreas = require '../components/FindFeatureFreeAreas.coffee'
 else
+  baseDir = '/noflo-image'
   FindFeatureFreeAreas = require 'noflo-image/components/FindFeatureFreeAreas.js'
 
 describe 'FindFeatureFreeAreas', ->
@@ -113,8 +116,6 @@ describe 'FindFeatureFreeAreas', ->
       it "height", ->
         chai.expect(region.height).to.equal 89
 
-
-
 describe 'FindFeatureFreeAreas component', ->
   c = null
   ins = null
@@ -123,20 +124,25 @@ describe 'FindFeatureFreeAreas component', ->
   inWidth = null
   inHeight = null
   inSegments = null
-  beforeEach ->
-    c = FindFeatureFreeAreas.getComponent()
-    ins = noflo.internalSocket.createSocket()
-    inWidth = noflo.internalSocket.createSocket()
-    inHeight = noflo.internalSocket.createSocket()
-    inSegments = noflo.internalSocket.createSocket()
-    corners = noflo.internalSocket.createSocket()
-    areas = noflo.internalSocket.createSocket()
-    c.inPorts.corners.attach ins
-    c.inPorts.width.attach inWidth
-    c.inPorts.height.attach inHeight
-    c.inPorts.segments.attach inSegments
-    c.outPorts.corners.attach corners
-    c.outPorts.areas.attach areas
+  beforeEach (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'image/FindFeatureFreeAreas', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      inWidth = noflo.internalSocket.createSocket()
+      inHeight = noflo.internalSocket.createSocket()
+      inSegments = noflo.internalSocket.createSocket()
+      corners = noflo.internalSocket.createSocket()
+      areas = noflo.internalSocket.createSocket()
+      c.inPorts.corners.attach ins
+      c.inPorts.width.attach inWidth
+      c.inPorts.height.attach inHeight
+      c.inPorts.segments.attach inSegments
+      c.outPorts.corners.attach corners
+      c.outPorts.areas.attach areas
+      done()
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -178,10 +184,8 @@ describe 'FindFeatureFreeAreas component', ->
       areas.once "begingroup", (group) ->
         groups.push group
       areas.once "data", (regions) ->
-        chai.expect(regions).to.be.an 'array'
         # console.log(regions)
         chai.expect(regions).to.have.length expected.length
-        chai.expect(regions[0]).to.be.an 'object'
         chai.expect(regions[0]).to.have.property 'x'
         chai.expect(regions[0]).to.have.property 'y'
         chai.expect(regions[0]).to.have.property 'width'
