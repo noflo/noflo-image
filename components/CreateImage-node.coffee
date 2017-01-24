@@ -9,36 +9,41 @@ fs = require 'fs'
 # @runtime noflo-nodejs
 # @name CreateImage
 
-class CreateImage extends noflo.AsyncComponent
-  description: 'Load image from URL or path and send node-canvas compatible image'
-  icon: 'picture-o'
-  constructor: ->
-    @inFlight = {}
-    @inPorts = new noflo.InPorts
-      url:
-        datatype: 'string'
-        type: 'string/url'
-      crossorigin:
-        datatype: 'string'
-        description: 'not applicable to Node version'
-        required: false
-    @outPorts = new noflo.OutPorts
-      image:
-        datatype: 'object'
-        type: 'noflo-canvas/image'
-      error:
-        datatype: 'object'
-    super 'url', 'image'
+exports.getComponent = ->
+  c = new noflo.Component
 
-  doAsync: (url, callback) ->
-    onLoad = (err, image) =>
+  c.description = 'Load image from URL or path and send node-canvas compatible image'
+  c.icon = 'picture-o'
+
+  c.inPorts.add 'url',
+    datatype: 'string'
+    description: 'Image URL'
+  c.inPorts.add 'crossorigin',
+    datatype: 'string'
+    description: 'not applicable to Node version'
+    required: false
+  c.outPorts.add 'image',
+    datatype: 'object'
+    description: 'Loaded image'
+  c.outPorts.add 'error',
+    datatype: 'object'
+
+  noflo.helpers.WirePattern c,
+    in: 'url'
+    params: 'crossorigin'
+    out: 'image'
+    forwardGroups: true
+    async: true
+  , (url, groups, out, callback) ->
+    onLoad = (err, image) ->
       if err
         onError err
         return
-      @outPorts.image.beginGroup url
-      @outPorts.image.send image
-      @outPorts.image.endGroup()
-      callback null
+      out.beginGroup url
+      out.send image
+      out.endGroup()
+      do callback
+      return
 
     onError = (err) ->
       err.url = url
@@ -85,8 +90,7 @@ class CreateImage extends noflo.AsyncComponent
       req.on 'error', (err) ->
         err.url = url
         error = err
-      req.on 'end', =>
-        delete @inFlight[url]
+      req.on 'end', ->
         if error
           tmpFile.unlink()
           onError error
@@ -96,17 +100,7 @@ class CreateImage extends noflo.AsyncComponent
         catch e
           tmpFile.unlink()
           onError e
-      @inFlight[url] = req
       return
     # Local image
     loadFile url
-
-  shutdown: ->
-    for url, req of @inFlight
-      req.abort()
-      delete @inFlight[url]
-    @q = []
-    @errorGroups = []
-    super()
-
-exports.getComponent = -> new CreateImage
+  c

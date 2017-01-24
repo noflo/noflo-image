@@ -1,34 +1,43 @@
 noflo = require 'noflo'
 
 # @runtime noflo-browser
+# @name Measure
 
-class Measure extends noflo.AsyncComponent
-  description: 'Load image from URL and get dimensions'
-  icon: 'picture-o'
-  constructor: ->
-    @inPorts =
-      url: new noflo.Port 'string'
-    @outPorts =
-      dimensions: new noflo.Port 'object'
-      error: new noflo.Port 'object'
-    super 'url', 'dimensions'
+exports.getComponent = ->
+  c = new noflo.Component
 
-  doAsync: (url, callback) ->
+  c.description = 'Load image from URL and get dimensions'
+  c.icon = 'picture-o'
+
+  c.inPorts.add 'url',
+    datatype: 'string'
+    description: 'URL to load image'
+  c.outPorts.add 'dimensions',
+    datatype: 'object'
+    description: 'Image dimensions'
+  c.outPorts.add 'error',
+    datatype: 'object'
+
+  noflo.helpers.WirePattern c,
+    in: 'url'
+    out: 'dimensions'
+    forwardGroups: true
+    async: true
+  , (url, groups, out, callback) ->
     image = new Image()
-    image.onload = () =>
+    image.onload = () ->
       if (image.naturalWidth? and image.naturalWidth is 0) or image.width is 0
         image.onerror new Error "#{url} didn't come back as a valid image."
         return
       dimensions =
         width: image.width
         height: image.height
-      @outPorts.dimensions.beginGroup url
-      @outPorts.dimensions.send dimensions
-      @outPorts.dimensions.endGroup()
-      callback null
+      out.beginGroup url
+      out.send dimensions
+      out.endGroup()
+      do callback
     image.onerror = (err) ->
       err.url = url
       return callback err
     image.src = url
-
-exports.getComponent = -> new Measure
+  c
