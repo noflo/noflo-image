@@ -8,24 +8,33 @@ fs = require 'fs'
 # @runtime noflo-nodejs
 # @name Measure
 
-class Measure extends noflo.AsyncComponent
-  description: 'Load image from URL or path and get dimensions'
-  icon: 'picture-o'
-  constructor: ->
-    @inPorts =
-      url: new noflo.Port 'string'
-    @outPorts =
-      dimensions: new noflo.Port 'object'
-      error: new noflo.Port 'object'
-    super 'url', 'dimensions'
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Load image from URL or path and get dimensions'
+  c.icon = 'picture-o'
 
-  doAsync: (url, callback) ->
-    onLoad = (err, dimensions) =>
+  c.inPorts.add 'url',
+    datatype: 'string'
+    description: 'URL to load image'
+  c.outPorts.add 'dimensions',
+    datatype: 'object'
+    description: 'Image dimensions'
+  c.outPorts.add 'error',
+    datatype: 'object'
+
+  noflo.helpers.WirePattern c,
+    in: 'url'
+    out: 'dimensions'
+    forwardGroups: true
+    async: true
+  , (url, groups, out, callback) ->
+    onLoad = (err, dimensions) ->
       if err
         onError err
         return
-      @outPorts.dimensions.send dimensions
-      callback null
+      out.send dimensions
+      do callback
+      return
 
     onError = (err) ->
       err.url = url
@@ -60,5 +69,4 @@ class Measure extends noflo.AsyncComponent
     else
       # Local image
       sizeOf url, onLoad
-
-exports.getComponent = -> new Measure
+  c
