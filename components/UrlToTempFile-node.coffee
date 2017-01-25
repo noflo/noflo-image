@@ -69,6 +69,7 @@ exports.getComponent = ->
       tmpFile = tmp.fileSync()
       stream = fs.createWriteStream tmpFile.name
       req = request
+        method: 'GET'
         url: url
         timeout: 30000
         headers:
@@ -81,7 +82,7 @@ exports.getComponent = ->
       req.on 'error', (err) ->
         tmpFile.removeCallback()
         if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
-          error = new Error "UrlToTempFile: request timeout"
+          error = new Error "UrlToTempFile: request timed out with error code #{err.code}"
           error.url = url
           log.err error
           return callback error
