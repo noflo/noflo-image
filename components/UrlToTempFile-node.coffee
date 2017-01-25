@@ -66,57 +66,62 @@ exports.getComponent = ->
         log.err err
         return callback err
       # Remote image
-      tmpFile = tmp.fileSync()
-      stream = fs.createWriteStream tmpFile.name
       req = request
         method: 'GET'
         url: url
         timeout: 30000
         headers:
           'user-agent': buildUserAgent()
-      error = null
-      req.on 'response', (resp) ->
-        return if resp.statusCode is 200
-        error = new Error "UrlToTempFile: response status code is #{resp.statusCode}"
-      req.on 'error', (err) ->
-        tmpFile.removeCallback()
-        if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
-          error = new Error "UrlToTempFile: request timed out with error code #{err.code}"
-          error.url = url
-          log.err error
-          return callback error
-        error = new Error "UrlToTempFile: request error code is #{err.code}"
-        error.url = url
-        log.err error
-        return callback error
-      req.on 'end', ->
-        if error
+      tmpFile = tmp.fileSync()
+      stream = fs.createWriteStream tmpFile.name
+      endByError = false
+      endStream = (error) ->
+        return if endByError
+        endByError = true
+        req.abort()
+        stream.close ->
           tmpFile.removeCallback()
           error.url = url
           log.err error
           return callback error
-        try
-          fs.stat tmpFile.name, (err, stats) ->
-            if err
+      req.on 'response', (resp) ->
+        if resp.statusCode is 200
+          req.pipe stream
+          return
+        error = new Error "UrlToTempFile: response status code is #{resp.statusCode}"
+        return endStream(error)
+      req.on 'error', (err) ->
+        error = new Error "UrlToTempFile: request error code is #{err.code}"
+        return endStream(error)
+      stream.on 'error', (err) ->
+        return endStream(error)
+      stream.once 'open', (fd) ->
+        if fd < 0
+          err = new Error "UrlToTempFile: bad temporary file descriptor"
+          return endStream(err)
+        stream.once 'finish', ->
+          return if endByError
+          fs.fsync fd, ->
+            try
+              fs.stat tmpFile.name, (err, stats) ->
+                if err
+                  tmpFile.removeCallback()
+                  err.url = url
+                  log.err err
+                  return callback err
+                if stats.size is 0
+                  e = new Error "UrlToTempFile: temporary file has zero size"
+                  e.url = url
+                  tmpFile.removeCallback()
+                  log.err e
+                  return callback e
+                out.send tmpFile.name
+                do callback
+            catch e
               tmpFile.removeCallback()
-              err.url = url
-              log.err err
-              return callback err
-            if stats.size is 0
-              e = new Error "UrlToTempFile: temporary file has zero size"
               e.url = url
-              tmpFile.removeCallback()
               log.err e
               return callback e
-            out.send tmpFile.name
-            do callback
-        catch e
-          tmpFile.removeCallback()
-          e.url = url
-          log.err e
-          return callback e
-      req.pipe stream
-      return
     else
       # Local image
       path = url
