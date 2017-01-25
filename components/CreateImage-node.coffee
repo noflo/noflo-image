@@ -3,7 +3,7 @@ Canvas = require('noflo-canvas').canvas
 Image = Canvas.Image
 urlUtil = require 'url'
 request = require 'request'
-temporary = require 'temporary'
+tmp = require 'tmp'
 fs = require 'fs'
 
 # @runtime noflo-nodejs
@@ -76,8 +76,8 @@ exports.getComponent = ->
       return
     if urlOptions.protocol
       # Remote image
-      tmpFile = new temporary.File
-      stream = fs.createWriteStream tmpFile.path
+      tmpFile = tmp.fileSync()
+      stream = fs.createWriteStream tmpFile.name
       req = request
         url: url
         timeout: 10000
@@ -92,13 +92,13 @@ exports.getComponent = ->
         error = err
       req.on 'end', ->
         if error
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError error
           return
         try
-          loadFile tmpFile.path
+          loadFile tmpFile.name
         catch e
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError e
       return
     # Local image

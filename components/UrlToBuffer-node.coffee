@@ -1,5 +1,4 @@
 noflo = require 'noflo'
-temporary = require 'temporary'
 fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
@@ -73,7 +72,6 @@ exports.getComponent = ->
           out.endGroup()
           do callback
         catch e
-          # tmpFile.unlink()
           e.url = url
           console.log "Error in UrlToBuffer component when sending the buffer."
           return callback e

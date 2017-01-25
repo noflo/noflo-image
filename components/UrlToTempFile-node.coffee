@@ -1,5 +1,5 @@
 noflo = require 'noflo'
-temporary = require 'temporary'
+tmp = require 'tmp'
 fs = require 'fs'
 request = require 'request'
 urlUtil = require 'url'
@@ -42,22 +42,20 @@ exports.getComponent = ->
       unless data?
         return callback new Error "Zero-sized data from #{url}"
       buffer = new Buffer data, 'base64'
-      unless buffer.length > 0
+      unless Buffer.byteLength(buffer) > 0
         return callback new Error "Zero-sized buffer from #{url}"
-      tmpFile = new temporary.File
-      tmpFile.writeFile buffer, 'base64', (error) ->
-        return callback error if error
-        out.send tmpFile.path
+      tmpFile = tmp.fileSync()
+      fs.writeFile tmpFile.name, buffer, 'base64', (err, data) ->
+        return callback err if err
+        out.send tmpFile.name
         do callback
         return
     else if urlOptions.protocol
       unless urlOptions.protocol in ['http:', 'https:']
-        callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
-        return
-
+        return callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
       # Remote image
-      tmpFile = new temporary.File
-      stream = fs.createWriteStream tmpFile.path
+      tmpFile = tmp.fileSync()
+      stream = fs.createWriteStream tmpFile.name
       req = request
         url: url
         timeout: 30000
@@ -70,7 +68,7 @@ exports.getComponent = ->
         error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
-        tmpFile.unlink()
+        tmpFile.removeCallback()
         if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
           error = new Error "Error in UrlToTempFile component: request timeout for #{url}."
           error.url = url
@@ -82,23 +80,23 @@ exports.getComponent = ->
         return callback error
       req.on 'end', ->
         if error
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           return callback error
         try
-          fs.stat tmpFile.path, (err, stats) ->
+          fs.stat tmpFile.name, (err, stats) ->
             if err
-              tmpFile.unlink()
+              tmpFile.removeCallback()
               err.url = url
               return callback err
             if stats.size is 0
               e = new Error "Zero-sized temporary image file"
               e.url = url
-              tmpFile.unlink()
+              tmpFile.removeCallback()
               return callback e
-            out.send tmpFile.path
+            out.send tmpFile.name
             do callback
         catch e
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           e.url = url
           console.log "Error in UrlToTempFile component when sending the temporary file."
           return callback e

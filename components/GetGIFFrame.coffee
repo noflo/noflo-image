@@ -2,7 +2,7 @@ noflo = require 'noflo'
 gm = require 'gm'
 fileType = require 'file-type'
 readChunk = require 'read-chunk'
-temporary = require 'temporary'
+tmp = require 'tmp'
 
 # @runtime noflo-nodejs
 # @name GetGIFFrame
@@ -44,17 +44,17 @@ exports.getComponent = ->
         do callback
         return
       if type.ext is 'gif'
-        tmpFile = new temporary.File
+        tmpFile = tmp.fileSync()
         gm payload
         .selectFrame frame
-        .write tmpFile.path, (err) ->
+        .write tmpFile.name, (err) ->
           if err
-            tmpFile.unlink()
+            tmpFile.removeCallback()
             err.payload = payload
             outPorts.error.send err
             do callback
             return
-          outPorts.out.send tmpFile.path
+          outPorts.out.send tmpFile.name
           do callback
           return
       else
