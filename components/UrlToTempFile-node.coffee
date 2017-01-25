@@ -78,11 +78,12 @@ exports.getComponent = ->
       endStream = (error) ->
         return if endByError
         endByError = true
-        req.abort()
+        tmpFile.removeCallback()
+        error.url = url
+        log.err error
+        req.abort() if req.abort
+        return callback error unless stream.close
         stream.close ->
-          tmpFile.removeCallback()
-          error.url = url
-          log.err error
           return callback error
       req.on 'response', (resp) ->
         if resp.statusCode is 200
