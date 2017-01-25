@@ -113,7 +113,8 @@ describe 'UrlToTempFile component', ->
     it 'should do a correct error', (done) ->
       @timeout 0
       error.once 'data', (data) ->
-        err = new Error "Images with chrome-search: protocol not allowed"
+        err = new Error "UrlToTempFile: protocol chrome-search: is not allowed"
+        err.url = url
         chai.expect(data).to.be.eql err
         done()
       ins.send url

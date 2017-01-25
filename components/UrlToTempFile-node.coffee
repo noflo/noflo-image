@@ -40,19 +40,31 @@ exports.getComponent = ->
       # Data URL
       data = url.split(",")[1]
       unless data?
-        return callback new Error "Zero-sized data from #{url}"
+        err = new Error "UrlToTempFile: zero-sized data"
+        err.url = url
+        log.err err
+        return callback err
       buffer = new Buffer data, 'base64'
       unless Buffer.byteLength(buffer) > 0
-        return callback new Error "Zero-sized buffer from #{url}"
+        err = new Error "UrlToTempFile: zero-sized buffer"
+        err.url = url
+        log.err err
+        return callback err
       tmpFile = tmp.fileSync()
       fs.writeFile tmpFile.name, buffer, 'base64', (err, data) ->
-        return callback err if err
+        if err
+          err.url = url
+          log.err err
+          return callback err
         out.send tmpFile.name
         do callback
         return
     else if urlOptions.protocol
       unless urlOptions.protocol in ['http:', 'https:']
-        return callback new Error "Images with #{urlOptions.protocol} protocol not allowed"
+        err = new Error "UrlToTempFile: protocol #{urlOptions.protocol} is not allowed"
+        err.url = url
+        log.err err
+        return callback err
       # Remote image
       tmpFile = tmp.fileSync()
       stream = fs.createWriteStream tmpFile.name
@@ -65,40 +77,43 @@ exports.getComponent = ->
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
-        error = new Error "Error in UrlToTempFile component. #{url} responded with #{resp.statusCode}"
-        error.url = url
+        error = new Error "UrlToTempFile: response status code is #{resp.statusCode}"
       req.on 'error', (err) ->
         tmpFile.removeCallback()
         if err.code is 'ETIMEDOUT' or err.code is 'ESOCKETTIMEDOUT'
-          error = new Error "Error in UrlToTempFile component: request timeout for #{url}."
+          error = new Error "UrlToTempFile: request timeout"
           error.url = url
           log.err error
           return callback error
-        error = new Error "Error in UrlToTempFile component: request returned error #{err} for #{url}."
+        error = new Error "UrlToTempFile: request error code is #{err.code}"
         error.url = url
         log.err error
         return callback error
       req.on 'end', ->
         if error
           tmpFile.removeCallback()
+          error.url = url
+          log.err error
           return callback error
         try
           fs.stat tmpFile.name, (err, stats) ->
             if err
               tmpFile.removeCallback()
               err.url = url
+              log.err err
               return callback err
             if stats.size is 0
-              e = new Error "Zero-sized temporary image file"
+              e = new Error "UrlToTempFile: temporary file has zero size"
               e.url = url
               tmpFile.removeCallback()
+              log.err e
               return callback e
             out.send tmpFile.name
             do callback
         catch e
           tmpFile.removeCallback()
           e.url = url
-          console.log "Error in UrlToTempFile component when sending the temporary file."
+          log.err e
           return callback e
       return
     else
@@ -106,14 +121,18 @@ exports.getComponent = ->
       path = url
       try
         fs.stat path, (err, stats) ->
-          return callback err if err
+          if err
+            err.url = path
+            log.err err
+            return callback err
           if stats.size is 0
-            e = new Error "Zero-sized local image file"
+            e = new Error "UrlToTempFile: temporary file has zero size"
             e.url = path
+            log.err e
             return callback e
           out.send url
           do callback
       catch e
         e.url = url
-        console.log "Error in UrlToTempFile component when loading local image."
+        log.err e
         return callback e
