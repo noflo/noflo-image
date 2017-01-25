@@ -5,6 +5,7 @@ urlUtil = require 'url'
 request = require 'request'
 tmp = require 'tmp'
 fs = require 'fs'
+log = require 'graceful-logger'
 
 # @runtime noflo-nodejs
 # @name CreateImage
@@ -47,13 +48,14 @@ exports.getComponent = ->
 
     onError = (err) ->
       err.url = url
+      log.err err
       return callback err
 
     loadFile = (path) ->
       fs.stat path, (err, stats) ->
         return onError err if err
         if stats.size is 0
-          e = new Error 'Zero-sized image'
+          e = new Error 'CreateImage: temporary file has zero size'
           return onError e
         fs.readFile path, (err, image) ->
           if err
@@ -85,7 +87,7 @@ exports.getComponent = ->
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
-        error = new Error "#{url} responded with #{resp.statusCode}"
+        error = new Error "CreateImage: response status code is #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
         err.url = url
