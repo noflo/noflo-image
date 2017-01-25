@@ -74,7 +74,6 @@ exports.getComponent = ->
         timeout: 30000
         headers:
           'user-agent': buildUserAgent()
-      req.pipe stream
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
@@ -116,6 +115,7 @@ exports.getComponent = ->
           e.url = url
           log.err e
           return callback e
+      req.pipe stream
       return
     else
       # Local image
