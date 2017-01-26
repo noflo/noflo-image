@@ -57,10 +57,7 @@ describe 'CreateImage component', ->
       ins.send url
     it 'should find correct dimensions', (done) ->
       @timeout 0
-      error.once 'data', (data) ->
-        console.log data
-        chai.expect(true).to.equal false
-        done()
+      error.once 'data', (data) -> done(data)
       out.once 'data', (data) ->
         chai.expect(data.width).to.equal 80
         chai.expect(data.height).to.equal 80
@@ -77,10 +74,7 @@ describe 'CreateImage component', ->
       ins.send url
     it 'should find correct dimensions', (done) ->
       @timeout 0
-      error.once 'data', (data) ->
-        console.log data
-        chai.expect(true).to.equal false
-        done()
+      error.once 'data', (data) -> done(data)
       out.once 'data', (data) ->
         chai.expect(data.width).to.equal 770
         chai.expect(data.height).to.equal 376

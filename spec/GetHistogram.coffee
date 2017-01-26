@@ -10,7 +10,7 @@ else
   testutils = require 'noflo-image/spec/testutils.js'
 
 describe 'GetHistogram component', ->
-  @timeout 3*1000
+  @timeout 5*1000
   c = null
   canvas = null
   step = null

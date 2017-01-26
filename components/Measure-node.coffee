@@ -2,7 +2,7 @@ noflo = require 'noflo'
 sizeOf = require 'image-size'
 urlUtil = require 'url'
 request = require 'request'
-temporary = require 'temporary'
+tmp = require 'tmp'
 fs = require 'fs'
 
 # @runtime noflo-nodejs
@@ -45,8 +45,8 @@ exports.getComponent = ->
     if urlOptions.protocol
       # Remote image
       # TODO replace this with custom http/s calls that only get first few bytes
-      tmpFile = new temporary.File
-      stream = fs.createWriteStream tmpFile.path
+      tmpFile = tmp.fileSync()
+      stream = fs.createWriteStream tmpFile.name
       req = request url
       req.pipe stream
       error = null
@@ -56,15 +56,15 @@ exports.getComponent = ->
         error.url = url
       req.on 'end', ->
         if error
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError error
           return
         try
-          sizeOf tmpFile.path, (err, dimensions) ->
-            tmpFile.unlink()
+          sizeOf tmpFile.name, (err, dimensions) ->
+            tmpFile.removeCallback()
             onLoad err, dimensions
         catch e
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError e
     else
       # Local image
