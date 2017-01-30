@@ -3,8 +3,9 @@ Canvas = require('noflo-canvas').canvas
 Image = Canvas.Image
 urlUtil = require 'url'
 request = require 'request'
-temporary = require 'temporary'
+tmp = require 'tmp'
 fs = require 'fs'
+log = require 'graceful-logger'
 
 # @runtime noflo-nodejs
 # @name CreateImage
@@ -47,13 +48,14 @@ exports.getComponent = ->
 
     onError = (err) ->
       err.url = url
+      log.err err
       return callback err
 
     loadFile = (path) ->
       fs.stat path, (err, stats) ->
         return onError err if err
         if stats.size is 0
-          e = new Error 'Zero-sized image'
+          e = new Error 'CreateImage: temporary file has zero size'
           return onError e
         fs.readFile path, (err, image) ->
           if err
@@ -76,8 +78,8 @@ exports.getComponent = ->
       return
     if urlOptions.protocol
       # Remote image
-      tmpFile = new temporary.File
-      stream = fs.createWriteStream tmpFile.path
+      tmpFile = tmp.fileSync()
+      stream = fs.createWriteStream tmpFile.name
       req = request
         url: url
         timeout: 10000
@@ -85,20 +87,20 @@ exports.getComponent = ->
       error = null
       req.on 'response', (resp) ->
         return if resp.statusCode is 200
-        error = new Error "#{url} responded with #{resp.statusCode}"
+        error = new Error "CreateImage: response status code is #{resp.statusCode}"
         error.url = url
       req.on 'error', (err) ->
         err.url = url
         error = err
       req.on 'end', ->
         if error
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError error
           return
         try
-          loadFile tmpFile.path
+          loadFile tmpFile.name
         catch e
-          tmpFile.unlink()
+          tmpFile.removeCallback()
           onError e
       return
     # Local image

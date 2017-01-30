@@ -1,7 +1,7 @@
 {
   "name": "noflo-image",
   "description": "Image processing utilities for browser and Node.js NoFlo.",
-  "version": "0.2.22",
+  "version": "0.2.23",
   "author": {
     "name": "Forrest Oliphant",
     "email": "forrest@sembiki.com"
@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "animated-gif-detector": "^1.1.5",
+    "chroma-js": "~1.2.1",
     "d3-color": "^1.0.1",
     "file-type": "^4.0.0",
-    "chroma-js": "~1.2.1",
     "gm": "^1.22.0",
     "graceful-logger": "^0.4.3",
     "image-size": "~0.5.1",
@@ -35,7 +35,7 @@
     "request": "^2.79.0",
     "rgbquant": "~1.1.2",
     "superagent": "~3.4.0",
-    "temporary": "~0.0.8",
+    "tmp": "0.0.31",
     "urijs": "^1.18.4"
   },
   "devDependencies": {

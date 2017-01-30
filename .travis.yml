@@ -1,6 +1,7 @@
 language: node_js
 node_js:
 - '4.2'
+dist: trusty
 sudo: false
 addons:
   apt:
