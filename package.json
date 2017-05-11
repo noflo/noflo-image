@@ -21,7 +21,7 @@
     "file-type": "^4.0.0",
     "gm": "^1.22.0",
     "graceful-logger": "^0.4.3",
-    "image-size": "~0.5.1",
+    "image-size": "0.5.2",
     "jsfeat": "0.0.8",
     "noflo": "0.x >= 0.5",
     "noflo-ajax": "~0.1.6",
