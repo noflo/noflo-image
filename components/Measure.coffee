@@ -40,4 +40,4 @@ exports.getComponent = ->
       err.url = url
       return callback err
     image.src = url
-  c
+    return

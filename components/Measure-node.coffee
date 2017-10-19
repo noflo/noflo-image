@@ -69,4 +69,4 @@ exports.getComponent = ->
     else
       # Local image
       sizeOf url, onLoad
-  c
+    return
