@@ -4,28 +4,24 @@ exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Adjust saturation level of a given image.'
   c.icon = 'file-image-o'
+  c.inPorts.add 'canvas',
+    datatype: 'object'
+  c.inPorts.add 'level',
+    datatype: 'number'
+    control: true
+    default: 100.0
+  c.outPorts.add 'canvas',
+    datatype: 'object'
+  c.forwardBrackets =
+    canvas: ['canvas']
+  c.process (input, output) ->
+    return unless input.hasData 'canvas'
+    return if input.attached('level').length and not input.hasData 'level'
+    level = 100.0
+    if input.hasData 'level'
+      level = input.getData 'level'
 
-  c.canvas = null
-  c.level = 100.0
-
-  c.inPorts.add 'canvas', (event, payload) ->
-    return unless event is 'data'
-    c.canvas = payload
-    c.computeFilter()
-
-  c.inPorts.add 'level', (event, payload) ->
-    return unless event is 'data'
-    c.level = payload
-    c.computeFilter()
-
-  c.outPorts.add 'canvas'
-
-  c.computeFilter = ->
-    return unless c.outPorts.canvas.isAttached()
-    return unless c.level? and c.canvas?
-
-    canvas = c.canvas
-    level = c.level
+    canvas = input.getData 'canvas'
 
     ctx = canvas.getContext '2d'
     width = canvas.width
@@ -45,7 +41,6 @@ exports.getComponent = ->
 
     ctx.putImageData imageData, 0, 0
 
-    c.outPorts.canvas.send canvas
-
-  c
-
+    output.sendDone
+      canvas: canvas
+    return
