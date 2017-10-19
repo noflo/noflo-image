@@ -38,6 +38,7 @@ exports.getComponent = ->
     in: ['canvas', 'paths']
     out: ['colors']
     forwardGroups: true
+    async: true
   , (payload, groups, out, callback) ->
     {canvas, paths} = payload
 
@@ -49,6 +50,5 @@ exports.getComponent = ->
       colors.push getColorFromPath(imageData, canvas.width, path)
 
     out.send colors
-
-  c
-
+    do callback
+    return

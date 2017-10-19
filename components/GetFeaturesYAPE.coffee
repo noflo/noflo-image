@@ -1,32 +1,21 @@
 noflo = require 'noflo'
 jsfeat = require 'jsfeat'
 
-class GetFeaturesYAPE extends noflo.Component
-  description: 'Extract feature corners of image (method: YAPE)'
-  icon: 'file-image-o'
-  constructor: ->
-
-    @inPorts =
-      canvas: new noflo.Port 'object'
-    @outPorts =
-      corners: new noflo.Port 'array'
-      canvas: new noflo.Port 'object'
-
-    @inPorts.canvas.on 'begingroup', (group) =>
-      @outPorts.corners.beginGroup group
-      @outPorts.canvas.beginGroup group
-    @inPorts.canvas.on 'endgroup', (group) =>
-      @outPorts.corners.endGroup group
-      @outPorts.canvas.endGroup group
-    @inPorts.canvas.on 'disconnect', () =>
-      @outPorts.corners.disconnect()
-      @outPorts.canvas.disconnect()
-    @inPorts.canvas.on 'data', (canvas) =>
-      corners = @getCorners canvas
-      @outPorts.corners.send corners
-      @outPorts.canvas.send canvas
-
-  getCorners: (canvas) ->
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Extract feature corners of image (method: YAPE)'
+  c.icon = 'file-image-o'
+  c.inPorts.add 'canvas',
+    datatype: 'object'
+  c.outPorts.add 'corners',
+    datatype: 'array'
+  c.outPorts.add 'canvas',
+    datatype: 'object'
+  c.forwardBrackets =
+    canvas: ['canvas', 'corners']
+  c.process (input, output) ->
+    return unless input.hasData 'canvas'
+    canvas = input.getData 'canvas'
     context = canvas.getContext '2d'
     img = context.getImageData 0, 0, canvas.width, canvas.height
 
@@ -43,9 +32,8 @@ class GetFeaturesYAPE extends noflo.Component
     for i in [0...pixels]
       corners.push new jsfeat.keypoint_t 0,0,0,
     count = jsfeat.yape06.detect img_u8, corners
-    return corners.slice 0, count
 
-exports.getComponent = -> new GetFeaturesYAPE
-
-
-
+    output.sendDone
+      corners: corners.slice 0, count
+      canvas: canvas
+    return

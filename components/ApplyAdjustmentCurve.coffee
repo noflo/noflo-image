@@ -4,34 +4,17 @@ exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Apply a RGBA adjustment curve to a given image.'
   c.icon = 'file-image-o'
-
-  c.curve = null
-  c.canvas = null
-
-  c.inPorts.add 'canvas', (event, payload) ->
-    if event is 'begingroup'
-      c.outPorts.canvas.beginGroup payload
-    if event is 'endgroup'
-      c.outPorts.canvas.endGroup()
-    if event is 'disconnect'
-      c.outPorts.canvas.disconnect()
-    return unless event is 'data'
-    c.canvas = payload
-    c.computeFilter()
-
-  c.inPorts.add 'curve', (event, payload) ->
-    return unless event is 'data'
-    c.curve = payload
-    c.computeFilter()
-
-  c.outPorts.add 'canvas'
-
-  c.computeFilter = ->
-    return unless c.outPorts.canvas.isAttached()
-    return unless c.curve? and c.canvas?
-
-    canvas = c.canvas
-    curve = c.curve
+  c.inPorts.add 'canvas',
+    datatype: 'object'
+  c.inPorts.add 'curve',
+    datatype: 'object'
+  c.outPorts.add 'canvas',
+    datatype: 'object'
+  c.forwardBrackets =
+    canvas: ['canvas']
+  c.process (input, output) ->
+    return unless input.hasData 'canvas', 'curve'
+    [canvas, curve] = input.getData 'canvas', 'curve'
     width = canvas.width
     height = canvas.height
 
@@ -54,7 +37,6 @@ exports.getComponent = ->
 
     ctx.putImageData imageData, 0, 0
 
-    c.outPorts.canvas.send canvas
-
-  c
-
+    output.sendDone
+      canvas: canvas
+    return

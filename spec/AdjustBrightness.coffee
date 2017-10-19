@@ -22,10 +22,8 @@ describe 'AdjustBrightness component', ->
       return done err if err
       c = instance
       inImage = noflo.internalSocket.createSocket()
-      level = noflo.internalSocket.createSocket()
       outImage = noflo.internalSocket.createSocket()
       c.inPorts.canvas.attach inImage
-      c.inPorts.level.attach level
       c.outPorts.canvas.attach outImage
       done()
 

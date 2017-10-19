@@ -4,21 +4,15 @@ exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Apply a vignette effect to a given image.'
   c.icon = 'file-image-o'
-
-  c.canvas = null
-
-  c.inPorts.add 'canvas', (event, payload) ->
-    return unless event is 'data'
-    c.canvas = payload
-    c.computeEffect()
-
-  c.outPorts.add 'canvas'
-
-  c.computeEffect = ->
-    return unless c.outPorts.canvas.isAttached()
-    return unless c.canvas?
-
-    canvas = c.canvas
+  c.inPorts.add 'canvas',
+    datatype: 'object'
+  c.outPorts.add 'canvas',
+    datatype: 'object'
+  c.forwardBrackets =
+    canvas: ['canvas']
+  c.process (input, output) ->
+    return unless input.hasData 'canvas'
+    canvas = input.getData 'canvas'
 
     ctx = canvas.getContext '2d'
     width = canvas.width
@@ -48,7 +42,6 @@ exports.getComponent = ->
     ctx.fillStyle = gradient
     ctx.fillRect 0, 0, width, height
 
-    c.outPorts.canvas.send canvas
-
-  c
-
+    output.sendDone
+      canvas: canvas
+    return

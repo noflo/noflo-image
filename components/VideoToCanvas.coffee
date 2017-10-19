@@ -12,75 +12,69 @@ if noflo.isBrowser()
         callback(+new Date())
       , 1000 / 60)
 
-class VideoToCanvas extends noflo.Component
-  description: 'Convert video to canvas.'
-  icon: 'file-image-o'
-
-  constructor: ->
-    @video = null
-    @lastTime = -1
-    @canvas = null
-    @context = null
-    @shutdownNextFrame = false
-    @rafLooping = false
-
-    @inPorts = new noflo.InPorts
-      video:
-        description: 'video element to draw to canvas'
-        datatype: 'object'
-        required: true
-      canvas:
-        description: '(optional) if not hit, component will create canvas'
-        datatype: 'object'
-        required: false
-
-    @outPorts = new noflo.OutPorts
-      canvas:
-        description: 'will send canvas with each video frame drawn'
-        datatype: 'object'
-
-    @inPorts.video.on 'data', (video) =>
-      return unless video?.tagName is 'VIDEO'
-      @video = video
-      @lastTime = -1
-      unless @rafLooping
-        @rafLooping = true
-        @videoToCanvas()
-
-    @inPorts.canvas.on 'data', (canvas) =>
-      @canvas = canvas
-      @context = @canvas.getContext '2d'
-
-  videoToCanvas: =>
-    return if @shutdownNextFrame
-
-    requestAnimationFrame @videoToCanvas
-
-    unless @canvas
-      unless @video.videoWidth
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Convert video to canvas.'
+  c.icon = 'file-image-o'
+  c.inPorts.add 'video',
+    description: 'video element to draw to canvas'
+    datatype: 'object'
+    required: true
+  c.inPorts.add 'canvas',
+    description: '(optional) if not hit, component will create canvas'
+    datatype: 'object'
+    required: false
+  c.outPorts.add 'canvas',
+    description: 'will send canvas with each video frame drawn'
+    datatype: 'object'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    video: ['canvas']
+  c.process (input, output) ->
+    return unless input.hasData 'video'
+    return if input.attached('canvas').length and not input.hasData 'canvas'
+    video = input.getData 'video'
+    unless video?.tagName is 'VIDEO'
+      output.done new Error 'Video must be a VIDEO DOM element'
+      return
+    if input.hasData 'canvas'
+      canvas = input.getData 'canvas'
+    else
+      unless video.videoWidth
         # Metadata not loaded yet
+        output.done 'Video width not available'
         return
       if noflo.isBrowser()
-        @canvas = document.createElement 'canvas'
-        @canvas.width = @video.videoWidth
-        @canvas.height = @video.videoHeight
+        canvas = document.createElement 'canvas'
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
       else
         Canvas = require('noflo-canvas').canvas
-        @canvas = new Canvas @video.videoWidth, @video.videoHeight
-      @context = @canvas.getContext '2d'
+        canvas = new Canvas video.videoWidth, video.videoHeight
+    context = canvas.getContext '2d'
 
-    if @lastTime is @video.currentTime
-      # Frame hasn't advanced
-      return
-    else
-      @lastTime = @video.currentTime
+    lastTime = -1
+    shutdownNextFrame = false
+    extractFrame = ->
+      if lastTime is video.currentTime
+        # Frame hasn't advanced, wait more
+        requestAnimationFrame extractFrame
+        return
+      if video.currentTime < lastTime
+        # Video is looping, bail out
+        output.done()
+        return
+      if video.currentTime is video.duration
+        # Video finished
+        output.done()
+        return
+      lastTime = video.currentTime
+      context.drawImage video, 0, 0
+      output.send
+        canvas: canvas
+      requestAnimationFrame extractFrame
 
-    @context.drawImage @video, 0, 0
-
-    if @outPorts.canvas.isAttached()
-      @outPorts.canvas.send @canvas
-
-  shutdown: =>
-    @shutdownNextFrame = true
-
-exports.getComponent = -> new VideoToCanvas
+    # Get first frame
+    do extractFrame
+    return

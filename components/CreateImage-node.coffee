@@ -105,4 +105,4 @@ exports.getComponent = ->
       return
     # Local image
     loadFile url
-  c
+    return

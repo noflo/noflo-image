@@ -15,15 +15,20 @@ exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Get a preset for a RGBA adjustment curve.'
   c.icon = 'file-image-o'
-
-  c.inPorts.add 'presetname', (event, payload) ->
-    return unless event is 'data'
-    return unless c.outPorts.curve.isAttached()
-    return unless payload of presets
-    c.outPorts.curve.send presets[payload]
-    c.outPorts.curve.disconnect()
-
-  c.outPorts.add 'curve'
-
-  c
-
+  c.inPorts.add 'presetname',
+    datatype: 'string'
+  c.outPorts.add 'curve',
+    datatype: 'object'
+  c.outPorts.add 'error',
+    datatype: 'object'
+  c.forwardBrackets =
+    presetname: ['curve']
+  c.process (input, output) ->
+    return unless input.hasData 'presetname'
+    payload = input.getData 'presetname'
+    unless presets[payload]
+      output.done new Error "Preset '#{payload}' not available"
+      return
+    output.sendDone
+      curve: presets[payload]
+    return

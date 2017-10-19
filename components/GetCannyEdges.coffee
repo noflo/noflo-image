@@ -1,45 +1,37 @@
 noflo = require 'noflo'
 jsfeat = require 'jsfeat'
 
-class GetCannyEdges extends noflo.Component
-  description: 'Canny edge detector.'
-  icon: 'file-image-o'
-
-  constructor: ->
-    @low = 20
-    @high = 50
-    @kernel = 6
-    @canvas = null
-
-    @inPorts =
-      canvas: new noflo.Port 'object'
-      low: new noflo.Port 'number'
-      high: new noflo.Port 'number'
-      kernel: new noflo.Port 'number'
-    @outPorts =
-      canvas: new noflo.Port 'object'
-
-    @inPorts.canvas.on 'data', (canvas) =>
-      @canvas = canvas
-      @computeCanny()
-
-    @inPorts.low.on 'data', (low) =>
-      @low = low
-      @computeCanny()
-
-    @inPorts.high.on 'data', (high) =>
-      @high = high
-      @computeCanny()
-
-    @inPorts.kernel.on 'data', (kernel) =>
-      @kernel = kernel
-      @computeCanny()
-
-  computeCanny: ->
-    return unless @outPorts.canvas.isAttached()
-    return unless @canvas?
-
-    canvas = @canvas
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Canny edge detector.'
+  c.icon = 'file-image-o'
+  c.inPorts.add 'canvas',
+    datatype: 'object'
+  c.inPorts.add 'low',
+    datatype: 'number'
+    control: true
+    default: 20
+  c.inPorts.add 'high',
+    datatype: 'number'
+    control: true
+    default: 50
+  c.inPorts.add 'kernel',
+    datatype: 'number'
+    control: true
+    default: 6
+  c.outPorts.add 'canvas',
+    datatype: 'object'
+  c.forwardBrackets =
+    canvas: ['canvas']
+  c.process (input, output) ->
+    return unless input.hasData 'canvas'
+    return if input.attached('low').length and not input.hasData 'low'
+    return if input.attached('high').length and not input.hasData 'high'
+    return if input.attached('kernel').length and not input.hasData 'kernel'
+    low = if input.hasData('low') then input.getData('low') else 20
+    high = if input.hasData('high') then input.getData('high') else 50
+    kernel = if input.hasData('kernel') then input.getData('kernel') else 6
+    canvas = input.getData 'canvas'
     
     context = canvas.getContext '2d'
     img = context.getImageData 0, 0, canvas.width, canvas.height
@@ -60,9 +52,6 @@ class GetCannyEdges extends noflo.Component
 
     context.putImageData img, 0, 0
 
-    @outPorts.canvas.send canvas
-
-exports.getComponent = -> new GetCannyEdges
-
-
-
+    output.sendDone
+      canvas: canvas
+    return

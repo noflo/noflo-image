@@ -14,7 +14,7 @@ exports.getComponent = ->
     description: 'Canvas to be converted'
 
   c.outPorts.add 'buffer',
-    datatype: 'object'
+    datatype: 'buffer'
   c.outPorts.add 'error',
     datatype: 'object'
     required: false
@@ -30,5 +30,3 @@ exports.getComponent = ->
         return callback err
       out.send buffer
       do callback
-
-  c

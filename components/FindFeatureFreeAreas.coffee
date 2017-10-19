@@ -144,54 +144,56 @@ findRegions = (corners, bounds, seg) ->
   regions.sort sortByArea
   return regions
 
-class FindFeatureFreeAreas extends noflo.Component
-  description: 'Extract feature corners of image (method: YAPE)'
-  icon: 'file-image-o'
-  constructor: ->
-    @width = 0
-    @height = 0
-    @segments = 4
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Extract feature corners of image (method: YAPE)'
+  c.icon = 'file-image-o'
+  c.inPorts.add 'corners',
+    datatype: 'array'
+  c.inPorts.add 'width',
+    datatype: 'int'
+    control: true
+    default: 0
+  c.inPorts.add 'height',
+    datatype: 'int'
+    control: true
+    default: 0
+  c.inPorts.add 'segments',
+    datatype: 'int'
+    control: true
+    default: 4
+  c.outPorts.add 'areas',
+    datatype: 'array'
+  c.outPorts.add 'corners',
+    datatype: 'array'
+  c.forwardBrackets =
+    corners: ['areas', 'corners']
+  c.process (input, output) ->
+    return unless input.hasData 'corners'
+    return if input.attached('width').length and not input.hasData 'width'
+    return if input.attached('height').length and not input.hasData 'height'
+    return if input.attached('segments').length and not input.hasData 'segments'
+    width = 0
+    if input.hasData 'width'
+      width = parseInt input.getData 'width'
+    height = 0
+    if input.hasData 'height'
+      height = parseInt input.getData 'height'
+    segments = 4
+    if input.hasData 'segments'
+      segments = parseInt input.getData 'segments'
 
-    @inPorts =
-      corners: new noflo.Port 'array'
-      width: new noflo.Port 'int'
-      height: new noflo.Port 'int'
-      segments: new noflo.Port 'int'
-    @outPorts =
-      areas: new noflo.Port 'array'
-      corners: new noflo.Port 'array'
+    corners = input.getData 'corners'
+    b = { w: width, h: height }
+    s = segments
+    regions = findRegions corners, b, s
+    output.send
+      areas: regions
+      corners: corners
+    output.done()
+    return
 
-    @inPorts.width.on 'data', (data) =>
-      #console.log 'width', data
-      @width = data
-    @inPorts.height.on 'data', (data) =>
-      #console.log 'height', data
-      @height = data
-    @inPorts.segments.on 'data', (data) =>
-      #console.log 'segments', data
-      @segments = data
-
-    @inPorts.corners.on 'begingroup', (group) =>
-      @outPorts.areas.beginGroup group
-      @outPorts.corners.beginGroup group
-    @inPorts.corners.on 'endgroup', (group) =>
-      @outPorts.areas.endGroup group
-      @outPorts.corners.endGroup group
-    @inPorts.corners.on 'disconnect', () =>
-      @outPorts.areas.disconnect()
-      @outPorts.corners.disconnect()
-    @inPorts.corners.on 'data', (corners) =>
-      b = { w: @width, h: @height }
-      s = @segments
-      #console.log b, s
-      regions = findRegions corners, b, s
-      @outPorts.areas.send regions
-      @outPorts.corners.send corners
-
-exports.getComponent = -> new FindFeatureFreeAreas
 exports.calculateStartingPoints = calculateStartingPoints
 exports.spatialSortedIndices = spatialSortedIndices
 exports.findIndexForPoint = findIndexForPoint
 exports.growRectangle = growRectangle
-
-

@@ -1,9 +1,6 @@
 noflo = require 'noflo'
 superagent = require 'superagent'
-unless noflo.isBrowser()
-  URI = require 'urijs'
-else
-  URI = require 'URIjs'
+URI = require 'urijs'
 
 timeout_HEAD = 15000
 
@@ -122,4 +119,4 @@ exports.getComponent = ->
     else
       out.send url
       do callback
-  c
+    return

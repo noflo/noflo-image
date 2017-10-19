@@ -60,4 +60,4 @@ exports.getComponent = ->
 
     out.send newCanvas
     do callback
-  c
+    return

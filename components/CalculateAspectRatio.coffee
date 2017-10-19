@@ -32,5 +32,3 @@ exports.getComponent = ->
       ratio: "#{numerator}:#{denominator}"
       aspect: numerator / denominator
     do callback
-
-  c

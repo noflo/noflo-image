@@ -35,7 +35,6 @@ describe 'GetColors component', ->
       chai.expect(c.inPorts.canvas).to.be.an 'object'
       chai.expect(c.inPorts.css).to.be.an 'object'
       chai.expect(c.inPorts.colors).to.be.an 'object'
-      chai.expect(c.inPorts.quality).to.be.an 'object'
     it 'should have output ports', ->
       chai.expect(c.outPorts.colors).to.be.an 'object'
       chai.expect(c.outPorts.canvas).to.be.an 'object'
