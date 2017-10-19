@@ -52,7 +52,6 @@
     "grunt-mocha-phantomjs": "^4.0.0",
     "grunt-mocha-test": "^0.13.2",
     "grunt-noflo-browser": "^1.1.4",
-    "grunt-noflo-manifest": "^0.1.12",
     "json-loader": "^0.5.4",
     "mocha": "^4.0.0"
   },
@@ -60,43 +59,5 @@
     "noflo",
     "ecosystem:noflo",
     "image processing"
-  ],
-  "noflo": {
-    "components": {
-      "AdjustBrightness": "components/AdjustBrightness.coffee",
-      "AdjustContrast": "components/AdjustContrast.coffee",
-      "AdjustSaturation": "components/AdjustSaturation.coffee",
-      "ApplyAdjustmentCurve": "components/ApplyAdjustmentCurve.coffee",
-      "ApplyVignette": "components/ApplyVignette.coffee",
-      "BufferToCanvas": "components/BufferToCanvas-node.coffee",
-      "CalculateAspectRatio": "components/CalculateAspectRatio.coffee",
-      "CanvasToBuffer": "components/CanvasToBuffer.coffee",
-      "CreateImage": "components/CreateImage-node.coffee",
-      "Crop": "components/Crop.coffee",
-      "DetectAnimatedGif": "components/DetectAnimatedGif.coffee",
-      "ExtractLightness": "components/ExtractLightness.coffee",
-      "ExtractSaturation": "components/ExtractSaturation.coffee",
-      "FindFeatureFreeAreas": "components/FindFeatureFreeAreas.coffee",
-      "FindFreeRectangles": "components/FindFreeRectangles.coffee",
-      "GetBorderlessBox": "components/GetBorderlessBox.coffee",
-      "GetCannyEdges": "components/GetCannyEdges.coffee",
-      "GetColors": "components/GetColors.coffee",
-      "GetColorsFromCentroids": "components/GetColorsFromCentroids.coffee",
-      "GetColorsFromRectangles": "components/GetColorsFromRectangles.coffee",
-      "GetFeaturesYAPE": "components/GetFeaturesYAPE.coffee",
-      "GetGIFFrame": "components/GetGIFFrame.coffee",
-      "GetHistogram": "components/GetHistogram.coffee",
-      "GetOrientation": "components/GetOrientation.coffee",
-      "GetPresetCurve": "components/GetPresetCurve.coffee",
-      "ImageToCanvas": "components/ImageToCanvas.coffee",
-      "Measure": "components/Measure-node.coffee",
-      "ToFullscale": "components/ToFullscale.coffee",
-      "UrlToBuffer": "components/UrlToBuffer-node.coffee",
-      "UrlToTempFile": "components/UrlToTempFile-node.coffee",
-      "VideoToCanvas": "components/VideoToCanvas.coffee"
-    },
-    "graphs": {
-      "UrlToCanvas": "graphs/UrlToCanvas.json"
-    }
-  }
+  ]
 }
