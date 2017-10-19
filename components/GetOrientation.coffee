@@ -30,5 +30,4 @@ exports.getComponent = ->
     out.send
       orientation: orientation
     do callback
-
-  c
+    return
