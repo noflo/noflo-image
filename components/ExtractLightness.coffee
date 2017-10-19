@@ -15,7 +15,8 @@ exports.getComponent = ->
     in: ['canvas']
     out: ['lightness']
     forwardGroups: true
-  , (payload, groups, out) ->
+    async: true
+  , (payload, groups, out, callback) ->
     canvas = payload
     ctx = canvas.getContext '2d'
     imageData = ctx.getImageData 0, 0, canvas.width, canvas.height
@@ -38,6 +39,5 @@ exports.getComponent = ->
     lightness = (lightPixels - darkPixels) / imageArea
     
     out.send lightness
-
-  c
-        
+    do callback
+    return
