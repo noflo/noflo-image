@@ -11,7 +11,7 @@ exports.getComponent = ->
   c.description = 'Convert a buffer to a canvas'
 
   c.inPorts.add 'buffer',
-    datatype: 'object'
+    datatype: 'buffer'
     description: 'An image buffer'
   c.outPorts.add 'canvas',
     datatype: 'object'
@@ -35,5 +35,4 @@ exports.getComponent = ->
     ctx.drawImage image, 0, 0, image.width, image.height
     out.send canvas
     do callback
-
-  c
+    return
