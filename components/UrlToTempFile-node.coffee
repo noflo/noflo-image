@@ -148,3 +148,4 @@ exports.getComponent = ->
       fetchRemoteImage url, sendOrFail
     else
       fetchLocalImage url, sendOrFail
+    return

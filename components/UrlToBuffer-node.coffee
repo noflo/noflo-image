@@ -95,5 +95,4 @@ exports.getComponent = ->
       e.url = url
       console.log "Error in UrlToBuffer component when loading local image."
       return callback e
-
-  c
+    return
