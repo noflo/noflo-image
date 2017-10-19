@@ -18,8 +18,6 @@ exports.getComponent = ->
       datatype: 'int'
       default: 1
       values: [1, 2]
-    quality:
-      description: 'deprecated'
   c.outPorts = new noflo.OutPorts
     colors:
       datatype: 'array'
@@ -62,7 +60,4 @@ exports.getComponent = ->
     out.canvas.send data
     out.colors.send colors
     do callback
-
-  c.inPorts.quality.on 'data', (data) ->
-    console.warn 'the quality inport is deprecated'
-  c
+    return
