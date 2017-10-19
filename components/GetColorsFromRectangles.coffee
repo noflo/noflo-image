@@ -25,9 +25,10 @@ exports.getComponent = ->
   noflo.helpers.WirePattern c,
     in: ['canvas', 'rect']
     params: ['css', 'colors']
-    out: ['out', 'error']
+    out: 'out'
     forwardGroups: true
-  , (payload, groups, outs, callback) ->
+    async: true
+  , (payload, groups, out, callback) ->
     {canvas, rect} = payload
     {css, colors} = c.params
 
@@ -62,11 +63,9 @@ exports.getComponent = ->
 
         piecesColors.push extractedColors
     catch e
-      return unless outs.error.isAttached()
-      outs.error.send e
-      outs.error.disconnect()
+      callback e
       return
 
-    outs.out.send piecesColors
-
-  c
+    out.send piecesColors
+    do callback
+    return
