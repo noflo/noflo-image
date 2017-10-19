@@ -11,7 +11,7 @@ exports.getComponent = ->
   c.description = 'Detect if a given GIF is animated'
 
   c.inPorts.add 'buffer',
-    datatype: 'all'
+    datatype: 'buffer'
     description: 'An image buffer'
   c.outPorts.add 'animated',
     datatype: 'boolean'
@@ -37,9 +37,7 @@ exports.getComponent = ->
           out.send isAnimated
           do callback
           return
-    else
-      out.send false
-      do callback
       return
-
-  c
+    out.send false
+    do callback
+    return
