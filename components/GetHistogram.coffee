@@ -77,15 +77,14 @@ exports.getComponent = ->
   noflo.helpers.WirePattern c,
     in: ['canvas']
     params: ['step']
-    out: ['histogram', 'error']
+    out: 'histogram'
     forwardGroups: true
     async: true
-  , (payload, groups, outPorts, callback) ->
+  , (payload, groups, out, callback) ->
     canvas = payload
     unless canvas?.width > 0 and canvas?.height > 0
       err = new Error "Failed to compute histogram. Canvas has zero dimensions"
-      outPorts.error.send err
-      do callback
+      callback err
       return
 
     step = if c.params.step? then Math.round c.params.step else defaultStep
@@ -102,5 +101,6 @@ exports.getComponent = ->
       c: zero new Array 135 # https://github.com/gka/chroma.js/issues/63
       l: zero new Array 101 # [0.0, 1.0] -> [0, 101]
     computeHistogram imageData.data, result, step, ->
-      outPorts.histogram.send result
+      out.send result
       do callback
+    return
