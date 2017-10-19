@@ -165,6 +165,7 @@ exports.getComponent = ->
     params: ['threshold', 'max']
     out: 'out'
     forwardGroups: true
+    async: true
   , (payload, groups, out, callback) ->
     {canvas, polygon} = payload
     {threshold, max} = c.params
@@ -172,5 +173,5 @@ exports.getComponent = ->
     validRects = compute canvas, polygon, threshold, max
 
     out.send validRects
-
-  c
+    do callback
+    return
