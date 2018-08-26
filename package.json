@@ -27,7 +27,7 @@
     "noflo-canvas": ">=0.2.3",
     "noflo-core": ">=0.4.0",
     "noflo-objects": ">=0.2.0",
-    "read-chunk": "^2.0.0",
+    "read-chunk": "^3.0.0",
     "request": "^2.85.0",
     "rgbquant": "~1.1.2",
     "superagent": "~3.8.0",
