@@ -31,7 +31,7 @@
     "request": "^2.85.0",
     "rgbquant": "~1.1.2",
     "superagent": "~4.0.0",
-    "tmp": "0.0.33",
+    "tmp": "0.2.1",
     "urijs": "^1.18.4"
   },
   "devDependencies": {
