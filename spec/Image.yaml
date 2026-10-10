@@ -1,0 +1,56 @@
+topic: image/CalculateAspectRatio
+cases:
+  - name: reducing by the greatest common divisor
+    assertion: should produce the reduced ratio
+    inputs:
+      dimensions:
+        width: 640
+        height: 480
+    expect:
+      ratio:
+        equals:
+          ratio: '4:3'
+          aspect: 1.3333333333333333
+---
+topic: image/GetOrientation
+cases:
+  - name: a landscape image
+    assertion: should report landscape
+    inputs:
+      dimensions:
+        width: 100
+        height: 50
+    expect:
+      orientation:
+        equals:
+          orientation: landscape
+  - name: a portrait image
+    assertion: should report portrait
+    inputs:
+      dimensions:
+        width: 50
+        height: 100
+    expect:
+      orientation:
+        equals:
+          orientation: portrait
+  - name: a square image
+    assertion: should report square
+    inputs:
+      dimensions:
+        width: 50
+        height: 50
+    expect:
+      orientation:
+        equals:
+          orientation: square
+---
+topic: image/DetectAnimatedGif
+cases:
+  - name: non-GIF bytes
+    assertion: should not report animated
+    inputs:
+      buffer: not-a-gif
+    expect:
+      animated:
+        equals: false
