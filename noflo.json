@@ -1,0 +1,1550 @@
+{
+  "format": "noflo-manifest",
+  "version": 1,
+  "id": "image",
+  "description": "Image processing utilities for NoFlo",
+  "icon": null,
+  "npm": "@noflo/image",
+  "jsr": null,
+  "source": "https://github.com/noflo/noflo-image",
+  "revision": "a654902476b82ff5257e6f5c90773f7755f146f0",
+  "loader": false,
+  "namespaces": {},
+  "components": [
+    {
+      "name": "image/AdjustBrightness",
+      "path": "components/AdjustBrightness.js",
+      "type": "elementary",
+      "description": "Adjust brightness level of a given image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to adjust",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "level",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Brightness change in percent (-100..100)",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The adjusted canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/AdjustContrast",
+      "path": "components/AdjustContrast.js",
+      "type": "elementary",
+      "description": "Adjust contrast level of a given image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to adjust",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "level",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Contrast multiplier (0 = flat, 1 = unchanged)",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The adjusted canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/AdjustSaturation",
+      "path": "components/AdjustSaturation.js",
+      "type": "elementary",
+      "description": "Adjust saturation level of a given image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to adjust",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "level",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Saturation change in percent (-100..100)",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The adjusted canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/ApplyAdjustmentCurve",
+      "path": "components/ApplyAdjustmentCurve.js",
+      "type": "elementary",
+      "description": "Apply an RGBA adjustment curve to a given image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to adjust",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "curve",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Adjustment curve with r, g, b, and a lookup tables",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The adjusted canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/ApplyVignette",
+      "path": "components/ApplyVignette.js",
+      "type": "elementary",
+      "description": "Apply a vignette effect to a given image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to apply the effect to",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The adjusted canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/BufferToCanvas",
+      "path": "components/BufferToCanvas.js",
+      "type": "elementary",
+      "description": "Convert image bytes to a canvas",
+      "icon": "expand",
+      "signature": {
+        "inports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "Image bytes",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas with the decoded image drawn at full size",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/CalculateAspectRatio",
+      "path": "components/CalculateAspectRatio.js",
+      "type": "elementary",
+      "description": "Calculate aspect ratio from image dimensions",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "dimensions",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Dimensions with width and height",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "ratio",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Object with a ratio string and a numeric aspect",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/CanvasToBuffer",
+      "path": "components/CanvasToBuffer.js",
+      "type": "elementary",
+      "description": "Convert a canvas to PNG image bytes",
+      "icon": "picture-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to encode",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "PNG image bytes",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/Crop",
+      "path": "components/Crop.js",
+      "type": "elementary",
+      "description": "Crop the rectangle out of a given canvas",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to crop from",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "rectangle",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Rectangle with x, y, width, height to crop out",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The cropped canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/DetectAnimatedGif",
+      "path": "components/DetectAnimatedGif.js",
+      "type": "elementary",
+      "description": "Detect if a given GIF is animated",
+      "icon": "expand",
+      "signature": {
+        "inports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "Image bytes",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "animated",
+            "datatype": "boolean",
+            "addressable": false,
+            "description": "Whether the bytes are an animated GIF",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/ExtractLightness",
+      "path": "components/ExtractLightness.js",
+      "type": "elementary",
+      "description": "Extract global lightness of a given image. Light images will return values greater than zero",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "lightness",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Lightness in the -1..1 range",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/ExtractSaturation",
+      "path": "components/ExtractSaturation.js",
+      "type": "elementary",
+      "description": "Extract global saturation of a given image. Saturated images will return values greater than zero",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "saturation",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Saturation in the -1..1 range",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/FindFeatureFreeAreas",
+      "path": "components/FindFeatureFreeAreas.js",
+      "type": "elementary",
+      "description": "Find feature-free areas of an image from its feature corners",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "corners",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Feature corners with x and y coordinates",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "width",
+            "datatype": "int",
+            "addressable": false,
+            "description": "Image width in pixels",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "height",
+            "datatype": "int",
+            "addressable": false,
+            "description": "Image height in pixels",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "segments",
+            "datatype": "int",
+            "addressable": false,
+            "description": "Base number of starting-point segments",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "areas",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Feature-free regions sorted by area",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "corners",
+            "datatype": "array",
+            "addressable": false,
+            "description": "The input corners, forwarded",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/FindFreeRectangles",
+      "path": "components/FindFreeRectangles.js",
+      "type": "elementary",
+      "description": "Find bounding rectangles of regions outside of the given polygon",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas whose dimensions define the search bounds",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "polygon",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Salience polygon",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "threshold",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Minimum region area in pixels",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "max",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Maximum number of rectangles",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "out",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Free rectangles sorted by area, largest first",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetBorderlessBox",
+      "path": "components/GetBorderlessBox.js",
+      "type": "elementary",
+      "description": "Extract a bounding box with top and bottom borders removed (according to a certain threshold)",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "mean",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Mean difference between neighbours at same row",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "max",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Maximal difference between neighbours at same row",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "avg",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Average difference between columns' neighbours",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "rectangle",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Bounding box with borders removed",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetCannyEdges",
+      "path": "components/GetCannyEdges.js",
+      "type": "elementary",
+      "description": "Canny edge detector",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to process",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "low",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Low hysteresis threshold",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "high",
+            "datatype": "number",
+            "addressable": false,
+            "description": "High hysteresis threshold",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "kernel",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Gaussian blur kernel radius",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas with the edges drawn",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetColors",
+      "path": "components/GetColors.js",
+      "type": "elementary",
+      "description": "Extract the dominant colors of an image",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "css",
+            "datatype": "boolean",
+            "addressable": false,
+            "description": "Emit CSS rgb() strings instead of RGB tuples",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "colors",
+            "datatype": "number",
+            "addressable": false,
+            "description": "How many dominant colors to extract",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "colors",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Dominant colors as RGB tuples or CSS strings",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The analyzed canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/GetColorsFromCentroids",
+      "path": "components/GetColorsFromCentroids.js",
+      "type": "elementary",
+      "description": "Extract color of path's centroid",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to sample",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "paths",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Paths whose centroid colors to extract",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "colors",
+            "datatype": "array",
+            "addressable": false,
+            "description": "CSS rgb() color per path",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetColorsFromRectangles",
+      "path": "components/GetColorsFromRectangles.js",
+      "type": "elementary",
+      "description": "Extract colors from rectangle regions of a canvas",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to sample from",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "rect",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Rectangles with x, y, width, height",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "css",
+            "datatype": "boolean",
+            "addressable": false,
+            "description": "Emit CSS rgb() strings instead of RGB tuples",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "colors",
+            "datatype": "number",
+            "addressable": false,
+            "description": "How many dominant colors to extract per region",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "out",
+            "datatype": "array",
+            "addressable": false,
+            "description": "One color array per rectangle",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/GetFeaturesYAPE",
+      "path": "components/GetFeaturesYAPE.js",
+      "type": "elementary",
+      "description": "Extract feature corners of image (method: YAPE)",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "laplacian_threshold",
+            "datatype": "number",
+            "addressable": false,
+            "description": "YAPE06 laplacian threshold",
+            "required": false,
+            "control": true
+          },
+          {
+            "name": "min_eigen_threshold",
+            "datatype": "number",
+            "addressable": false,
+            "description": "YAPE06 minimum eigen value threshold",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "corners",
+            "datatype": "array",
+            "addressable": false,
+            "description": "Detected corner keypoints",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "The analyzed canvas",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetGIFFrame",
+      "path": "components/GetGIFFrame.js",
+      "type": "elementary",
+      "description": "Extract a frame of a given GIF as a canvas",
+      "icon": "image",
+      "signature": {
+        "inports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "GIF image bytes",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "frame",
+            "datatype": "int",
+            "addressable": false,
+            "description": "Frame index to extract",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas with the requested frame composed",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/GetHistogram",
+      "path": "components/GetHistogram.js",
+      "type": "elementary",
+      "description": "Calculate RGBAY and HSCL histograms of a given canvas",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas to analyze",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "step",
+            "datatype": "number",
+            "addressable": false,
+            "description": "Pixel sampling step",
+            "required": false,
+            "control": true
+          }
+        ],
+        "outports": [
+          {
+            "name": "histogram",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Histogram with r, g, b, a, y, h, s, c, l bins",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/GetOrientation",
+      "path": "components/GetOrientation.js",
+      "type": "elementary",
+      "description": "Get orientation from image dimensions",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "dimensions",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Dimensions with width and height",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "orientation",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Object with an orientation string: landscape, portrait, or square",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/GetPresetCurve",
+      "path": "components/GetPresetCurve.js",
+      "type": "elementary",
+      "description": "Get a preset for a RGBA adjustment curve",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "presetname",
+            "datatype": "string",
+            "addressable": false,
+            "description": "Preset name",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "curve",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Adjustment curve with r, g, b, and a lookup tables",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/ImageToCanvas",
+      "path": "components/ImageToCanvas.js",
+      "type": "elementary",
+      "description": "Convert image to canvas",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "image",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Image to draw: canvas, or a browser image element",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas with the image drawn at full size",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/Measure",
+      "path": "components/Measure.js",
+      "type": "elementary",
+      "description": "Get image dimensions from image bytes",
+      "icon": "picture-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "Image bytes",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "dimensions",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Dimensions with width and height",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "node"
+      ]
+    },
+    {
+      "name": "image/ToFullscale",
+      "path": "components/ToFullscale.js",
+      "type": "elementary",
+      "description": "Convert an image URL to potential URL of full-scale image",
+      "icon": "external-link",
+      "signature": {
+        "inports": [
+          {
+            "name": "url",
+            "datatype": "string",
+            "addressable": false,
+            "description": "Image URL",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "url",
+            "datatype": "string",
+            "addressable": false,
+            "description": "Full-scale image URL candidate, or the original",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/UrlToBuffer",
+      "path": "components/UrlToBuffer.js",
+      "type": "elementary",
+      "description": "Load image from URL and output image bytes",
+      "icon": "picture-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "url",
+            "datatype": "string",
+            "addressable": false,
+            "description": "HTTP(S) or data: URL of the image",
+            "required": true,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "buffer",
+            "datatype": "all",
+            "addressable": false,
+            "description": "Image bytes",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    },
+    {
+      "name": "image/VideoToCanvas",
+      "path": "components/VideoToCanvas.js",
+      "type": "elementary",
+      "description": "Convert video to canvas",
+      "icon": "file-image-o",
+      "signature": {
+        "inports": [
+          {
+            "name": "video",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Video element to draw to canvas",
+            "required": true,
+            "control": false
+          },
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Optional canvas to draw onto; created when absent",
+            "required": false,
+            "control": false
+          }
+        ],
+        "outports": [
+          {
+            "name": "canvas",
+            "datatype": "object",
+            "addressable": false,
+            "description": "Canvas with each video frame drawn",
+            "required": false,
+            "control": false
+          },
+          {
+            "name": "error",
+            "datatype": "object",
+            "addressable": false,
+            "description": "",
+            "required": false,
+            "control": false
+          }
+        ]
+      },
+      "spec": null,
+      "assembly": false,
+      "platforms": [
+        "browser",
+        "node",
+        "deno",
+        "bun"
+      ]
+    }
+  ]
+}
