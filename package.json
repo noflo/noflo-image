@@ -1,54 +1,57 @@
 {
-  "name": "noflo-image",
-  "description": "Image processing utilities for browser and Node.js NoFlo.",
-  "version": "0.4.0",
+  "name": "@noflo/image",
+  "description": "Image processing utilities for NoFlo",
+  "version": "2.0.0-alpha.1",
   "author": {
     "name": "Forrest Oliphant",
     "email": "forrest@sembiki.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/noflo/noflo-image.git"
+    "url": "git+https://github.com/noflo/noflo-image.git"
   },
   "license": "MIT",
-  "scripts": {
-    "test": "grunt test"
-  },
   "dependencies": {
-    "animated-gif-detector": "^1.1.5",
-    "chroma-js": "~1.3.4",
-    "d3-color": "^1.0.1",
-    "file-type": "^10.0.0",
-    "gm": "^1.22.0",
-    "graceful-logger": "^0.4.3",
-    "image-size": "~0.6.2",
-    "jsfeat": "0.0.8",
-    "noflo": "^1.0.0",
-    "noflo-canvas": ">=0.2.3",
-    "noflo-core": ">=0.4.0",
-    "noflo-objects": ">=0.2.0",
-    "read-chunk": "^2.0.0",
-    "request": "^2.85.0",
-    "rgbquant": "~1.1.2",
-    "superagent": "~4.0.0",
-    "tmp": "0.0.33",
-    "urijs": "^1.18.4"
+    "@noflo/canvas": "^2.0.0-alpha.1",
+    "@noflo/noflo": "^2.0.0-alpha.3",
+    "culori": "^4.0.2",
+    "file-type": "^21.0.0",
+    "gifuct-js": "^2.1.2",
+    "image-q": "^4.0.0",
+    "image-size": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^4.0.0",
-    "grunt": "^1.0.1",
-    "grunt-coffeelint": "^0.0.16",
-    "grunt-contrib-coffee": "^2.0.0",
-    "grunt-contrib-connect": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-mocha-phantomjs": "^4.0.0",
-    "grunt-mocha-test": "^0.13.2",
-    "grunt-noflo-browser": "^1.5.0",
-    "mocha": "^5.0.0"
+    "@biomejs/biome": "^2.0.0",
+    "@noflo/fbp-spec-runner": "^2.0.0-alpha.3",
+    "@noflo/loader-node": "^2.0.0-alpha.3",
+    "@types/culori": "^4.0.1",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.0.0"
   },
   "keywords": [
-    "noflo",
-    "ecosystem:noflo",
-    "image processing"
+    "noflo"
+  ],
+  "scripts": {
+    "lint": "npx @biomejs/biome check --use-editorconfig=true components/ lib/ spec/ test/ typings/",
+    "format": "npx @biomejs/biome check --use-editorconfig=true --write components/ lib/ spec/ test/ typings/",
+    "types": "tsc -p tsconfig.json",
+    "test": "npm run types && npm run lint && npm run test:spec && npm run test:node",
+    "test:spec": "node \"$(node -p \"require.resolve('@noflo/fbp-spec-runner/src/cli.js')\")\" spec/",
+    "test:node": "node --test test/*.test.js",
+    "test:bun": "bun test test/*.test.js",
+    "test:deno": "deno test --allow-all --no-check test/*.test.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "files": [
+    "components/",
+    "lib/",
+    "spec/",
+    "test/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
   ]
 }
