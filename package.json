@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@noflo/canvas": "^2.0.0-alpha.1",
+    "@noflo/canvas": "^2.0.0-alpha.2",
     "@noflo/noflo": "^2.0.0-alpha.3",
     "culori": "^4.0.2",
     "file-type": "^21.0.0",
