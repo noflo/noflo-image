@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
-import * as noflo from "@noflo/noflo";
 import { createCanvas, decodeImage } from "@noflo/canvas/engine";
+import * as noflo from "@noflo/noflo";
 
 import { getComponent as getAdjustBrightness } from "../components/AdjustBrightness.js";
 import { getComponent as getAdjustContrast } from "../components/AdjustContrast.js";
@@ -92,8 +92,12 @@ const run = async (c, outPort, inputs) => {
  * @returns {void}
  */
 const assertCloseTo = (result, reference, threshold = 8) => {
-  const resultData = result.getContext("2d").getImageData(0, 0, result.width, result.height).data;
-  const referenceData = reference.getContext("2d").getImageData(0, 0, reference.width, reference.height).data;
+  const resultData = result
+    .getContext("2d")
+    .getImageData(0, 0, result.width, result.height).data;
+  const referenceData = reference
+    .getContext("2d")
+    .getImageData(0, 0, reference.width, reference.height).data;
   assert.equal(resultData.length, referenceData.length);
   for (let i = 0; i < resultData.length; i += 1) {
     const difference = Math.abs(referenceData[i] - resultData[i]);

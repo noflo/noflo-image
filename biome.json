@@ -1,0 +1,9 @@
+{
+  "files": {
+    "includes": [
+      "**",
+      "!lib/vendor/jsfeat.js",
+      "!test/fixtures/**"
+    ]
+  }
+}
