@@ -1,5 +1,5 @@
 import { createCanvas, decodeImage } from "@noflo/canvas/engine";
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 import { decompressFrames, parseGIF } from "gifuct-js";
 
 /**
@@ -77,7 +77,9 @@ export function getComponent() {
           }
           ctx.putImageData(base, 0, 0);
         }
-        output.sendDone({ canvas });
+        output.sendDone({
+          canvas: new IP("data", canvas, { clonable: false }),
+        });
       } catch (gifError) {
         // Not a GIF: fall back to PNG/JPEG decoding of the full image
         try {
@@ -86,7 +88,9 @@ export function getComponent() {
           canvas
             .getContext("2d")
             .drawImage(image, 0, 0, image.width, image.height);
-          output.sendDone({ canvas });
+          output.sendDone({
+            canvas: new IP("data", canvas, { clonable: false }),
+          });
         } catch {
           output.error(
             gifError instanceof Error ? gifError : new Error(String(gifError)),

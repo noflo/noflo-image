@@ -1,5 +1,5 @@
 import { canvasToPng } from "@noflo/canvas/engine";
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Encodes a canvas to PNG image bytes. Unlike the 1.x component this is
@@ -35,7 +35,7 @@ export function getComponent() {
     }
     canvasToPng(input.getData("canvas"))
       .then((bytes) => {
-        output.sendDone({ buffer: bytes });
+        output.sendDone({ buffer: new IP("data", bytes, { clonable: false }) });
       })
       .catch((error) => {
         output.error(error instanceof Error ? error : new Error(String(error)));

@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 import { findRegions } from "../lib/FindRegions.js";
 
 /**
@@ -65,7 +65,10 @@ export function getComponent() {
     const corners = input.getData("corners");
     try {
       const regions = findRegions(corners, { w: width, h: height }, segments);
-      output.sendDone({ areas: regions, corners });
+      output.sendDone({
+        areas: regions,
+        corners: new IP("data", corners, { clonable: false }),
+      });
     } catch (error) {
       output.error(error instanceof Error ? error : new Error(String(error)));
       output.done();

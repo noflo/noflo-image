@@ -3,7 +3,8 @@
     "includes": [
       "**",
       "!lib/vendor/jsfeat.js",
-      "!test/fixtures/**"
+      "!test/fixtures/**",
+      "!lib/vendor/jsfeat.d.ts"
     ]
   }
 }

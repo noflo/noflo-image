@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Applies an RGBA adjustment curve to a canvas in place. The curve object
@@ -53,7 +53,7 @@ export function getComponent() {
       data[i + 2] = curve.a[data[i + 2]];
     }
     ctx.putImageData(imageData, 0, 0);
-    output.sendDone({ canvas });
+    output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
   });
 
   return c;

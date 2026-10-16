@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Adjusts the contrast of a canvas in place.
@@ -49,7 +49,7 @@ export function getComponent() {
       data[i + 2] = ((data[i + 2] / 255 - 0.5) * factor + 0.5) * 255;
     }
     ctx.putImageData(imageData, 0, 0);
-    output.sendDone({ canvas });
+    output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
   });
 
   return c;

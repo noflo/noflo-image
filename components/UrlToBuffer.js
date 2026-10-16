@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Loads an image over HTTP(S) or from a data: URL and emits the raw image
@@ -42,7 +42,7 @@ export function getComponent() {
         if (bytes.length === 0) {
           throw new Error(`${url} responded with zero bytes`);
         }
-        output.sendDone({ buffer: bytes });
+        output.sendDone({ buffer: new IP("data", bytes, { clonable: false }) });
       })
       .catch((error) => {
         output.error(error instanceof Error ? error : new Error(String(error)));

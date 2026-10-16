@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Draws a video element's current frame onto a canvas, repeating with
@@ -66,7 +66,7 @@ export function getComponent() {
     }
     const ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    output.sendDone({ canvas });
+    output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
   });
 
   return c;

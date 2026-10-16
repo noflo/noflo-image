@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 // The GIF application extension that marks an animated GIF: an
 // extension-introducer block carrying the NETSCAPE2.0 identifier
@@ -59,7 +59,7 @@ export function getComponent() {
     }
     const buffer = input.getData("buffer");
     if (!(buffer instanceof Uint8Array) || buffer.length < 6) {
-      output.sendDone({ animated: false });
+      output.sendDone({ animated: new IP("data", false, { clonable: false }) });
       return;
     }
     // GIF signature: GIF87a or GIF89a

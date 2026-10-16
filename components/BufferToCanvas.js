@@ -1,5 +1,5 @@
 import { createCanvas, decodeImage } from "@noflo/canvas/engine";
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Decodes image bytes (PNG or JPEG) onto a canvas. GIF frames are handled
@@ -38,7 +38,9 @@ export function getComponent() {
         const canvas = createCanvas(image.width, image.height);
         const ctx = canvas.getContext("2d");
         ctx.drawImage(image, 0, 0, image.width, image.height);
-        output.sendDone({ canvas });
+        output.sendDone({
+          canvas: new IP("data", canvas, { clonable: false }),
+        });
       })
       .catch((error) => {
         output.error(error instanceof Error ? error : new Error(String(error)));

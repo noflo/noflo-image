@@ -1,5 +1,5 @@
 import { createCanvas } from "@noflo/canvas/engine";
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Crops the given rectangle out of a canvas into a new canvas.
@@ -87,7 +87,7 @@ export function getComponent() {
     if (source.originalHeight !== undefined) {
       target.originalHeight = source.originalHeight;
     }
-    output.sendDone({ canvas: newCanvas });
+    output.sendDone({ canvas: new IP("data", newCanvas, { clonable: false }) });
   });
 
   return c;

@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Applies a vignette effect to a canvas: a darkened outer edge plus a
@@ -86,7 +86,7 @@ export function getComponent() {
     ctx.fillStyle = /** @type {string} */ (/** @type {unknown} */ (gradient));
     ctx.fillRect(0, 0, width, height);
 
-    output.sendDone({ canvas });
+    output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
   });
 
   return c;

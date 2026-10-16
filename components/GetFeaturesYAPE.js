@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 import jsfeat from "../lib/vendor/jsfeat.js";
 
 /**
@@ -80,7 +80,7 @@ export function getComponent() {
       const count = jsfeat.yape06.detect(imgU8, corners);
 
       output.sendDone({
-        corners: corners.slice(0, count),
+        corners: new IP("data", corners.slice(0, count), { clonable: false }),
         canvas,
       });
     } catch (error) {

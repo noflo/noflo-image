@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 import * as imageq from "image-q";
 
 /**
@@ -76,9 +76,14 @@ export function getComponent() {
             ? `rgb(${point.r}, ${point.g}, ${point.b})`
             : [point.r, point.g, point.b],
         );
-        output.sendDone({ canvas, colors });
+        output.sendDone({
+          canvas: new IP("data", canvas, { clonable: false }),
+          colors,
+        });
       } catch (error) {
-        output.sendDone({ canvas });
+        output.sendDone({
+          canvas: new IP("data", canvas, { clonable: false }),
+        });
         output.send({ colors: [] });
         output.done();
         const message = error instanceof Error ? error.message : String(error);

@@ -1,5 +1,5 @@
 import { createCanvas } from "@noflo/canvas/engine";
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 
 /**
  * Draws an image onto a canvas at full size. Accepts any drawable source:
@@ -42,7 +42,7 @@ export function getComponent() {
     const canvas = createCanvas(image.width, image.height);
     const ctx = canvas.getContext("2d");
     ctx.drawImage(image, 0, 0);
-    output.sendDone({ canvas });
+    output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
   });
 
   return c;

@@ -1,4 +1,4 @@
-import { Component } from "@noflo/noflo";
+import { Component, IP } from "@noflo/noflo";
 import jsfeat from "../lib/vendor/jsfeat.js";
 
 /**
@@ -83,7 +83,7 @@ export function getComponent() {
       }
 
       context.putImageData(img, 0, 0);
-      output.sendDone({ canvas });
+      output.sendDone({ canvas: new IP("data", canvas, { clonable: false }) });
     } catch (error) {
       output.error(error instanceof Error ? error : new Error(String(error)));
       output.done();
